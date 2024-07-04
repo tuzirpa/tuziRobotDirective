@@ -1,0 +1,125 @@
+[
+	{
+		"name": "数据操作",
+		"children": [
+			{
+				"localFile": "./dataProcessing/log.js",
+				"url": ""
+			},
+			{
+				"localFile": "./dataProcessing/setVariable.js",
+				"url": ""
+			},
+			{
+				"localFile": "./dataProcessing/modificationVariable.js",
+				"url": ""
+			},
+			{
+				"remark": "取数组项",
+				"localFile": "./dataProcessing/getArrayItem.js",
+				"url": ""
+			}
+		]
+	},
+	{
+		"name": "流程控制",
+		"children": [
+			{
+				"localFile": "./flowControl/if.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/else.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/ifEnd.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/for.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/forEnd.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/while.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/break.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/continue.js",
+				"url": ""
+			},
+			{
+				"localFile": "./flowControl/exit.js",
+				"url": ""
+			}
+		]
+	},
+	{
+		"name": "浏览器",
+		"children": [
+			{
+				"remark": "创建浏览器",
+				"localFile": "./web/webCreate.js",
+				"url": ""
+			},
+			{
+				"remark": "创建标签页",
+				"localFile": "./web/createPage.js",
+				"url": ""
+			},
+			{
+				"remark": "获取已打开标签",
+				"localFile": "./web/getPage.js",
+				"url": ""
+			},
+			{
+				"remark": "打开网页",
+				"localFile": "./web/pageGotoUrl.js",
+				"url": ""
+			},
+			{
+				"remark": "设置页面环境",
+				"localFile": "./web/setPageDevice.js",
+				"url": ""
+			},
+			{
+				"remark": "获取元素",
+				"localFile": "./web/cssGetElement.js",
+				"url": ""
+			},
+			{
+				"remark": "填写输入框",
+				"localFile": "./web/elementInput.js",
+				"url": ""
+			},
+			{
+				"remark": "点击元素",
+				"localFile": "./web/elementClick.js",
+				"url": ""
+			},
+			{
+				"remark": "获取frame",
+				"localFile": "./web/getIframe.js",
+				"url": ""
+			},
+			{
+				"remark": "获取相似元素",
+				"localFile": "./web/getElements.js",
+				"url": ""
+			},
+			{
+				"remark": "设置cookie",
+				"localFile": "./web/setCookie.js",
+				"url": ""
+			}
+		]
+	}
+]
