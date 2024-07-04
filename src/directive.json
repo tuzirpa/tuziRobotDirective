@@ -118,6 +118,11 @@
             "url": ""
           },
           {
+            "remark": "获取元素属性",
+            "localFile": "./web/getElementProperty.js",
+            "url": ""
+          },
+          {
             "remark": "填写输入框",
             "localFile": "./web/elementInput.js",
             "url": ""

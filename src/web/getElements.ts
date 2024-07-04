@@ -63,10 +63,10 @@ export const impl = async function ({
   browserPage: Page;
   selector: string;
 }) {
-  const elements = await browserPage.$$eval(selector, (element) => {
-    console.log(element);
-    return [...element];
-  });
+  const elements = await browserPage.$$(selector);
   console.log(elements);
+
+  const innerText = await elements[0].getProperty("innerText");
+  console.log(innerText);
   return { elements, elementCount: elements.length };
 };

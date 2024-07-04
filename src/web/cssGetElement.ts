@@ -74,6 +74,7 @@ export const impl = async function ({
     const webElement = await browserPage.waitForSelector(selector, {
       timeout: timeout * 1000,
     });
+
     return { webElement };
   } catch (error) {
     console.log(error);
