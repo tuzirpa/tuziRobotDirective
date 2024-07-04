@@ -1,20 +1,20 @@
 {
-	"name": "tuzi_robot_directive",
-	"version": "1.0.0",
-	"description": "系统指令",
-	"main": "index.js",
-	"scripts": {
-		"dev": "tsc -w",
-		"build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/lwd/AppData/Roaming/tuzu_robot/userApp/system/"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"puppeteer": "^22.12.1",
-		"require-dir": "^1.2.0"
-	},
-	"devDependencies": {
-		"@types/node": "^20.14.9",
-		"@types/require-dir": "^1.0.4"
-	}
+  "name": "tuzi_robot_directive",
+  "version": "1.0.0",
+  "description": "系统指令",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/hrd/AppData/Roaming/tuzu_robot/userApp/system/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^22.12.1",
+    "require-dir": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@types/require-dir": "^1.0.4"
+  }
 }
