@@ -152,7 +152,8 @@ export const devices: { [key in string]: Device } = {
 };
 
 export const config: DirectiveTree = {
-  name: "web.setCookie",
+  name: "web.setPageDevice",
+  icon: "icon-web-create",
   displayName: "设置打开网页环境",
   comment:
     "设置标签页${page}的设备环境，包括屏幕大小、userAgent、是否启用手机模式等。",

@@ -2,6 +2,7 @@ import { Page } from "puppeteer";
 import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "web.getElements",
+  icon: "icon-web-create",
   displayName: "获取相似元素",
   comment:
     "在页面${browserPage}中获取 ${selector} 匹配的元素，元素列表保存到${elements},元素个数保存到${elementCount}",
@@ -64,9 +65,5 @@ export const impl = async function ({
   selector: string;
 }) {
   const elements = await browserPage.$$(selector);
-  console.log(elements);
-
-  const innerText = await elements[0].getProperty("innerText");
-  console.log(innerText);
   return { elements, elementCount: elements.length };
 };

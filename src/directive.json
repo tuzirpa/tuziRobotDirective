@@ -100,6 +100,11 @@
         "url": ""
       },
       {
+        "remark": "清除所有cookie",
+        "localFile": "./web/clearAllCookie.js",
+        "url": ""
+      },
+      {
         "remark": "关闭浏览器",
         "localFile": "./web/closeBrowser.js",
         "url": ""
@@ -107,6 +112,11 @@
       {
         "remark": "关闭标签页",
         "localFile": "./web/closePage.js",
+        "url": ""
+      },
+      {
+        "remark": "页面中执行javascript脚本",
+        "localFile": "./web/pageExecuteScript.js",
         "url": ""
       },
       {
