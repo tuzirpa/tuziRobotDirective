@@ -9,7 +9,7 @@ export const config: DirectiveTree = {
 	isLoop: true,
 	isControlEnd: false,
 	comment:
-		"循环遍历工作表${sheet}，当前行保存到变量${rowNum}，当前列保存到变量${colNum}。",
+		"循环遍历工作表${sheet}，单元格值保存到变量${cellValue}，当前行保存到变量${rowNum}，当前列保存到变量${colNum}。",
 	inputs: {
 		sheet: {
 			name: "sheet",

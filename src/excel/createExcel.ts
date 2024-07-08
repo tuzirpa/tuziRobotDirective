@@ -30,7 +30,7 @@ export const config: DirectiveTree = {
 			type: "string",
 			addConfig: {
 				required: true,
-				placeholder: "请输入文件名",
+				placeholder: "请输入文件名，如：test.xlsx",
 				label: "文件名",
 				type: "string",
 				defaultValue: "",

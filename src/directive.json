@@ -183,6 +183,16 @@
 				"remark": "循环工作表数据",
 				"localFile": "./excel/forSheetDatas.js",
 				"url": ""
+			},
+			{
+				"remark": "循环工作表数据",
+				"localFile": "./excel/setCellValue.js",
+				"url": ""
+			},
+			{
+				"remark": "保存Excel到文件",
+				"localFile": "./excel/saveExcel.js",
+				"url": ""
 			}
 		]
 	}
