@@ -1,3 +1,4 @@
+import { join } from "path";
 import { DirectiveTree } from "../types";
 import XLSX from "xlsx";
 
@@ -50,15 +51,18 @@ export const config: DirectiveTree = {
 	},
 };
 
-export const impl = async function ({ filePath }: { filePath: string }) {
+export const impl = async function ({
+	filePath,
+	fileName,
+}: {
+	filePath: string;
+	fileName: string;
+}) {
 	// 创建一个新的工作簿
 	const workbook = XLSX.utils.book_new();
-	// // 新建一个工作表
-	// const sheetData = [[]];
-	// const sheet = XLSX.utils.aoa_to_sheet(sheetData);
-	// // 将工作表添加到工作簿
-	// XLSX.utils.book_append_sheet(workbook, sheet, sheetName);
-	// 将工作簿写入文件
-	XLSX.writeFile(workbook, filePath);
+	if (fileName.endsWith(".xlsx")) {
+		fileName += ".xlsx";
+	}
+	XLSX.writeFile(workbook, join(filePath, fileName + ".xlsx"));
 	return { workbook };
 };
