@@ -72,8 +72,8 @@ export const impl = async function ({
 	val: string;
 }) {
 	const cellAddress = XLSX.utils.encode_cell({
-		r: rowNum,
-		c: colNum,
+		r: rowNum - 1,
+		c: colNum - 1,
 	});
 
 	sheet[cellAddress] = {

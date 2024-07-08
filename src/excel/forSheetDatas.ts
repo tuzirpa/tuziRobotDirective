@@ -86,7 +86,7 @@ export const impl = async function ({ sheet }: { sheet: WorkSheet }) {
 				if (cell && cell.v !== undefined) {
 					cellValue = cell.v;
 				}
-				yield [cellValue, rowNum + 1, colNum + 1];
+				yield [cellValue ?? "", rowNum + 1, colNum + 1];
 			}
 		}
 	}

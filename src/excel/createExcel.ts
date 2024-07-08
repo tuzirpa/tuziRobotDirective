@@ -8,7 +8,7 @@ export const config: DirectiveTree = {
 	icon: "icon-web-create",
 	isControl: false,
 	isControlEnd: false,
-	comment: "新建一个表格文件${filePath}，保存到变量${workbook}。",
+	comment: "新建一个表格文件${fileDir}/${fileName}，保存到变量${workbook}。",
 	inputs: {
 		fileDir: {
 			name: "fileDir",
@@ -52,17 +52,25 @@ export const config: DirectiveTree = {
 };
 
 export const impl = async function ({
-	filePath,
+	fileDir,
 	fileName,
 }: {
-	filePath: string;
+	fileDir: string;
 	fileName: string;
 }) {
 	// 创建一个新的工作簿
 	const workbook = XLSX.utils.book_new();
-	if (fileName.endsWith(".xlsx")) {
+	if (!fileName.endsWith(".xlsx")) {
 		fileName += ".xlsx";
 	}
-	XLSX.writeFile(workbook, join(filePath, fileName + ".xlsx"));
+	console.log(fileDir, fileName);
+	// 新建一个工作表
+	const sheetData = [[]];
+	const sheet = XLSX.utils.aoa_to_sheet(sheetData);
+
+	// 将工作表添加到工作簿
+	XLSX.utils.book_append_sheet(workbook, sheet, "Sheet1");
+
+	XLSX.writeFile(workbook, join(fileDir, fileName));
 	return { workbook };
 };

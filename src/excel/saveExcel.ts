@@ -1,6 +1,7 @@
 import { join } from "path";
 import { DirectiveTree } from "../types";
 import XLSX, { WorkBook } from "xlsx";
+import fs from "fs";
 
 export const config: DirectiveTree = {
 	name: "excel.saveExcel",
@@ -46,6 +47,10 @@ export const impl = async function ({
 	workbook: WorkBook;
 	filePath: string;
 }) {
+	// const file = join(filePath);
+	// if (!fs.existsSync(file)) {
+	// 	fs.mkdirSync(file.slice(0, file.lastIndexOf("/")), { recursive: true });
+	// }
 	XLSX.writeFile(workbook, filePath);
 	return { workbook };
 };
