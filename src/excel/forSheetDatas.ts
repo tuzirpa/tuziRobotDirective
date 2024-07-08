@@ -6,6 +6,7 @@ export const config: DirectiveTree = {
 	displayName: "循环工作表数据",
 	icon: "icon-web-create",
 	isControl: true,
+	isLoop: true,
 	isControlEnd: false,
 	comment:
 		"循环遍历工作表${sheet}，当前行保存到变量${rowNum}，当前列保存到变量${colNum}。",
