@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "系统指令",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/hrd/AppData/Roaming/tuzu_robot/userApp/system/"

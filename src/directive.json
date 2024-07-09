@@ -125,8 +125,8 @@
         "url": ""
       },
       {
-        "remark": "页面元素截图至剪贴板",
-        "localFile": "./web/pageScreenshotClipboard.js",
+        "remark": "上传文件",
+        "localFile": "./web/updateFile.js",
         "url": ""
       },
       {
