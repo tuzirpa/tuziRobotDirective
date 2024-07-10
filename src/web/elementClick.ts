@@ -2,33 +2,38 @@ import { ElementHandle } from "puppeteer";
 import { DirectiveTree } from "../types";
 
 const config: DirectiveTree = {
-	name: "web.elementClick",
-	sort: 2,
-	displayName: "点击元素",
-	icon: "icon-web-create",
-	isControl: false,
-	isControlEnd: false,
-	comment: "点击${element}",
-	inputs: {
-		element: {
-			name: "element",
-			value: "",
-			display: "",
-			type: "variable",
-			addConfig: {
-				required: true,
-				label: "元素对象",
-				type: "variable",
-				filtersType: "web.Element",
-				autoComplete: true,
-			},
-		},
-	},
-	outputs: {},
+  name: "web.elementClick",
+  sort: 2,
+  displayName: "点击元素",
+  icon: "icon-web-create",
+  isControl: false,
+  isControlEnd: false,
+  comment: "点击${element}",
+  inputs: {
+    element: {
+      name: "element",
+      value: "",
+      display: "",
+      type: "variable",
+      addConfig: {
+        required: true,
+        label: "元素对象",
+        type: "variable",
+        filtersType: "web.Element",
+        autoComplete: true,
+      },
+    },
+  },
+  outputs: {},
 };
 
 const impl = async function ({ element }: { element: ElementHandle }) {
-	await element.click();
+  await element.click({
+    offset: {
+      x: 100,
+      y: 100,
+    },
+  });
 };
 
 export { config, impl };

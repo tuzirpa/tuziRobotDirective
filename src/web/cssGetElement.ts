@@ -1,6 +1,7 @@
 import { Frame, Page } from "puppeteer";
+import { DirectiveTree } from "../types";
 
-export const config = {
+export const config: DirectiveTree = {
   name: "web.cssGetElement",
   sort: 2,
   displayName: "CSS获取元素",
@@ -27,6 +28,7 @@ export const config = {
       display: "",
       type: "string",
       addConfig: {
+        required: true,
         label: "CSS选择器",
         type: "string",
       },
