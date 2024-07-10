@@ -41,6 +41,10 @@ export const config: DirectiveTree = {
             label: "html内容",
             value: "innerHTML",
           },
+          {
+            label: "src属性",
+            value: "src",
+          },
         ],
         defaultValue: "innerText",
         tip: "获取的属性的值",

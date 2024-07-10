@@ -153,6 +153,11 @@
             "url": ""
           },
           {
+            "remark": "获取元素的子元素",
+            "localFile": "./web/getChildElement.js",
+            "url": ""
+          },
+          {
             "remark": "获取元素属性",
             "localFile": "./web/getElementProperty.js",
             "url": ""
@@ -185,6 +190,11 @@
           {
             "remark": "按下键盘键",
             "localFile": "./web/keyboardInput.js",
+            "url": ""
+          },
+          {
+            "remark": "鼠标选中元素",
+            "localFile": "./web/mouseSelectElement.js",
             "url": ""
           }
         ]
