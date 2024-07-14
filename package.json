@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "tsc -w",
-		"build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/%username%/AppData/Roaming/tuzu_robot/userApp/system/"
+		"build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/Administrator/AppData/Roaming/tuzu_robot/userApp/system/"
 	},
 	"author": "",
 	"license": "ISC",
