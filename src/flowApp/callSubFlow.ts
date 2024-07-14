@@ -61,7 +61,8 @@ export const impl = async function ({
 	params: string;
 }) {
 	const app = getCurApp();
-	const flowPath = join(app.APP_DIR, flowName, ".js");
+	const flowPath = join(app.APP_DIR, flowName + ".js");
+	// console.log("子流程路径：" + flowPath);
 	//判断流程是否存在
 	if (!fs.existsSync(flowPath)) {
 		throw new Error(`子流程${flowName}不存在`);
