@@ -87,6 +87,46 @@ const config: DirectiveTree = {
             label: "Enter",
             value: "Enter",
           },
+          {
+            label: "Power",
+            value: "Power",
+          },
+          {
+            label: "Eject",
+            value: "Eject",
+          },
+          {
+            label: "Abort",
+            value: "Abort",
+          },
+          {
+            label: "Help",
+            value: "Help",
+          },
+          {
+            label: "Tab",
+            value: "Tab",
+          },
+          {
+            label: "Backspace",
+            value: "Backspace",
+          },
+          {
+            label: "Numpad5",
+            value: "Numpad5",
+          },
+          {
+            label: "NumpadEnter",
+            value: "NumpadEnter",
+          },
+          {
+            label: "ShiftLeft",
+            value: "ShiftLeft",
+          },
+          {
+            label: "ShiftRight",
+            value: "ShiftRight",
+          },
         ],
       },
     },
