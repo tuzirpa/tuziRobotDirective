@@ -9,11 +9,11 @@ export const config: DirectiveTree = {
       name: "array",
       value: "",
       display: "数组对象",
-      type: "string",
+      type: "variable",
       addConfig: {
         label: "数组对象",
         type: "variable",
-        defaultValue: "",
+        required: true,
       },
     },
     index: {
@@ -22,7 +22,7 @@ export const config: DirectiveTree = {
       display: "数组下标",
       type: "number",
       addConfig: {
-        label: "数组对象",
+        label: "数组下标",
         type: "variable",
         defaultValue: "0",
         required: true,
@@ -42,18 +42,7 @@ export const config: DirectiveTree = {
     },
   },
 
-  outputs: {
-    arrayObj: {
-      name: "arrayObj",
-      display: "数组对象",
-      type: "string",
-      addConfig: {
-        label: "数组对象",
-        type: "variable",
-        defaultValue: "",
-      },
-    },
-  },
+  outputs: {},
 };
 
 export const impl = async function ({
@@ -65,12 +54,9 @@ export const impl = async function ({
   index: number;
   rmNumber: number;
 }) {
-  let arrayObj;
   if (rmNumber) {
-    arrayObj = array.splice(index, rmNumber);
+    array.splice(index, rmNumber);
   } else {
-    arrayObj = array.splice(index);
+    array.splice(index);
   }
-
-  return { arrayObj };
 };

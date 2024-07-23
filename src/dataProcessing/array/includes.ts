@@ -9,7 +9,7 @@ export const config: DirectiveTree = {
       name: "array",
       value: "",
       display: "数组对象",
-      type: "string",
+      type: "variable",
       addConfig: {
         label: "数组对象",
         type: "variable",
@@ -24,7 +24,7 @@ export const config: DirectiveTree = {
       addConfig: {
         label: "数组元素值",
         placeholder: "请输入要添加的元素值",
-        type: "string",
+        type: "variable",
         defaultValue: "",
         required: true,
       },

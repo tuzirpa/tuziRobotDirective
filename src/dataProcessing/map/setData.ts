@@ -60,5 +60,5 @@ export const impl = async function ({
   value: string;
 }) {
   mapObj.set(key, value);
-  console.log("设置Map数据", "key:", key, "value:", value, mapObj);
+  console.log("设置Map数据", "key:", key, "value:", value);
 };

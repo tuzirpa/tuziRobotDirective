@@ -9,11 +9,11 @@ export const config: DirectiveTree = {
       name: "array",
       value: "",
       display: "数组对象",
-      type: "string",
+      type: "variable",
       addConfig: {
         label: "数组对象",
         type: "variable",
-        defaultValue: "",
+        filtersType: "array",
       },
     },
     value: {

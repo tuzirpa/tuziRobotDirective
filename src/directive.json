@@ -20,12 +20,6 @@
         "url": ""
       },
       {
-        "remark": "取数组项",
-        "localFile": "./dataProcessing/getArrayItem.js",
-        "url": ""
-      },
-
-      {
         "name": "Map操作",
         "children": [
           {
@@ -67,6 +61,16 @@
           },
           {
             "localFile": "./dataProcessing/array/includes.js",
+            "url": ""
+          },
+          {
+            "remark": "取数组项",
+            "localFile": "./dataProcessing/getArrayItem.js",
+            "url": ""
+          },
+          {
+            "remark": "循环数组",
+            "localFile": "./dataProcessing/array/forArray.js",
             "url": ""
           }
         ]
@@ -226,7 +230,12 @@
           },
           {
             "remark": "CSS获取元素属性值",
-            "localFile": "./web/cssGetElementProperty.js",
+            "localFile": "./web/getElementProperty.js",
+            "url": ""
+          },
+          {
+            "remark": "获取元素的子元素",
+            "localFile": "./web/getChildElement.js",
             "url": ""
           },
           {

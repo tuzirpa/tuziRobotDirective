@@ -9,7 +9,7 @@ export const config: DirectiveTree = {
     array: {
       name: "array",
       display: "数组对象",
-      type: "string",
+      type: "array",
       addConfig: {
         label: "数组对象",
         type: "variable",

@@ -25,5 +25,12 @@ export const config: DirectiveTree = {
 };
 
 exports.impl = async function ({ content }: { content: any }) {
-  console.log(JSON.stringify(content));
+  if (content instanceof Map) {
+    const obj: Record<string, any> = {};
+    for (const [key, value] of content.entries()) {
+      obj[key] = value;
+    }
+    content = obj;
+  }
+  console.log(JSON.stringify(content, null, 2));
 };
