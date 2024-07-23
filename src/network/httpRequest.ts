@@ -2,7 +2,7 @@ import { DirectiveTree } from "../types";
 import axios from "axios";
 
 const config: DirectiveTree = {
-  name: "web.httpRequest",
+  name: "network.httpRequest",
   sort: 2,
   displayName: "http请求",
   icon: "icon-web-create",

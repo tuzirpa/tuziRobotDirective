@@ -399,6 +399,11 @@
         "remark": "http请求",
         "localFile": "./network/httpRequest.js",
         "url": ""
+      },
+      {
+        "remark": "下载文件",
+        "localFile": "./network/downloadFile.js",
+        "url": ""
       }
     ]
   },
