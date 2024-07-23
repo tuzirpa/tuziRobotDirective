@@ -65,11 +65,14 @@ const impl = async function ({
       url: url,
       responseType: "stream", // 指定响应数据的流类型
       onDownloadProgress: (progressEvent) => {
-        const percentCompleted = Math.round(
-          // @ts-ignore
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        console.log(`Downloading... ${percentCompleted}%`);
+        if (progressEvent.total) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          console.debug(`下载进度... ${percentCompleted}%`);
+        } else {
+          console.debug(`开始下载...`);
+        }
       },
     });
 
@@ -79,12 +82,12 @@ const impl = async function ({
 
     return new Promise((resolve, reject) => {
       response.data.on("end", () => {
-        console.log("File downloaded successfully!", downloadPath);
+        console.log("文件下载成功!", downloadPath);
         resolve(downloadPath);
       });
 
       response.data.on("error", (err: any) => {
-        console.error("Error downloading file:", err);
+        console.error("文件下载失败:", err);
         reject(err);
       });
     });
