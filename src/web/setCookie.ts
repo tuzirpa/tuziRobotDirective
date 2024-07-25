@@ -4,7 +4,7 @@ export const config: DirectiveTree = {
 	name: "web.setCookie",
 	icon: "icon-web-create",
 	displayName: "设置cookie",
-	comment: "在页面${browserPage}中设置cookie。",
+	comment: "在页面${browserPage}中设置cookie : ${cookie}。",
 	inputs: {
 		browserPage: {
 			name: "browserPage",
@@ -29,7 +29,7 @@ export const config: DirectiveTree = {
 				required: true,
 				label: "cookie字符串",
 				placeholder: "输入cookie字符串，例如: a=b; c=d",
-				type: "string",
+				type: "textarea",
 			},
 		},
 		domain: {
@@ -63,13 +63,13 @@ export const impl = async function ({
 		const [key, value] = item.split("=");
 		if (domain) {
 			cookies.push({
-				name: key,
+				name: key.trim(),
 				value: value,
 				domain: domain,
 			});
 		} else {
 			cookies.push({
-				name: key,
+				name: key.trim(),
 				value: value,
 			});
 		}

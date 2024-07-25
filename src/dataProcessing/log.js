@@ -1,26 +1,27 @@
 const fs = require("fs");
 
 exports.config = {
-	name: 'dataProcessing.logPrint',
-    displayName: '输出日志',
-    icon: 'icon-web-create',
-    isControl: false,
-    isControlEnd: false,
-    comment: '输出日志 ${content}',
-    inputs: {
-        content: {
-            name: '要输出的内容',
-            value: '',
-            type: 'string',
-            addConfig: {
-                label: '输出内容',
-                type: 'textarea',
-                defaultValue: 'test',
-                tip: '输出内容'
-            }
-        }
-    },
-    outputs: {}
+	name: "dataProcessing.logPrint",
+	displayName: "输出日志",
+	icon: "icon-web-create",
+	isControl: false,
+	isControlEnd: false,
+	comment: "输出日志 ${content}",
+	inputs: {
+		content: {
+			name: "要输出的内容",
+			value: "",
+			type: "string",
+			addConfig: {
+				label: "输出内容",
+				prompt: "请输入要输出的内容",
+				type: "textarea",
+				defaultValue: "",
+				tip: "输出内容",
+			},
+		},
+	},
+	outputs: {},
 };
 
 exports.impl = async function ({ content }) {
