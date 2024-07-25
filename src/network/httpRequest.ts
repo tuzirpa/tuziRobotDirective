@@ -59,6 +59,7 @@ const config: DirectiveTree = {
         Accept-Language: zh-CN,zh;q=0.9
         Cache-Control: no-cache
         `,
+        defaultValue: "",
       },
     },
 
@@ -100,16 +101,16 @@ const impl = async function ({
   protocolHeader: string;
   protocolBody: string;
 }) {
-  console.log("method", method);
-  console.log("url", url);
-  console.log("protocolHeader", protocolHeader);
-  console.log("protocolBody", protocolBody);
-
-  const headers = protocolHeader.split("\n").reduce((acc, cur) => {
-    const [key, value] = cur.split(": ");
-    acc[key] = value;
-    return acc;
-  }, {} as Record<string, string>);
+  let headers;
+  if (protocolHeader) {
+    headers = protocolHeader.split("\n").reduce((acc, cur) => {
+      const [key, value] = cur.split(": ");
+      if (key && value) {
+        acc[key.trim()] = value.trim();
+      }
+      return acc;
+    }, {} as Record<string, string>);
+  }
 
   const resResult = await axios({
     method: method,

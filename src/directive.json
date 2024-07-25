@@ -72,6 +72,11 @@
             "remark": "循环数组",
             "localFile": "./dataProcessing/array/forArray.js",
             "url": ""
+          },
+          {
+            "remark": "数组长度",
+            "localFile": "./dataProcessing/array/getArrayLength.js",
+            "url": ""
           }
         ]
       }
@@ -230,7 +235,7 @@
           },
           {
             "remark": "CSS获取元素属性值",
-            "localFile": "./web/getElementProperty.js",
+            "localFile": "./web/cssGetElementProperty.js",
             "url": ""
           },
           {
@@ -423,6 +428,31 @@
       {
         "remark": "清理定时任务",
         "localFile": "./timer/clearTimerTask.js",
+        "url": ""
+      }
+    ]
+  },
+  {
+    "name": "文本操作",
+    "children": [
+      {
+        "remark": "文本提取内容",
+        "localFile": "./text/extractContent.js",
+        "url": ""
+      },
+      {
+        "remark": "追加文本内容",
+        "localFile": "./text/appendText.js",
+        "url": ""
+      },
+      {
+        "remark": "获取文本长度",
+        "localFile": "./text/getTextLength.js",
+        "url": ""
+      },
+      {
+        "remark": "截取文本内容",
+        "localFile": "./text/interceptText.js",
         "url": ""
       }
     ]

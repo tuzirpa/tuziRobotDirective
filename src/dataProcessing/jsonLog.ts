@@ -24,13 +24,25 @@ export const config: DirectiveTree = {
   outputs: {},
 };
 
+const convertMapToObject = (map: Map<any, any>) => {
+  const obj: Record<any, any> = {};
+  for (const [key, value] of map.entries()) {
+    obj[key] = ((value) => {
+      if (value instanceof Map) {
+        return convertMapToObject(value);
+      }
+      return value;
+    })(value);
+  }
+  return obj;
+};
+
 exports.impl = async function ({ content }: { content: any }) {
   if (content instanceof Map) {
-    const obj: Record<string, any> = {};
-    for (const [key, value] of content.entries()) {
-      obj[key] = value;
-    }
-    content = obj;
+    content = convertMapToObject(content);
   }
+
+  console.log(content.toString());
+
   console.log(JSON.stringify(content, null, 2));
 };

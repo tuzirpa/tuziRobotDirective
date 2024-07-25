@@ -25,6 +25,24 @@ const config: DirectiveTree = {
       },
     },
 
+    protocolHeader: {
+      name: "protocolHeader",
+      value: "",
+      display: "",
+      type: "textarea",
+      addConfig: {
+        label: "协议头",
+        type: "textarea",
+        placeholder: `设置请求协议头，例如：
+        Accept: application/json, text/plain, */*
+        Accept-Encoding: gzip, deflate, br, zstd
+        Accept-Language: zh-CN,zh;q=0.9
+        Cache-Control: no-cache
+        `,
+        defaultValue: "",
+      },
+    },
+
     downloadPath: {
       name: "downloadPath",
       value: "",
@@ -35,6 +53,7 @@ const config: DirectiveTree = {
         defaultValue: "",
         openDirectory: true,
         tip: "下载保存路径",
+        required: true,
       },
     },
   },
@@ -55,12 +74,25 @@ const config: DirectiveTree = {
 const impl = async function ({
   url,
   downloadPath,
+  protocolHeader,
 }: {
   url: string;
   downloadPath: string;
+  protocolHeader: string;
 }) {
   const downloadFile = async () => {
+    let headers;
+    if (protocolHeader) {
+      headers = protocolHeader.split("\n").reduce((acc, cur) => {
+        const [key, value] = cur.split(": ");
+        if (key && value) {
+          acc[key.trim()] = value.trim();
+        }
+        return acc;
+      }, {} as Record<string, string>);
+    }
     const response = await axios({
+      headers: headers,
       method: "GET",
       url: url,
       responseType: "stream", // 指定响应数据的流类型
@@ -76,19 +108,23 @@ const impl = async function ({
       },
     });
 
+    if (!fs.existsSync(downloadPath)) {
+      fs.mkdirSync(downloadPath, { recursive: true });
+    }
+
     downloadPath = path.join(downloadPath, path.basename(url));
     // 使用管道流将响应数据直接写入文件
     response.data.pipe(fs.createWriteStream(downloadPath));
 
     return new Promise((resolve, reject) => {
       response.data.on("end", () => {
-        console.log("文件下载成功!", downloadPath);
         resolve(downloadPath);
+        console.log("文件下载成功! end", downloadPath);
       });
 
       response.data.on("error", (err: any) => {
-        console.error("文件下载失败:", err);
         reject(err);
+        console.error("文件下载失败:", err);
       });
     });
   };

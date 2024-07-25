@@ -1,8 +1,24 @@
-const path = require("path");
+const convertMapToObject = (map) => {
+  const obj = {};
+  for (const [key, value] of map.entries()) {
+    obj[key] = ((value) => {
+      if (value instanceof Map) {
+        return convertMapToObject(value);
+      }
+      return value;
+    })(value);
+  }
+  return obj;
+};
 
-const url =
-  "https://cbu01.alicdn.com/img/ibank/O1CN01JL2D631fujgOhl1Xs_!!2928754067-0-cib.jpg";
-const downloadPath = "C:\\Users\\hrd\\Downloads";
+const testMap = new Map();
+testMap.set("c", 2);
+testMap.set("q", 36);
 
-console.log(path.basename(url));
-console.log(path.join(downloadPath, path.basename(url)));
+const map = new Map();
+map.set("a", 1);
+map.set("d", 6);
+map.set("b", testMap);
+
+const obj = convertMapToObject(map);
+console.log(JSON.stringify(obj)); // { a: 1, b: { c: 2 } }

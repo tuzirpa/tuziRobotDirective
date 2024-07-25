@@ -117,6 +117,6 @@ export const impl = async function ({
     return { propertyValue: "" };
   } catch (error) {
     console.log(error);
-    throw new Error(`超时${timeout}秒，未找到元素：${selector}`);
+    return { propertyValue: "" };
   }
 };

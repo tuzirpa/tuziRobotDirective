@@ -74,7 +74,5 @@ export const impl = async function ({
   const childElement = await element.waitForSelector(selector, {
     timeout: timeout * 1000,
   });
-  console.log("childElement", childElement);
-
   return { childElement };
 };

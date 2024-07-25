@@ -28,7 +28,7 @@ export const config: DirectiveTree = {
         required: true,
         label: "数据kay",
         placeholder: "数据kay",
-        type: "string",
+        type: "variable",
         autoComplete: true,
       },
     },
@@ -36,12 +36,12 @@ export const config: DirectiveTree = {
       name: "value",
       value: "",
       display: "",
-      type: "string",
+      type: "variable",
       addConfig: {
         required: true,
         label: "数据值",
         placeholder: "数据值",
-        type: "string",
+        type: "variable",
         autoComplete: true,
       },
     },
@@ -56,8 +56,8 @@ export const impl = async function ({
   value,
 }: {
   mapObj: Map<any, any>;
-  key: string;
-  value: string;
+  key: any;
+  value: any;
 }) {
   mapObj.set(key, value);
   console.log("设置Map数据", "key:", key, "value:", value);
