@@ -11,6 +11,7 @@ export type DataType =
 	| "number"
 	| "boolean"
 	| "textarea"
+	| "array"
 	| "variable";
 
 export interface FlowVariable {
@@ -38,6 +39,7 @@ export type AddConfigInputType =
 	| "number"
 	| "boolean"
 	| "select"
+	| "checkbox"
 	| "textarea"
 	| "filePath"
 	| "variable";
@@ -91,6 +93,11 @@ export interface AddConfig<T> {
 		value: string;
 	}[];
 	/**
+	 * 是否多选
+	 * type为select时生效
+	 */
+	multiple?: boolean;
+	/**
 	 * 输入提示
 	 */
 	placeholder?: string;
@@ -101,6 +108,7 @@ export interface AddConfig<T> {
 
 	/**
 	 * 输入默认值
+	 * 多选时此字段无效
 	 */
 	defaultValue?: any;
 

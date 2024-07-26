@@ -27,13 +27,13 @@ export const config: DirectiveTree = {
 		params: {
 			name: "params",
 			value: "",
-			type: "string",
+			type: "variable",
 			addConfig: {
 				label: "参数",
-				type: "string",
+				type: "variable",
 				required: false,
 				defaultValue: "",
-				tip: "子流程参数，json格式",
+				tip: "子流程参数",
 			},
 		},
 	},
@@ -69,5 +69,5 @@ export const impl = async function ({
 	}
 	const flow = flowModuleImport(app.APP_DIR, flowName);
 	console.log("调用子流程：" + flowName + "，参数：" + params);
-	return await flow(params);
+	return await flow({ callParams: params });
 };
