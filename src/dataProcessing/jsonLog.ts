@@ -16,7 +16,8 @@ export const config: DirectiveTree = {
       addConfig: {
         label: "输出内容",
         type: "variable",
-        defaultValue: "test",
+        placeholder: "请输入内容",
+        defaultValue: "",
         tip: "输出内容",
       },
     },
@@ -24,25 +25,55 @@ export const config: DirectiveTree = {
   outputs: {},
 };
 
-const convertMapToObject = (map: Map<any, any>) => {
-  const obj: Record<any, any> = {};
-  for (const [key, value] of map.entries()) {
-    obj[key] = ((value) => {
-      if (value instanceof Map) {
-        return convertMapToObject(value);
+const conver = (content: any) => {
+  const cacheMap = new Map();
+  const convertMapToObject = (map: Map<any, any>) => {
+    const obj: Record<any, any> = {};
+    for (const [key, value] of map.entries()) {
+      obj[key] = ((value) => {
+        const cacheKey = value;
+        if (cacheMap.has(cacheKey)) {
+          return cacheMap.get(cacheKey);
+        }
+
+        if (value instanceof Map) {
+          return convertMapToObject(value);
+        } else if (Array.isArray(value)) {
+          value = value.map((item) => {
+            if (item instanceof Map) {
+              return convertMapToObject(item);
+            }
+            return item;
+          });
+          cacheMap.set(cacheKey, value);
+          return value;
+        }
+
+        cacheMap.set(cacheKey, value);
+        return value;
+      })(value);
+    }
+    return obj;
+  };
+
+  if (content instanceof Map) {
+    content = convertMapToObject(content);
+  } else if (Array.isArray(content)) {
+    const arr = [];
+    for (let item of content) {
+      if (item instanceof Map) {
+        arr.push(convertMapToObject(item));
+      } else {
+        arr.push(item);
       }
-      return value;
-    })(value);
+    }
+    content = arr;
   }
-  return obj;
+
+  cacheMap.clear();
+  return content;
 };
 
 exports.impl = async function ({ content }: { content: any }) {
-  if (content instanceof Map) {
-    content = convertMapToObject(content);
-  }
-
-  console.log(content.toString());
-
-  console.log(JSON.stringify(content, null, 2));
+  console.log(JSON.stringify(conver(content), null, 2));
 };

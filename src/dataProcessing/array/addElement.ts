@@ -13,18 +13,21 @@ export const config: DirectiveTree = {
       addConfig: {
         label: "数组对象",
         type: "variable",
+        placeholder: "选择数组对象",
         filtersType: "array",
+        required: true,
       },
     },
     value: {
       name: "value",
       value: "",
       display: "数组元素值",
-      type: "string",
+      type: "variable",
       addConfig: {
         label: "数组元素值",
         placeholder: "请输入要添加的元素值",
-        type: "string",
+        type: "variable",
+
         defaultValue: "",
         required: true,
       },
@@ -39,7 +42,7 @@ export const impl = async function ({
   value,
 }: {
   array: Array<any>;
-  value: string;
+  value: Object;
 }) {
   array.push(value);
 };

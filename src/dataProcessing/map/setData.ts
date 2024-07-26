@@ -28,7 +28,7 @@ export const config: DirectiveTree = {
         required: true,
         label: "数据kay",
         placeholder: "数据kay",
-        type: "variable",
+        type: "string",
         autoComplete: true,
       },
     },

@@ -28,12 +28,7 @@ const config: DirectiveTree = {
 };
 
 const impl = async function ({ element }: { element: ElementHandle }) {
-  await element.click({
-    offset: {
-      x: 100,
-      y: 100,
-    },
-  });
+  await element.click();
 };
 
 export { config, impl };
