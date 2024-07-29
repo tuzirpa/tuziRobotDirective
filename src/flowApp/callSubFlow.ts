@@ -69,5 +69,5 @@ export const impl = async function ({
 	}
 	const flow = flowModuleImport(app.APP_DIR, flowName);
 	console.log("调用子流程：" + flowName + "，参数：" + params);
-	return await flow({ callParams: params });
+	return await flow({ _callParams: params });
 };
