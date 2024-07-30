@@ -150,17 +150,6 @@
         "name": "流程/应用",
         "children": [
             {
-                "remark": "创建调用参数",
-                "localFile": "./flowApp/createCallSubFlowParams.js",
-                "url": ""
-            },
-            {
-                "remark": "向调用参数添加数据",
-                "localFile": "./flowApp/addCallSubFlowParams.js",
-                "url": ""
-            },
-
-            {
                 "remark": "调用子流程",
                 "localFile": "./flowApp/callSubFlow.js",
                 "url": ""
