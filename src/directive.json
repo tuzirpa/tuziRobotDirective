@@ -20,6 +20,16 @@
                 "url": ""
             },
             {
+                "remark": "对象转JSON字符串",
+                "localFile": "./dataProcessing/objConvertString.js",
+                "url": ""
+            },
+            {
+                "remark": "JSON字符串转对象",
+                "localFile": "./dataProcessing/stringConvertObj.js",
+                "url": ""
+            },
+            {
                 "name": "Map操作",
                 "children": [
                     {
@@ -36,6 +46,15 @@
                     },
                     {
                         "localFile": "./dataProcessing/map/forMap.js",
+                        "url": ""
+                    },
+                    {
+                        "localFile": "./dataProcessing/map/keyGetValue.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "JSON字符串转Map对象",
+                        "localFile": "./dataProcessing/map/stringConvertMap.js",
                         "url": ""
                     }
                 ]
@@ -458,6 +477,16 @@
         "name": "文本操作",
         "children": [
             {
+                "remark": "生成全局唯一文本",
+                "localFile": "./text/genUUIDString.js",
+                "url": ""
+            },
+            {
+                "remark": "随机生成文本",
+                "localFile": "./text/genRandomString.js",
+                "url": ""
+            },
+            {
                 "remark": "文本提取内容",
                 "localFile": "./text/extractContent.js",
                 "url": ""
@@ -475,6 +504,21 @@
             {
                 "remark": "截取文本内容",
                 "localFile": "./text/interceptText.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "文件操作",
+        "children": [
+            {
+                "remark": "写入文件",
+                "localFile": "./file/writeFile.js",
+                "url": ""
+            },
+            {
+                "remark": "读取文件",
+                "localFile": "./file/readFile.js",
                 "url": ""
             }
         ]

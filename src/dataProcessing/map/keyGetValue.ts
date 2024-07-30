@@ -1,7 +1,7 @@
 import { DirectiveTree } from '../../types';
 export const config: DirectiveTree = {
-    name: 'dataProcessing.map.setData',
-    displayName: '设置Map存储数据',
+    name: 'dataProcessing.map.keyGetValue',
+    displayName: '获取Map指定元素',
     comment: '设置Map存储数据，将数据存入${mapObj}对象中,key为${key},value为${value}',
     inputs: {
         mapObj: {
@@ -30,34 +30,23 @@ export const config: DirectiveTree = {
                 type: 'string',
                 autoComplete: true
             }
-        },
-        value: {
-            name: 'value',
-            value: '',
-            display: '',
-            type: 'variable',
-            addConfig: {
-                required: true,
-                label: '数据值',
-                placeholder: '数据值',
-                type: 'variable',
-                autoComplete: true
-            }
         }
     },
 
-    outputs: {}
+    outputs: {
+        mapValue: {
+            name: 'mapValue',
+            display: '返回Map的Value',
+            type: 'variable',
+            addConfig: {
+                label: '返回Map的Value',
+                type: 'variable',
+                defaultValue: ''
+            }
+        }
+    }
 };
 
-export const impl = async function ({
-    mapObj,
-    key,
-    value
-}: {
-    mapObj: Map<any, any>;
-    key: any;
-    value: any;
-}) {
-    mapObj.set(key, value);
-    console.log('设置Map数据', 'key:', key, 'value:', value);
+export const impl = async function ({ mapObj, key }: { mapObj: Map<any, any>; key: any }) {
+    return { mapValue: mapObj.get(key) };
 };
