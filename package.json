@@ -11,6 +11,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"clipboardy": "^4.0.0",
+		"desktop-screenshot": "^0.1.1",
 		"puppeteer": "^22.12.1",
 		"require-dir": "^1.2.0",
 		"xlsx": "^0.18.5"

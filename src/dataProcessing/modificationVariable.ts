@@ -16,6 +16,7 @@ export const config: DirectiveTree = {
             display: '',
             addConfig: {
                 label: '要修改的变量',
+                required: true,
                 type: 'variable'
             }
         },
@@ -23,6 +24,7 @@ export const config: DirectiveTree = {
             name: '变量值',
             value: '',
             type: 'object',
+            enableExpression: true,
             addConfig: {
                 label: '变量值',
                 type: 'object',

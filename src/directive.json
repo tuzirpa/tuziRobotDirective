@@ -251,6 +251,11 @@
                 "url": ""
             },
             {
+                "remark": "css定位器点击元素",
+                "localFile": "./web/locatorClick.js",
+                "url": ""
+            },
+            {
                 "name": "元素操作",
                 "children": [
                     {
@@ -306,6 +311,26 @@
                     {
                         "remark": "按下键盘键",
                         "localFile": "./web/keyboardInput.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "元素聚焦",
+                        "localFile": "./web/elementFocus.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "数据获取",
+                "children": [
+                    {
+                        "remark": "监听请求数据",
+                        "localFile": "./web/http/listenRequest.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待获取请求数据",
+                        "localFile": "./web/http/getResponse.js",
                         "url": ""
                     }
                 ]
@@ -508,6 +533,21 @@
             {
                 "remark": "读取文件",
                 "localFile": "./file/readFile.js",
+                "url": ""
+            },
+            {
+                "remark": "删除文件",
+                "localFile": "./file/deleteFile.js",
+                "url": ""
+            },
+            {
+                "remark": "删除文件夹",
+                "localFile": "./file/deleteFolder.js",
+                "url": ""
+            },
+            {
+                "remark": "获取文件列表",
+                "localFile": "./file/getFileList.js",
                 "url": ""
             }
         ]
