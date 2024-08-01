@@ -6,7 +6,7 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '输出日志${level}级别日志 , 内容: ${content}',
+    comment: '输出 ${level} 级别日志 , 内容: ${content}',
     inputs: {
         level: {
             name: 'level',
