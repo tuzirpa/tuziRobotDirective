@@ -18,8 +18,8 @@ const config: DirectiveTree = {
             display: '',
             type: 'variable',
             addConfig: {
-                label: '网页对象',
-                placeholder: '请选择网页对象',
+                label: '元素对象',
+                placeholder: '请选择元素对象',
                 required: true,
                 type: 'variable',
                 filtersType: 'web.Element',
