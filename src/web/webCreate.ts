@@ -1,11 +1,8 @@
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import { executablePath } from 'puppeteer-core';
-
-import { DirectiveTree } from '../types';
+import puppeteer, { Page } from 'puppeteer';
+import { DirectiveTree } from 'tuzirobot/types';
 import child_process from 'child_process';
+import { setBrowserPage } from './utils';
 
-puppeteer.use(StealthPlugin());
 export const config: DirectiveTree = {
     name: 'web.create',
     displayName: '创建浏览器',
@@ -200,7 +197,7 @@ export const impl = async function ({
     const ops: any = {
         headless: false,
         defaultViewport: null,
-        ignoreDefaultArgs: ['--enable-automation', '--enable-blink-features'],
+        ignoreDefaultArgs: ['--enable-automation'],
         args: [] // 窗口最大化
     };
     executablePathA && (ops.executablePath = executablePathA);
@@ -208,31 +205,11 @@ export const impl = async function ({
 
     ops.userDataDir = userDataDir;
     console.log('userDataDir', userDataDir);
-    //127.0.6533.88
-    //127.0.6533.88
-    const browser = await puppeteer.launch({
-        headless: false,
-        userDataDir,
-        executablePath: executablePathA
-    });
+    const browser = await puppeteer.launch(ops);
 
-    // setTimeout(async () => {
-    //     const pages = await browser.pages();
-    //     console.log('pages', pages.length);
-
-    //     pages.forEach((page) => {
-    //         console.log('page', page.url());
-
-    //         if (page.url().startsWith('chrome')) {
-    //             console.log('关闭chrome页');
-    //             page.locator('#ackButton').click();
-    //             // page.close();
-    //         }
-    //     });
-    // }, 1000);
     const pages = await browser.pages();
     const page = pages[pages.length - 1];
-
+    await setBrowserPage(page);
     if (url) {
         url.startsWith('http') || (url = 'http://' + url);
         await page.goto(url, { timeout: loadTimeout * 1000 });
