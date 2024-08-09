@@ -8,7 +8,8 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '获取元素${selector},超时时间${timeout}秒,并保存到变量${webElement}',
+    comment:
+        '在页面${browserPage}中，使用CSS或XPath选择器${selector}获取元素,超时时间${timeout}秒,并保存到变量${webElement}',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -29,6 +30,8 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 required: true,
+                placeholder:
+                    '请输入CSS或XPath选择器 (例如: #id, .class, input[type="text"], //div/span)',
                 label: 'CSS或XPath选择器',
                 type: 'textarea'
             }
@@ -40,7 +43,8 @@ export const config: DirectiveTree = {
             addConfig: {
                 isAdvanced: true,
                 label: '超时时间',
-                placeholder: '不填写或0禁用超时，单位：秒',
+                placeholder:
+                    '不填写或0禁用超时(永久等待到元素出现)，-1为直接获取（不等待，可能获取不到元素），单位：秒',
                 type: 'string',
                 defaultValue: '30'
             }

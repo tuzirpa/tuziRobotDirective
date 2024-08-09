@@ -58,6 +58,7 @@ export const config: DirectiveTree = {
             addConfig: {
                 label: '超时',
                 type: 'string',
+                placeholder: '不填或填0表示一直等待到加载完成，打开url超时时间，单位：秒',
                 isAdvanced: true,
                 required: true,
                 defaultValue: '30',
@@ -69,13 +70,12 @@ export const config: DirectiveTree = {
             value: '',
             type: 'string',
             addConfig: {
-                label: '浏览器数据保存路径',
-                placeholder:
-                    '设置后，浏览器数据将保存至该路径，下次启动时可直接使用该路径启动浏览器，不用再次登录。',
+                label: '浏览器用户数据路径',
+                placeholder: '记录 cookie、缓存、用户登录数据等（比如 网站的登录状态）。',
                 type: 'filePath',
                 defaultValue: '',
                 openDirectory: true,
-                tip: '浏览器数据保存路径'
+                tip: '浏览器用户数据路径'
             }
         }
     },
@@ -198,7 +198,7 @@ export const impl = async function ({
         headless: false,
         defaultViewport: null,
         ignoreDefaultArgs: ['--enable-automation'],
-        args: [] // 窗口最大化
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     };
     executablePathA && (ops.executablePath = executablePathA);
     console.debug('浏览器路径', ops.executablePath);

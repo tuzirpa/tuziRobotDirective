@@ -24,7 +24,7 @@ export const config: DirectiveTree = {
     outputs: {},
     async toCode(directive, block) {
         const { val } = directive.inputs;
-        return `await robotUtil.system.flowApp.addSubFlowReturnVal({val: [${val.value}] },returnVal,${block})`;
+        return `await robotUtil.system.flowApp.addSubFlowReturnVal({val: [${val.value}] },_returnVal,${block})`;
     }
 };
 

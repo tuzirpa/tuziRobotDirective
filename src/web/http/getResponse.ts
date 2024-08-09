@@ -1,5 +1,5 @@
 import { Frame, HTTPResponse, Page } from 'puppeteer';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'web.http.getResponse',
@@ -10,7 +10,8 @@ export const config: DirectiveTree = {
     isControlEnd: false,
     description:
         '监听到数据返回时，返回数据 数据包含 url、method、remoteAddress、headers、body、buffer、json 等信息',
-    comment: '',
+    comment:
+        '在网页${browserPage}中获取监听请求结果，超时时间为${timeout}秒，结果数据存入${responseData}变量',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -55,6 +56,57 @@ export const config: DirectiveTree = {
             name: '',
             display: '请求结果数据',
             type: 'web.listenerObj',
+            typeDetails: [
+                {
+                    key: 'status',
+                    display: '状态码',
+                    type: 'number'
+                },
+                {
+                    key: 'url',
+                    display: '请求地址',
+                    type: 'string'
+                },
+                {
+                    key: 'remoteAddress',
+                    display: '远程地址',
+                    type: 'string'
+                },
+                {
+                    key: 'headers',
+                    display: '请求头',
+                    type: 'object',
+                    typeDetails: [
+                        {
+                            key: 'content-type',
+                            display: '内容类型',
+                            type: 'object',
+                            typeDetails: [
+                                {
+                                    key: 'value',
+                                    display: '值',
+                                    type: 'string'
+                                }
+                            ]
+                        },
+                        {
+                            key: 'content-length',
+                            display: '内容长度',
+                            type: 'number'
+                        }
+                    ]
+                },
+                {
+                    key: 'body',
+                    display: '请求体',
+                    type: 'string'
+                },
+                {
+                    key: 'buffer',
+                    display: '请求数据',
+                    type: 'buffer'
+                }
+            ],
             addConfig: {
                 label: '请求结果数据',
                 type: 'variable',

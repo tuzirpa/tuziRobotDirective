@@ -9,7 +9,7 @@ export const config: DirectiveTree = {
     isControl: false,
     isControlEnd: false,
     comment:
-        '在网页${browserPage}中开始监听${url}的资源请求，过滤${filterType}类型资源，并返回监听对象${listenerObj}。',
+        '在网页${browserPage}中开始监听${url}的资源请求，过滤${filterType}类型资源，并返回监听对象${listenerObj}。备注：如果监听期间有多个请求满足条件，则返回只匹配第一个符合条件的请求。',
     inputs: {
         browserPage: {
             name: 'browserPage',

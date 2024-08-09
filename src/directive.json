@@ -1,6 +1,7 @@
 [
     {
         "name": "数据操作",
+        "icon": "icon-shujucaozuo",
         "children": [
             {
                 "localFile": "./dataProcessing/log.js",

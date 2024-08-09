@@ -1,24 +1,24 @@
 {
-	"name": "tuzi_robot_directive",
-	"version": "1.0.0",
-	"description": "系统指令",
-	"main": "index.js",
-	"scripts": {
-		"dev": "tsc -w",
-		"build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/%username%/AppData/Roaming/tuzu_rpa/userApp/system/"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"clipboardy": "^4.0.0",
-		"desktop-screenshot": "^0.1.1",
-		"puppeteer": "^22.12.1",
-		"require-dir": "^1.2.0",
-		"xlsx": "^0.18.5"
-	},
-	"devDependencies": {
-		"@types/node": "^20.14.9",
-		"@types/require-dir": "^1.0.4",
-		"@types/ws": "^8.5.10"
-	}
+    "name": "tuzi_robot_directive",
+    "version": "1.0.0",
+    "description": "系统指令",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsc -w",
+        "build": "tsc && cp src/directive.json dist/directive.json && cp -r dist/** C:/Users/%username%/AppData/Roaming/tuzi_rpa/userApp/system/"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "clipboardy": "^4.0.0",
+        "desktop-screenshot": "^0.1.1",
+        "puppeteer": "^22.12.1",
+        "require-dir": "^1.2.0",
+        "xlsx": "^0.18.5"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.9",
+        "@types/require-dir": "^1.0.4",
+        "@types/ws": "^8.5.10"
+    }
 }
