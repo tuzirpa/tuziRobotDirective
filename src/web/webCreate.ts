@@ -32,10 +32,28 @@ export const config: DirectiveTree = {
                     {
                         label: 'Edge',
                         value: 'edge'
+                    },
+                    {
+                        label: '自定义浏览器路径',
+                        value: 'custom'
                     }
                 ],
                 defaultValue: 'tuziChrome',
                 tip: '选择浏览器类型'
+            }
+        },
+        executablePath: {
+            name: 'executablePath',
+            value: '',
+            type: 'string',
+            addConfig: {
+                label: '浏览器路径',
+                placeholder:
+                    '如填写请输入浏览器路径，如：C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+                type: 'filePath',
+                defaultValue: '',
+                tip: '浏览器路径',
+                filters: 'this.inputs.webType.value === "custom"'
             }
         },
         url: {
@@ -70,7 +88,7 @@ export const config: DirectiveTree = {
             value: '',
             type: 'string',
             addConfig: {
-                label: '浏览器用户数据路径',
+                label: '用户目录',
                 placeholder: '记录 cookie、缓存、用户登录数据等（比如 网站的登录状态）。',
                 type: 'filePath',
                 defaultValue: '',
@@ -130,44 +148,35 @@ function regQueryExeCutablePath(regPath: string) {
 async function getExeCutablePath(type: string) {
     //读取注册表获取浏览器路径
     let path = '';
-    try {
+
+    async function regeditGet(regPoint: string, type: string) {
+        let path1 = '';
         switch (type) {
             case 'chrome':
                 //读取windows注册表 HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\Google Chrome\DefaultIcon
-
-                path = await regQueryExeCutablePath(
-                    'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe'
+                path1 = await regQueryExeCutablePath(
+                    `${regPoint}\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe`
                 );
 
                 break;
             case 'edge':
                 //HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe
-                path = await regQueryExeCutablePath(
-                    'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe'
+                path1 = await regQueryExeCutablePath(
+                    `${regPoint}\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe`
                 );
                 break;
             default:
                 break;
         }
+        return path1;
+    }
+    try {
+        path = await regeditGet('HKEY_CURRENT_USER', type);
     } catch (error) {
-        switch (type) {
-            case 'chrome':
-                //读取windows注册表 HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\Google Chrome\DefaultIcon
-
-                path = await regQueryExeCutablePath(
-                    'HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe'
-                );
-
-                break;
-            case 'edge':
-                //HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\Microsoft Edge\DefaultIcon
-                path = await regQueryExeCutablePath(
-                    'HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\msedge.exe'
-                );
-                break;
-            default:
-                break;
-        }
+        path = '';
+    }
+    if (!path) {
+        path = await regeditGet('HKEY_LOCAL_MACHINE', type);
     }
 
     return path;
@@ -177,21 +186,30 @@ export const impl = async function ({
     webType,
     url,
     loadTimeout,
+    executablePath,
     userDataDir
 }: {
     webType: string;
     url: string;
+    executablePath: string;
     loadTimeout: number;
     userDataDir: string;
 }) {
     let executablePathA = '';
-    if (webType !== 'tuziChrome') {
-        executablePathA = await getExeCutablePath(webType);
-        // if (executablePath === '') {
-        //     sendLog('error', `本地未安装 ${displayName}，请设置先安装 ${displayName}`, block);
-        //     throw new Error('未设置chrome路径');
-        // }
+    if (webType === 'custom') {
+        executablePathA = executablePath;
+    } else {
+        if (webType !== 'tuziChrome') {
+            executablePathA = await getExeCutablePath(webType);
+            if (!executablePathA) {
+                const webBrowser = config.inputs.webType.addConfig.options?.find(
+                    (item) => item.value === webType
+                );
+                throw new Error(`本地未安装 ${webBrowser?.label}，请设置先安装`);
+            }
+        }
     }
+
     //设备信息整合
 
     const ops: any = {
@@ -204,7 +222,7 @@ export const impl = async function ({
     console.debug('浏览器路径', ops.executablePath);
 
     ops.userDataDir = userDataDir;
-    console.log('userDataDir', userDataDir);
+    console.debug('用户目录', userDataDir);
     const browser = await puppeteer.launch(ops);
 
     const pages = await browser.pages();
