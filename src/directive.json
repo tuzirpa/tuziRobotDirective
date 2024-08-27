@@ -413,6 +413,11 @@
                         "remark": "",
                         "localFile": "./web/mouse/mouseReset.js",
                         "url": ""
+                    },
+                    {
+                        "remark": "滚轮滚动",
+                        "localFile": "./web/mouse/mouseWheel.js",
+                        "url": ""
                     }
                 ]
             }
@@ -463,12 +468,17 @@
         "children": [
             {
                 "remark": "弹出输入框",
-                "localFile": "./dialog/prompt",
+                "localFile": "./dialog/prompt.js",
                 "url": ""
             },
             {
                 "remark": "弹出文件选择框",
-                "localFile": "./dialog/selectFile",
+                "localFile": "./dialog/selectFile.js",
+                "url": ""
+            },
+            {
+                "remark": "弹出目录选择框",
+                "localFile": "./dialog/selectDirectory.js",
                 "url": ""
             }
         ]

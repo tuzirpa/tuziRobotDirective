@@ -1,4 +1,4 @@
-import { Frame, HTTPResponse, Page } from 'puppeteer';
+import { Frame, HTTPResponse, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {

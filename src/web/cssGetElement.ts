@@ -1,5 +1,5 @@
-import { Frame, Page } from 'puppeteer';
-import { DirectiveTree } from '../types';
+import { Frame, Page } from 'puppeteer-core';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'web.cssGetElement',
@@ -30,6 +30,7 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 required: true,
+                elementLibrarySupport: true,
                 placeholder:
                     '请输入CSS或XPath选择器 (例如: #id, .class, input[type="text"], //div/span)',
                 label: 'CSS或XPath选择器',

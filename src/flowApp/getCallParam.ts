@@ -1,4 +1,4 @@
-import { Page } from 'puppeteer';
+import { Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'flowApp.getCallParam',

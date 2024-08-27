@@ -1,7 +1,16 @@
-import puppeteer, { Page } from 'puppeteer';
+// import { Page } from 'puppeteer-core';
+import puppeteer, { Browser } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-import child_process from 'child_process';
-import { setBrowserPage } from './utils';
+import { getTuziAppInfo, getCurApp, sendLog } from 'tuzirobot/commonUtil';
+import child_process, { exec } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+import { getAvailablePort } from './utils/portUtils';
+import { Block } from 'tuzirobot/types';
+
+// import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+
+// puppeteer.use(StealthPlugin());
 
 export const config: DirectiveTree = {
     name: 'web.create',
@@ -93,7 +102,7 @@ export const config: DirectiveTree = {
                 type: 'filePath',
                 defaultValue: '',
                 openDirectory: true,
-                tip: '浏览器用户数据路径'
+                tip: '默认在使用当前应用的目录下创建userData目录，可自定义'
             }
         }
     },
@@ -182,20 +191,28 @@ async function getExeCutablePath(type: string) {
     return path;
 }
 
-export const impl = async function ({
-    webType,
-    url,
-    loadTimeout,
-    executablePath,
-    userDataDir
-}: {
-    webType: string;
-    url: string;
-    executablePath: string;
-    loadTimeout: number;
-    userDataDir: string;
-}) {
+export const impl = async function (
+    {
+        webType,
+        url,
+        loadTimeout,
+        executablePath,
+        userDataDir
+    }: {
+        webType: string;
+        url: string;
+        executablePath: string;
+        loadTimeout: number;
+        userDataDir: string;
+    },
+    _block: Block
+) {
     let executablePathA = '';
+    console.log(webType, 'webType');
+
+    const tuziAppInfo = getTuziAppInfo();
+    const curApp = getCurApp();
+
     if (webType === 'custom') {
         executablePathA = executablePath;
     } else {
@@ -207,11 +224,20 @@ export const impl = async function ({
                 );
                 throw new Error(`本地未安装 ${webBrowser?.label}，请设置先安装`);
             }
+        } else {
+            executablePathA = path.join(
+                tuziAppInfo.USER_DIR,
+                'tuziChrome',
+                'chrome-win64',
+                'chrome.exe'
+            );
+            if (!fs.existsSync(executablePathA)) {
+                throw new Error(`内置浏览器还未安装完成，请等待安装完成后使用`);
+            }
         }
     }
 
     //设备信息整合
-
     const ops: any = {
         headless: false,
         defaultViewport: null,
@@ -221,14 +247,90 @@ export const impl = async function ({
     executablePathA && (ops.executablePath = executablePathA);
     console.debug('浏览器路径', ops.executablePath);
 
-    ops.userDataDir = userDataDir;
+    ops.userDataDir = userDataDir || path.join(curApp.APP_DIR, 'userData');
+
     console.debug('用户目录', userDataDir);
-    const browser = await puppeteer.launch(ops);
+    const port = await getAvailablePort(11922);
+    console.debug('端口', port);
+
+    const args = ['--start-maximized'];
+    const startCmd = `"${ops.executablePath}" --remote-debugging-port=${port} --disk-cache-dir="${
+        ops.userDataDir
+    }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')}`;
+
+    console.debug('启动命令', startCmd);
+
+    let browser: Browser;
+
+    const browserJsonPath = path.join(tuziAppInfo.USER_DIR, 'browser.json');
+    if (!fs.existsSync(browserJsonPath)) {
+        fs.writeFileSync(browserJsonPath, JSON.stringify([]));
+    }
+    const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
+    const browserJsonObj: any[] = JSON.parse(browserJson);
+    let wsUrl: string;
+    const startRes = await new Promise<string>((resolve, reject) => {
+        const child = exec(startCmd);
+        // 子进程代码
+        const closeBack = (data: any) => {
+            if (data.action === 'close') {
+                sendLog('info', `接收停止消息：${JSON.stringify(data)}`, _block);
+                child.kill();
+            }
+        };
+        process.on('message', closeBack);
+
+        child.on('error', (err) => {
+            reject(err);
+        });
+        child.on('exit', (code, signal) => {
+            sendLog('info', `浏览器进程已退出，退出码：${code}，信号：${signal}`, _block);
+            browser && browser.close();
+            const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
+            let browserJsonObj: any[] = JSON.parse(browserJson);
+            browserJsonObj = browserJsonObj.filter((item) => item.wsUrl !== wsUrl);
+            fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
+            process.off('message', closeBack);
+        });
+        child.stderr?.on('data', (data) => {
+            const err = data.toString();
+            const matchData = data.match(/ws:\/\/127.0.0.1:\d+\/devtools\/browser\/[0-9A-Za-z-]+/);
+            if (err.includes('listening on ws://127.0.0.1:') && matchData) {
+                wsUrl = matchData[0];
+                resolve(wsUrl);
+            }
+        });
+    });
+    console.log('启动成功 wsUrl:', startRes);
+
+    browserJsonObj.push({
+        wsUrl: startRes,
+        appName: curApp.APP_NAME,
+        time: new Date().toLocaleString()
+    });
+    fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
+
+    browser = await puppeteer.connect({
+        browserWSEndpoint: startRes,
+        defaultViewport: ops.defaultViewport
+    });
+    // browser.on('targetcreated', async (target) => {
+    //     if (target.type() === 'page') {
+    //         const page = await target.page();
+    //         if (page) {
+    //             await setBrowserPage(page);
+    //         }
+    //     }
+    // });
+    console.log('浏览器连接成功');
 
     const pages = await browser.pages();
+    console.log('标签页数量', pages.length);
     const page = pages[pages.length - 1];
-    await setBrowserPage(page);
+    // await setBrowserPage(page);
     if (url) {
+        console.log('打开地址', url);
+
         url.startsWith('http') || (url = 'http://' + url);
         await page.goto(url, { timeout: loadTimeout * 1000 });
     }

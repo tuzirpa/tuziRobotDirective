@@ -1,4 +1,4 @@
-import { ElementHandle, Page } from 'puppeteer';
+import { ElementHandle, Page } from 'puppeteer-core';
 import { DirectiveTree } from '../types';
 export const config: DirectiveTree = {
     name: 'web.updateFile',

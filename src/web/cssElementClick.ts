@@ -1,5 +1,5 @@
-import { ElementHandle, Frame, Page } from 'puppeteer';
-import { DirectiveTree } from '../types';
+import { ElementHandle, Frame, Page } from 'puppeteer-core';
+import { DirectiveTree } from 'tuzirobot/types';
 
 const config: DirectiveTree = {
     name: 'web.cssElementClick',
@@ -29,8 +29,10 @@ const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 required: true,
-                label: 'CSS选择器',
-                type: 'string'
+                label: '元素选择器',
+                placeholder: '支持 CSS 例:#id .class 或 xpath 例://div[text()="hello"]',
+                elementLibrarySupport: true,
+                type: 'textarea'
             }
         },
         timeout: {
@@ -58,6 +60,9 @@ const impl = async function ({
     timeout: number;
 }) {
     let webElement: ElementHandle<Element> | null;
+    if (selector.startsWith('//')) {
+        selector = `::-p-xpath(${selector})`;
+    }
     try {
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');

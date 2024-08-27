@@ -1,4 +1,4 @@
-import { Page } from 'puppeteer';
+import { Page } from 'puppeteer-core';
 
 /**
  * 设置浏览器页面 防检测
@@ -7,7 +7,7 @@ import { Page } from 'puppeteer';
 export async function setBrowserPage(page: Page) {
     // 设置user_agent
     await page.setUserAgent(
-        'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4181.9 Safari/537.36'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0'
     );
     // 设置webdriver
     await page.evaluateOnNewDocument(() => {

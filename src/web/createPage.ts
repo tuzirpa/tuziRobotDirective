@@ -1,4 +1,4 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer-core';
 import { DirectiveTree } from '../types';
 import { setBrowserPage } from './utils';
 

@@ -1,5 +1,5 @@
-import { ElementHandle, KeyInput, Page } from 'puppeteer';
-import { DirectiveTree } from '../types';
+import { ElementHandle, KeyInput, Page } from 'puppeteer-core';
+import { DirectiveTree } from 'tuzirobot/types';
 
 const config: DirectiveTree = {
     name: 'web.locatorClick',
@@ -28,9 +28,11 @@ const config: DirectiveTree = {
             display: '',
             type: 'string',
             addConfig: {
-                label: 'css选择器',
-                required: true,
-                type: 'string'
+                elementLibrarySupport: true,
+                placeholder:
+                    '请输入CSS或XPath选择器 (例如: #id, .class, input[type="text"], //div/span)',
+                label: 'CSS或XPath选择器',
+                type: 'textarea'
             }
         },
         timeout: {
@@ -57,6 +59,9 @@ const impl = async function ({
     selector: string;
     timeout: number;
 }) {
+    if (selector.startsWith('//')) {
+        selector = `::-p-xpath(${selector})`;
+    }
     page.locator(selector)
         .setTimeout(timeout * 1000)
         .click();
