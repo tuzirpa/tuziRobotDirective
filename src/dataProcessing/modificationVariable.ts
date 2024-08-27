@@ -1,6 +1,5 @@
 import { DirectiveTree } from 'tuzirobot/types';
 import { typeToCode } from 'tuzirobot/commonUtil';
-import fs from 'fs';
 
 export const config: DirectiveTree = {
     name: 'dataProcessing.modificationVariable',

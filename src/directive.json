@@ -318,6 +318,26 @@
                         "remark": "元素聚焦",
                         "localFile": "./web/elementFocus.js",
                         "url": ""
+                    },
+                    {
+                        "remark": "鼠标悬停在元素上",
+                        "localFile": "./web/mouseSelectElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取元素的坐标",
+                        "localFile": "./web/getElement_xy.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "无需等待获取元素",
+                        "localFile": "./web/cssNoNeedGetElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "无需等待获取元素列表",
+                        "localFile": "./web/cssNoNeedGetElementList.js",
+                        "url": ""
                     }
                 ]
             },
