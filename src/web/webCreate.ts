@@ -306,6 +306,7 @@ export const impl = async function (
     browserJsonObj.push({
         wsUrl: startRes,
         appName: curApp.APP_NAME,
+        appId: curApp.APP_ID,
         time: new Date().toLocaleString()
     });
     fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));

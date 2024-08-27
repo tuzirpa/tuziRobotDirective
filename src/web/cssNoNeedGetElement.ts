@@ -1,4 +1,4 @@
-import { Frame, Page } from 'puppeteer';
+import { Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from '../types';
 
 export const config: DirectiveTree = {
