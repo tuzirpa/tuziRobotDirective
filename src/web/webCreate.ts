@@ -279,7 +279,15 @@ export const impl = async function (
             }
         };
         process.on('message', closeBack);
-
+        process.on('exit', () => {
+            console.log('应用进程退出,关闭浏览器');
+            browser && browser.close();
+            const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
+            let browserJsonObj: any[] = JSON.parse(browserJson);
+            browserJsonObj = browserJsonObj.filter((item) => item.wsUrl !== wsUrl);
+            fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
+            process.off('message', closeBack);
+        });
         child.on('error', (err) => {
             reject(err);
         });

@@ -86,9 +86,9 @@ exports.impl = async function (operand1, operator, operand2) {
 	 */
     if (operator === 'isNull') {
         console.log('isNull', operand1);
-        return operand1 === null || operand1 === '';
+        return !operand1;
     } else if (operator === 'noNull') {
-        return operand1 !== null && operand1 !== '';
+        return !!operand1;
     } else if (operator === 'isTrue') {
         return operand1 === true;
     } else if (operator === 'noTrue') {

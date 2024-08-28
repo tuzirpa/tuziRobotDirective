@@ -30,9 +30,32 @@ export const config: DirectiveTree = {
             name: '',
             display: '坐标对象',
             type: 'web.coordinate',
+            typeDetails: [
+                {
+                    key: 'x',
+                    type: 'number',
+                    display: 'X坐标'
+                },
+                {
+                    key: 'y',
+                    type: 'number',
+                    display: 'X坐标'
+                },
+                {
+                    key: 'width',
+                    type: 'number',
+                    display: '宽度'
+                },
+                {
+                    key: 'height',
+                    type: 'number',
+                    display: '高度'
+                }
+            ],
             addConfig: {
                 label: '坐标对象',
                 type: 'variable',
+
                 defaultValue: 'coordinate'
             }
         }
@@ -41,5 +64,11 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({ element }: { element: ElementHandle }) {
     const coordinate = await element.boundingBox();
-    return { coordinate };
+    const coordinateOut = {
+        x: coordinate?.x,
+        y: coordinate?.y,
+        width: coordinate?.width,
+        height: coordinate?.height
+    };
+    return { coordinate: coordinateOut };
 };

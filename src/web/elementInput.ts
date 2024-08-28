@@ -31,10 +31,10 @@ const config: DirectiveTree = {
             value: '',
             type: 'string',
             addConfig: {
-                required: true,
                 placeholder: '请输入要输入的内容',
                 label: '输入的内容',
-                type: 'string'
+                type: 'string',
+                defaultValue: ''
             }
         },
         isFocus: {

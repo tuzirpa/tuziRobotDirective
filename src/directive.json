@@ -357,6 +357,41 @@
                 ]
             },
             {
+                "name": "键盘操作",
+                "children": [
+                    {
+                        "remark": "发送字符",
+                        "localFile": "./web/keyboard/sendCharacter.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+V",
+                        "localFile": "./web/keyboard/sendCtrlV.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+A",
+                        "localFile": "./web/keyboard/sendCtrlA.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送键盘按键（按下+松开）",
+                        "localFile": "./web/keyboard/sendKeyCode.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送按下按键",
+                        "localFile": "./web/keyboard/sendKeyCodeDown.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送松开按键",
+                        "localFile": "./web/keyboard/sendKeyCodeUp.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
                 "name": "数据操作",
                 "children": [
                     {
@@ -377,6 +412,11 @@
                     {
                         "remark": "获取URL",
                         "localFile": "./web/dataOperate/getPageUrl.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取URL参数值",
+                        "localFile": "./web/dataOperate/getUrlParam.js",
                         "url": ""
                     }
                 ]
@@ -459,6 +499,42 @@
             {
                 "remark": "保存Excel到文件",
                 "localFile": "./excel/saveExcel.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "键盘与剪贴板",
+
+        "children": [
+            {
+                "remark": "获取剪贴板文本",
+                "localFile": "./clipboard/getClipboardText.js",
+                "url": ""
+            },
+            {
+                "remark": "写入文本到剪贴板",
+                "localFile": "./clipboard/setClipboardText.js",
+                "url": ""
+            },
+            {
+                "remark": "发送Ctrl+V",
+                "localFile": "./keyboard/sendCtrlV.js",
+                "url": ""
+            },
+            {
+                "remark": "发送Ctrl+A",
+                "localFile": "./keyboard/sendCtrlA.js",
+                "url": ""
+            },
+            {
+                "remark": "发送键盘按键",
+                "localFile": "./keyboard/sendKeyCode.js",
+                "url": ""
+            },
+            {
+                "remark": "发送一次完整按键（按下+松开）",
+                "localFile": "./keyboard/sendKeyCode1.js",
                 "url": ""
             }
         ]
