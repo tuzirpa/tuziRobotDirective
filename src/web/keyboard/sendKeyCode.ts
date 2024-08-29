@@ -1,5 +1,6 @@
 import { KeyInput, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { keyCodeMap } from '../utils/keyCodeMap';
 
 const config: DirectiveTree = {
     name: 'web.keyboard.sendKeyCode',
@@ -23,13 +24,16 @@ const config: DirectiveTree = {
         },
         keyCode: {
             name: 'keyCode',
-            value: 'A',
+            value: '',
+            display: '',
             type: 'string',
             addConfig: {
                 placeholder: '请输入需要发送的键值',
                 required: true,
                 label: '键值',
-                type: 'string'
+                type: 'select',
+                defaultValue: '',
+                options: keyCodeMap
             }
         },
         time: {
