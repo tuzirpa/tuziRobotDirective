@@ -100,7 +100,7 @@ const impl = async function ({
         let headers;
         if (protocolHeader) {
             headers = protocolHeader.split('\n').reduce((acc, cur) => {
-                const [key, value] = cur.split(': ');
+                const [key, value] = cur.split(':');
                 if (key && value) {
                     acc[key.trim()] = value.trim();
                 }

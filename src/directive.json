@@ -543,6 +543,11 @@
         "name": "对话框",
         "children": [
             {
+                "remark": "弹出确认框",
+                "localFile": "./dialog/promptConfirmation.js",
+                "url": ""
+            },
+            {
                 "remark": "弹出输入框",
                 "localFile": "./dialog/prompt.js",
                 "url": ""

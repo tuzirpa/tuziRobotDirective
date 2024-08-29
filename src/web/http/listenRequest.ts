@@ -1,4 +1,4 @@
-import { Frame, HTTPResponse, Page } from 'puppeteer-core';
+import { Frame, HTTPResponse, Page, RemoteAddress } from 'puppeteer-core';
 import { DirectiveTree } from '../../types';
 
 export const config: DirectiveTree = {
@@ -94,6 +94,22 @@ export const config: DirectiveTree = {
     }
 };
 
+class ResponseData {
+    status: number;
+    url: string;
+    headers: Record<string, string>;
+    remoteAddress: RemoteAddress;
+    constructor(public response: HTTPResponse) {
+        this.response = response;
+        this.status = response.status();
+        this.url = response.url();
+        this.headers = response.headers();
+        this.remoteAddress = response.remoteAddress();
+    }
+
+    // buffer
+}
+
 export const impl = async function ({
     browserPage,
     url,
@@ -105,21 +121,33 @@ export const impl = async function ({
     method: string;
     filterType: string;
 }) {
-    let resolve: (arg0: HTTPResponse) => void, reject;
-    const responsePromise = new Promise<HTTPResponse>((resolve1, reject1) => {
+    let resolve: (arg0: ResponseData[]) => void, reject;
+    let responses: ResponseData[] = [];
+    const responsePromise = new Promise<ResponseData[]>((resolve1, reject1) => {
         resolve = resolve1;
         reject = reject1;
     });
-    const responseListener = (response: HTTPResponse) => {
+    const responseListener = async (response: HTTPResponse) => {
         if (
-            (filterType === '1' || response.request().resourceType() === filterType) &&
+            (filterType === '1' ||
+                response.request().resourceType() === filterType.toLocaleLowerCase()) &&
             response.url().includes(url) &&
             response.request().method() === method
         ) {
-            resolve(response);
+            // resolve(response);
+            console.log('监听到请求', response.url());
+            responses.push(new ResponseData(response));
         }
     };
 
     browserPage.on('response', responseListener);
-    return { listenerObj: { responseListener, responsePromise } };
+    return {
+        listenerObj: {
+            responseListener,
+            responsePromise,
+            resolve: () => {
+                resolve(responses);
+            }
+        }
+    };
 };
