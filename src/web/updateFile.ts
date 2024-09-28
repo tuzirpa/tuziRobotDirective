@@ -84,6 +84,11 @@ export const impl = async function ({
 
     // 选择本地文件，这里假设文件名为 example.txt，位于当前工作目录下
     await fileChooser.accept([filePath]); // 替换为实际文件的路径
+
+    //@ts-ignore
+    browserPage._client().send('Page.setInterceptFileChooserDialog', {
+        enabled: false
+    });
     /* const fileElement = (await browserPage.waitForSelector(selector, {
 		timeout: timeout * 1000,
 	})) as ElementHandle<HTMLInputElement>;
