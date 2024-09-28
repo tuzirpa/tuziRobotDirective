@@ -43,10 +43,27 @@ export const config: DirectiveTree = {
                     {
                         label: 'src属性',
                         value: 'src'
+                    },
+                    {
+                        label: '自定义属性',
+                        value: 'custom'
                     }
                 ],
                 defaultValue: 'innerText',
                 tip: '获取的属性的值'
+            }
+        },
+
+        customPropertyName: {
+            name: 'customPropertyName',
+            value: '',
+            display: '',
+            type: 'string',
+            addConfig: {
+                label: '自定义属性名称',
+                placeholder: '请输入自定义属性名称 (data-开头)',
+                type: 'string',
+                filters: 'this.inputs.propertyName.value === "custom"'
             }
         }
     },
@@ -67,13 +84,24 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({
     element,
-    propertyName
+    propertyName,
+    customPropertyName
 }: {
     element: ElementHandle<Element>;
     propertyName: string;
+    customPropertyName: string;
 }) {
+    // 处理data-属性
+    if (propertyName === 'custom') {
+        const val = await element.evaluate((el, prop) => el.getAttribute(prop), customPropertyName);
+        return {
+            propertyValue: val ? val.toString() : ''
+        };
+    }
+
     const propertyValue = await element.getProperty(propertyName);
+    const value = await propertyValue.jsonValue();
     return {
-        propertyValue: await propertyValue.jsonValue()
+        propertyValue: value ? value.toString() : ''
     };
 };

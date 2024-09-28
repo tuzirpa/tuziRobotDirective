@@ -1,4 +1,5 @@
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
+import { typeToCode } from 'tuzirobot/commonUtil';
 export const config: DirectiveTree = {
     name: 'dataProcessing.map.setData',
     displayName: '设置Map存储数据',
@@ -35,18 +36,28 @@ export const config: DirectiveTree = {
             name: 'value',
             value: '',
             display: '',
-            type: 'variable',
+            type: 'object',
             addConfig: {
                 required: true,
                 label: '数据值',
                 placeholder: '数据值',
-                type: 'variable',
+                type: 'object',
                 autoComplete: true
             }
         }
     },
 
     outputs: {}
+
+    // async toCode(directive, block) {
+    //     const mapObj = directive.inputs.mapObj.value;
+    //     const key = directive.inputs.key.value;
+    //     const value = directive.inputs.value;
+
+    //     return `await robotUtil.system.dataProcessing.map.setData({"mapObj": ${mapObj}, "key": '${key}', "value": ${typeToCode(
+    //         value
+    //     )}},${block});`;
+    // }
 };
 
 export const impl = async function ({

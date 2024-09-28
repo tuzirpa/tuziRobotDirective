@@ -275,6 +275,11 @@
                         "url": ""
                     },
                     {
+                        "remark": "获取元素的子元素列表",
+                        "localFile": "./web/getChildElementList.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "获取元素属性",
                         "localFile": "./web/getElementProperty.js",
                         "url": ""
@@ -630,6 +635,11 @@
             {
                 "remark": "截取文本内容",
                 "localFile": "./text/interceptText.js",
+                "url": ""
+            },
+            {
+                "remark": "文本替换",
+                "localFile": "./text/replaceText.js",
                 "url": ""
             }
         ]
