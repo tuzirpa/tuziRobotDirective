@@ -1,8 +1,8 @@
 import { DirectiveTree } from '../types';
 
 export const config: DirectiveTree = {
-    name: 'flowApp.addSubFlowReturnVal',
-    displayName: '子流程添加返回值',
+    name: 'flowApp.addSubFlowReturnValExit',
+    displayName: '子流程添加返回值并返回（退出子流程）',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
@@ -14,7 +14,6 @@ export const config: DirectiveTree = {
             type: 'array',
             addConfig: {
                 label: '添加要返回的变量列表',
-                placeholder: '请输入变量名,多个变量用英文逗号分隔, 可空',
                 type: 'variable',
                 multiple: true,
                 // required: true,
@@ -25,7 +24,7 @@ export const config: DirectiveTree = {
     outputs: {},
     async toCode(directive, block) {
         const { val } = directive.inputs;
-        return `await robotUtil.system.flowApp.addSubFlowReturnVal({val: [${val.value}] },_returnVal,${block})`;
+        return `await robotUtil.system.flowApp.addSubFlowReturnVal({val: [${val.value}] },_returnVal,${block});return _returnVal;`;
     }
 };
 

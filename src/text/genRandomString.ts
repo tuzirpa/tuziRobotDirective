@@ -1,5 +1,4 @@
-import { log } from 'console';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'text.genRandomString',

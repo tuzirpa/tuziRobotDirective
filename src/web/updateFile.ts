@@ -1,5 +1,5 @@
 import { ElementHandle, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.updateFile',
     icon: 'icon-web-create',
@@ -25,8 +25,9 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 label: 'css选择器',
-                placeholder: '请填写选择上传元素的css选择器',
-                type: 'string',
+                placeholder: '请填写选择上传元素的css选择器,支持xpath //开头的xpath表达式',
+                elementLibrarySupport: true,
+                type: 'textarea',
                 defaultValue: '',
                 required: true,
                 tip: '上传元素的css选择器'
@@ -74,6 +75,9 @@ export const impl = async function ({
     filePath: string;
     timeout: number;
 }) {
+    if (selector.startsWith('//')) {
+        selector = `::-p-xpath(${selector})`;
+    }
     // 触发文件上传操作，这里假设是点击一个按钮来触发
     setTimeout(() => {
         browserPage.click(selector); // 替换为实际触发上传的按钮选择器

@@ -1,10 +1,10 @@
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
-    name: 'text.appendText',
+    name: 'text.splitText',
     icon: 'icon-web-create',
-    displayName: '追加文本内容',
-    comment: '原始${text}文本后面追加${appendText}文本,并保存结果至${result}',
+    displayName: '分割文本',
+    comment: '分割${text}文本，分隔符${splitter}文本,并保存结果至${result}',
     inputs: {
         text: {
             name: 'text',
@@ -18,16 +18,17 @@ export const config: DirectiveTree = {
                 required: true
             }
         },
-        appendText: {
-            name: 'appendText',
+        splitter: {
+            name: 'splitter',
             value: '',
             display: '',
             type: 'string',
             addConfig: {
-                label: '追加文本',
-                placeholder: '追加文本',
+                label: '分割符',
+                placeholder: '分割符,如: , ; 也可为空，如果为空 则使用空字符串分割',
                 type: 'textarea',
-                required: true
+                defaultValue: '',
+                required: false
             }
         }
     },
@@ -36,7 +37,7 @@ export const config: DirectiveTree = {
         result: {
             name: '',
             display: '保存结果至',
-            type: 'string',
+            type: 'array',
             addConfig: {
                 label: '保存结果至',
                 type: 'variable',
@@ -46,6 +47,6 @@ export const config: DirectiveTree = {
     }
 };
 
-export const impl = async function ({ text, appendText }: { text: string; appendText: string }) {
-    return { result: text.concat(appendText) };
+export const impl = async function ({ text, splitter }: { text: string; splitter: string }) {
+    return { result: text.split(splitter) };
 };

@@ -43,7 +43,8 @@ export const impl = async function ({ arrayObj, index }: { arrayObj: Array<any>;
         throw new Error('选择的对象不是数组');
     }
     if (index < 1 || index > arrayObj.length) {
-        throw new Error('数组索引超出范围');
+        console.warn('获取调用参数失败，数组索引超出范围 返回undefined');
+        return { item: undefined };
     }
     const item = arrayObj[index - 1];
     return { item };

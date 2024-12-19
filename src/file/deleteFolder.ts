@@ -43,7 +43,7 @@ export const impl = async function ({ folderPath }: { folderPath: string }) {
                 }
             });
             fs.rmdirSync(folderPath); // 删除空文件夹
-            console.log(`Successfully deleted ${folderPath}`);
+            console.log(`删除成功: ${folderPath}`);
         }
     }
 

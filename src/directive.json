@@ -4,6 +4,7 @@
         "icon": "icon-shujucaozuo",
         "children": [
             {
+                "remark": "日志打印",
                 "localFile": "./dataProcessing/log.js",
                 "url": ""
             },
@@ -13,10 +14,12 @@
                 "url": ""
             },
             {
+                "remark": "设置变量",
                 "localFile": "./dataProcessing/setVariable.js",
                 "url": ""
             },
             {
+                "remark": "修改变量",
                 "localFile": "./dataProcessing/modificationVariable.js",
                 "url": ""
             },
@@ -64,22 +67,27 @@
                 "name": "数组操作",
                 "children": [
                     {
+                        "remark": "创建数组",
                         "localFile": "./dataProcessing/array/createArray.js",
                         "url": ""
                     },
                     {
+                        "remark": "添加数组元素",
                         "localFile": "./dataProcessing/array/addElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "插入数组元素",
                         "localFile": "./dataProcessing/array/insertElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "删除数组元素",
                         "localFile": "./dataProcessing/array/removeElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "数组是否包含元素",
                         "localFile": "./dataProcessing/array/includes.js",
                         "url": ""
                     },
@@ -106,42 +114,52 @@
         "name": "流程控制",
         "children": [
             {
+                "remark": "if条件判断",
                 "localFile": "./flowControl/if.js",
                 "url": ""
             },
             {
+                "remark": "else条件判断",
                 "localFile": "./flowControl/else.js",
                 "url": ""
             },
             {
+                "remark": "if结束",
                 "localFile": "./flowControl/ifEnd.js",
                 "url": ""
             },
             {
+                "remark": "for循环",
                 "localFile": "./flowControl/for.js",
                 "url": ""
             },
             {
+                "remark": "循环结束",
                 "localFile": "./flowControl/forEnd.js",
                 "url": ""
             },
             {
+                "remark": "while循环",
                 "localFile": "./flowControl/while.js",
                 "url": ""
             },
             {
+                "remark": "break跳出循环",
                 "localFile": "./flowControl/break.js",
                 "url": ""
             },
             {
+                "remark": "continue跳过本次循环",
                 "localFile": "./flowControl/continue.js",
                 "url": ""
             },
             {
+                "remark": "退出流程",
                 "localFile": "./flowControl/exit.js",
                 "url": ""
             },
             {
+                "remark": "延迟等待",
                 "localFile": "./flowControl/delayed.js",
                 "url": ""
             }
@@ -164,6 +182,16 @@
             {
                 "remark": "子流程添加返回值",
                 "localFile": "./flowApp/addSubFlowReturnVal.js",
+                "url": ""
+            },
+            {
+                "remark": "子流程添加返回值并返回（退出子流程）",
+                "localFile": "./flowApp/addSubFlowReturnValExit.js",
+                "url": ""
+            },
+            {
+                "remark": "断点动态运行指令",
+                "localFile": "./flowApp/flowDebuger.js",
                 "url": ""
             }
         ]
@@ -292,6 +320,11 @@
                     {
                         "remark": "填写输入框",
                         "localFile": "./web/elementInput.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "css或xpath填写输入框",
+                        "localFile": "./web/cssElementInput.js",
                         "url": ""
                     },
                     {
@@ -430,32 +463,32 @@
                 "name": "鼠标操作",
                 "children": [
                     {
-                        "remark": "",
+                        "remark": "鼠标点击",
                         "localFile": "./web/mouse/mouseClick.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标按下",
                         "localFile": "./web/mouse/mouseDown.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标松开",
                         "localFile": "./web/mouse/mouseUp.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标拖拽",
                         "localFile": "./web/mouse/mouseDragAndDrop.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标移动",
                         "localFile": "./web/mouse/mouseMove.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标重置",
                         "localFile": "./web/mouse/mouseReset.js",
                         "url": ""
                     },
@@ -504,6 +537,16 @@
             {
                 "remark": "保存Excel到文件",
                 "localFile": "./excel/saveExcel.js",
+                "url": ""
+            },
+            {
+                "remark": "工作表数据转JSON",
+                "localFile": "./excel/sheetToJson.js",
+                "url": ""
+            },
+            {
+                "remark": "JSON数据保存到工作表中",
+                "localFile": "./excel/jsonToSheet.js",
                 "url": ""
             }
         ]
@@ -641,6 +684,11 @@
                 "remark": "文本替换",
                 "localFile": "./text/replaceText.js",
                 "url": ""
+            },
+            {
+                "remark": "分割文本",
+                "localFile": "./text/splitText.js",
+                "url": ""
             }
         ]
     },
@@ -665,6 +713,17 @@
             {
                 "remark": "删除文件夹",
                 "localFile": "./file/deleteFolder.js",
+                "url": ""
+            },
+
+            {
+                "remark": "重命名文件或文件夹",
+                "localFile": "./file/rename.js",
+                "url": ""
+            },
+            {
+                "remark": "移动文件或文件夹",
+                "localFile": "./file/move.js",
                 "url": ""
             },
             {

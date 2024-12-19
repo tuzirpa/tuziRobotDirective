@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path from 'path';
 import { DirectiveTree } from '../types';
 import fs from 'fs';
 
@@ -79,13 +79,27 @@ export const impl = async function ({
     isIncludeDir = isIncludeDir?.trim() || '否';
     const isRecursionBool = isRecursion.toLocaleLowerCase() === '是';
     const isIncludeDirBool = isIncludeDir.toLocaleLowerCase() === '是';
-    const files = fs.readdirSync(fileDir, {
-        withFileTypes: true,
-        recursive: isRecursionBool
-    });
+    function readDirectory(dir: string, recursive: boolean = true) {
+        let results: { path: string; isDirectory: boolean }[] = [];
+        // 使用 withFileTypes: true 读取目录内容
+        const list = fs.readdirSync(dir, { withFileTypes: true });
+
+        list.forEach((dirent) => {
+            const filePath = path.join(dir, dirent.name);
+
+            results.push({ path: filePath, isDirectory: dirent.isDirectory() });
+
+            if (dirent.isDirectory() && recursive) {
+                // 如果是目录，递归读取
+                results = results.concat(readDirectory(filePath));
+            }
+        });
+        return results;
+    }
+    const files = readDirectory(fileDir, isRecursionBool);
 
     const fileList = files
-        .filter((file) => (file.isDirectory() && isIncludeDirBool) || file.isFile())
-        .map((file) => join(file.parentPath, file.name));
+        .filter((file) => (file.isDirectory && isIncludeDirBool) || !file.isDirectory)
+        .map((file) => file.path.replace(/\\/g, '/'));
     return { fileList };
 };
