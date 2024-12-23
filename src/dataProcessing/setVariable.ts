@@ -28,12 +28,8 @@ export const config: DirectiveTree = {
                         value: 'number'
                     },
                     {
-                        label: 'json对象',
-                        value: 'jsonObj'
-                    },
-                    {
                         label: '任意对象',
-                        value: 'any'
+                        value: 'object'
                     }
                 ]
             }
