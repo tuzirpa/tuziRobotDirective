@@ -1,5 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer-core';
 import { DirectiveTree } from '../types';
+import { error } from 'console';
 
 export const config: DirectiveTree = {
     name: 'web.pageGotoUrl',
@@ -62,7 +63,7 @@ export const impl = async function ({
     if (loadTimeout > 0) {
         await page.goto(url, { timeout: loadTimeout * 1000 });
     } else {
-        page.goto(url, { timeout: 0 });
+        await page.goto(url, { timeout: 0 });
     }
     return { page };
 };

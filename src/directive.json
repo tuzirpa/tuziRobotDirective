@@ -77,6 +77,11 @@
                         "url": ""
                     },
                     {
+                        "remark": "添加数组元素(批量)",
+                        "localFile": "./dataProcessing/array/addElements.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "插入数组元素",
                         "localFile": "./dataProcessing/array/insertElement.js",
                         "url": ""
@@ -161,6 +166,21 @@
             {
                 "remark": "延迟等待",
                 "localFile": "./flowControl/delayed.js",
+                "url": ""
+            },
+            {
+                "remark": "异常捕获",
+                "localFile": "./flowControl/try.js",
+                "url": ""
+            },
+            {
+                "remark": "异常处理",
+                "localFile": "./flowControl/catch.js",
+                "url": ""
+            },
+            {
+                "remark": "异常处理结束",
+                "localFile": "./flowControl/tryEnd.js",
                 "url": ""
             }
         ]
