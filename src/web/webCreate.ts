@@ -17,7 +17,7 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '启动${webType}并打开${url},保存至：${browser}',
+    comment: '启动${webType}并打开${url},保存至：${browser},复用：${useOtherApp}',
     inputs: {
         webType: {
             name: 'webType',
