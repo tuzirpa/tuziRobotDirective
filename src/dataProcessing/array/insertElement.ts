@@ -1,5 +1,5 @@
 import { rm } from "fs";
-import { DirectiveTree } from "../../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.insertElement",
   displayName: "插入数组元素",

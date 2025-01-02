@@ -145,13 +145,13 @@ const impl = async function ({
             response.data.pipe(writer);
 
             response.data.on('end', () => {
-                resolve(downloadPath);
                 console.log('文件下载成功!', downloadPath);
+                resolve(downloadPath);
             });
 
             response.data.on('error', (err: any) => {
-                reject(err);
                 console.error('文件下载失败:', err);
+                reject(err);
             });
         });
     };

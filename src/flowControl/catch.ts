@@ -2,7 +2,6 @@ import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'flowControl.catch',
-    key: 'flowControl.catch',
     displayName: 'CATCH 异常处理',
     icon: 'icon-warning',
     sort: 21,

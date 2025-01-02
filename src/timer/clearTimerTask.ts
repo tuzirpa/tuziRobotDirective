@@ -2,7 +2,6 @@ import { DirectiveTree } from "../types";
 export const config: DirectiveTree = {
   name: "timer.closeTimerTask",
   icon: "icon-web-create",
-  isControl: true,
   displayName: "清除定时任务",
   comment: "清除定时任务${timerTask}",
   inputs: {

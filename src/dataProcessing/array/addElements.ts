@@ -1,6 +1,6 @@
 import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
-  name: "dataProcessing.array.addElement",
+  name: "dataProcessing.array.addElements",
   displayName: "添加数组元素(批量传入数组)",
   comment: "数组对象${array}中，在数组末尾添加元素${value}",
   inputs: {

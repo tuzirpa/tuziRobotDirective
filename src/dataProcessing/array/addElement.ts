@@ -1,5 +1,5 @@
 import { rm } from "fs";
-import { DirectiveTree } from "../../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.addElement",
   displayName: "添加数组元素",
@@ -14,6 +14,7 @@ export const config: DirectiveTree = {
         label: "数组对象",
         type: "variable",
         placeholder: "选择数组对象",
+        autoComplete: true,
         filtersType: "array",
         required: true,
       },
@@ -22,11 +23,11 @@ export const config: DirectiveTree = {
       name: "value",
       value: "",
       display: "数组元素值",
-      type: "variable",
+      type: "object",
       addConfig: {
         label: "数组元素值",
         placeholder: "请输入要添加的元素值",
-        type: "variable",
+        type: "object",
 
         defaultValue: "",
         required: true,

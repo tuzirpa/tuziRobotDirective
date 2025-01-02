@@ -1,125 +1,154 @@
-import { DirectiveTree } from '../types';
-import axios from 'axios';
+import { DirectiveTree } from 'tuzirobot/types';
+import axios, { AxiosRequestConfig, Method } from 'axios';
 
-const config: DirectiveTree = {
+export const config: DirectiveTree = {
     name: 'network.httpRequest',
-    sort: 2,
-    displayName: 'http请求',
-    icon: 'icon-web-create',
-    isControl: false,
-    isControlEnd: false,
-    comment: '发起http请求,请求方法为${method}',
+    displayName: 'HTTP请求',
+    icon: 'icon-http',
+    comment: '发起HTTP请求，请求方法为${method}，URL为${url}',
     inputs: {
         method: {
             name: 'method',
             value: '',
-            display: '',
             type: 'string',
             addConfig: {
                 label: '请求方法',
-                required: true,
                 type: 'select',
+                required: true,
+                defaultValue: 'GET',
                 options: [
-                    {
-                        label: 'GET',
-                        value: 'GET'
-                    },
-                    {
-                        label: 'POST',
-                        value: 'POST'
-                    }
-                ],
-                defaultValue: 'GET'
+                    { label: 'GET', value: 'GET' },
+                    { label: 'POST', value: 'POST' },
+                    { label: 'PUT', value: 'PUT' },
+                    { label: 'DELETE', value: 'DELETE' },
+                    { label: 'PATCH', value: 'PATCH' },
+                    { label: 'HEAD', value: 'HEAD' },
+                    { label: 'OPTIONS', value: 'OPTIONS' }
+                ]
             }
         },
         url: {
             name: 'url',
             value: '',
-            display: '',
             type: 'string',
             addConfig: {
                 label: 'URL',
-                required: true,
                 type: 'string',
-                placeholder: '请输入URL'
+                required: true,
+                placeholder: '请输入完整的URL地址，例如: https://api.example.com/data'
             }
         },
-
-        protocolHeader: {
-            name: 'protocolHeader',
+        headers: {
+            name: 'headers',
             value: '',
-            display: '',
             type: 'textarea',
             addConfig: {
-                label: '协议头',
+                label: '请求头',
                 type: 'textarea',
-                placeholder: `设置请求协议头，例如：
-        Accept: application/json, text/plain, */*
-        Accept-Encoding: gzip, deflate, br, zstd
-        Accept-Language: zh-CN,zh;q=0.9
-        Cache-Control: no-cache
-        `,
-                defaultValue: ''
+                placeholder: `请求头信息，每行一个，格式为 key: value
+例如:
+Content-Type: application/json
+Authorization: Bearer token
+Accept: application/json`,
+                isAdvanced: true
             }
         },
-
-        protocolBody: {
-            name: 'protocolBody',
+        body: {
+            name: 'body',
             value: '',
-            display: '',
             type: 'textarea',
             addConfig: {
-                label: '协议体',
+                label: '请求体',
                 type: 'textarea',
-                placeholder: '提交的数据体',
-                filters: "this.inputs.method.value == 'POST'"
+                placeholder: '请输入请求体内容，支持JSON格式',
+                filters: "['POST', 'PUT', 'PATCH'].includes(this.inputs.method.value)",
+                tip: '仅在 POST/PUT/PATCH 请求时可用'
+            }
+        },
+        timeout: {
+            name: 'timeout',
+            value: '',
+            type: 'number',
+            addConfig: {
+                label: '超时时间',
+                type: 'string',
+                defaultValue: '30',
+                placeholder: '请求超时时间（秒）',
+                isAdvanced: true
             }
         }
     },
     outputs: {
-        resResult: {
-            name: '',
-            display: '请求结果',
-            type: 'string',
+        response: {
+            name: 'response',
+            type: 'variable',
+            display: '响应数据',
             addConfig: {
-                label: '请求结果',
+                label: '响应数据',
                 type: 'variable',
-                defaultValue: 'resResult'
+                defaultValue: 'httpResponse'
+            }
+        },
+        statusCode: {
+            name: 'statusCode',
+            type: 'number',
+            display: '状态码',
+            addConfig: {
+                label: '状态码',
+                type: 'variable',
+                defaultValue: 'httpStatus'
             }
         }
     }
 };
 
-const impl = async function ({
+export const impl = async function ({
     method,
     url,
-    protocolHeader,
-    protocolBody
+    headers: rawHeaders,
+    body,
+    timeout = 30
 }: {
-    method: string;
+    method: Method;
     url: string;
-    protocolHeader: string;
-    protocolBody: string;
+    headers?: string;
+    body?: string;
+    timeout?: number;
 }) {
-    let headers;
-    if (protocolHeader) {
-        headers = protocolHeader.split('\n').reduce((acc, cur) => {
-            const [key, value] = cur.split(':');
-            if (key && value) {
-                acc[key.trim()] = value.trim();
+    try {
+        const headers = rawHeaders?.split('\n').reduce((acc, line) => {
+            const [key, ...values] = line.split(':');
+            if (key && values.length) {
+                acc[key.trim()] = values.join(':').trim();
             }
             return acc;
         }, {} as Record<string, string>);
+
+        const config: AxiosRequestConfig = {
+            method,
+            url,
+            headers,
+            timeout: timeout * 1000
+        };
+
+        if (body && ['POST', 'PUT', 'PATCH'].includes(method)) {
+            try {
+                config.data = JSON.parse(body);
+            } catch {
+                config.data = body;
+            }
+        }
+
+        const response = await axios(config);
+
+        return {
+            response: response.data,
+            statusCode: response.status
+        };
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(`HTTP请求失败: ${error.message}${error.response ? `, 状态码: ${error.response.status}` : ''}`);
+        }
+        throw error;
     }
-
-    const resResult = await axios({
-        method: method,
-        url: url,
-        data: protocolBody,
-        headers: headers
-    });
-
-    return { resResult: resResult.data };
 };
-
-export { config, impl };

@@ -2,7 +2,6 @@ import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'flowControl.try',
-    key: 'flowControl.try',
     displayName: 'TRY 异常捕获',
     icon: 'icon-warning',
     sort: 20,

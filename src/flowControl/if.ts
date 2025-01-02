@@ -14,10 +14,11 @@ export const config: DirectiveTree = {
         operand1: {
             name: '条件操作数1',
             value: '',
-            type: 'string',
+            type: 'object',
             addConfig: {
                 required: true,
-                type: 'string',
+                type: 'object',
+                placeholder: '请输入对象',
                 label: '对象1'
             }
         },
@@ -52,10 +53,11 @@ export const config: DirectiveTree = {
         operand2: {
             name: '条件操作数2',
             value: '',
-            type: 'string',
+            type: 'object',
             addConfig: {
-                type: 'string',
+                type: 'object',
                 label: '对象2',
+                placeholder: '请输入对象',
                 /**
                  * { value: 'isTrue', label: '等于true' },
                     { value: 'noTrue', label: '不等true' },

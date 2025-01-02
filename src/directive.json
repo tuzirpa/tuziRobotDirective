@@ -98,7 +98,7 @@
                     },
                     {
                         "remark": "取数组项",
-                        "localFile": "./dataProcessing/getArrayItem.js",
+                        "localFile": "./dataProcessing/array/getArrayItem.js",
                         "url": ""
                     },
                     {
@@ -109,6 +109,11 @@
                     {
                         "remark": "数组长度",
                         "localFile": "./dataProcessing/array/getArrayLength.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "修改数组元素",
+                        "localFile": "./dataProcessing/array/setElement.js",
                         "url": ""
                     }
                 ]
@@ -289,6 +294,12 @@
                 "localFile": "./web/updateFile.js",
                 "url": ""
             },
+            
+            {
+                "remark": "上传多个文件",
+                "localFile": "./web/uploadFiles.js",
+                "url": ""
+            },
             {
                 "remark": "滚动页面到底部",
                 "localFile": "./web/pageScroll.js",
@@ -395,6 +406,11 @@
                     {
                         "remark": "无需等待获取元素列表",
                         "localFile": "./web/cssNoNeedGetElementList.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "删除页面元素",
+                        "localFile": "./web/elementOperate/removeElement.js",
                         "url": ""
                     }
                 ]
@@ -641,6 +657,11 @@
                 "url": ""
             },
             {
+                "remark": "HTTP上传文件",
+                "localFile": "./network/uploadFile.js",
+                "url": ""
+            },
+            {
                 "remark": "下载文件",
                 "localFile": "./network/downloadFile.js",
                 "url": ""
@@ -749,6 +770,27 @@
             {
                 "remark": "获取文件列表",
                 "localFile": "./file/getFileList.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "时间操作",
+        "icon": "icon-time",
+        "children": [
+            {
+                "remark": "获取当前时间",
+                "localFile": "./time/getCurrentTime.js",
+                "url": ""
+            },
+            {
+                "remark": "时间计算",
+                "localFile": "./time/calculateTime.js",
+                "url": ""
+            },
+            {
+                "remark": "时间格式化",
+                "localFile": "./time/formatTime.js",
                 "url": ""
             }
         ]

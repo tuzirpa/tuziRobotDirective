@@ -20,7 +20,7 @@ exports.config = {
                 required: true,
                 type: 'string',
                 label: '开始数值',
-                defaultValue: 1
+                defaultValue: 0
             }
         },
         endIndex: {
@@ -70,9 +70,9 @@ exports.config = {
 
 exports.impl = async function (start, end, step) {
     const result = [];
-    for (let i = start; i <= end; i += step) {
+    for (let i = start; i < end; i += step) {
         result.push(i);
     }
-    console.log(`生成循环数成功: [${start},${end}],步长${step}，结果：${result}`);
+    console.log(`生成循环数成功: [${start},${end}),步长${step}，结果：${result}`);
     return result;
 };

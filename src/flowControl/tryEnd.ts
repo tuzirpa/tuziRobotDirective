@@ -2,7 +2,6 @@ import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'flowControl.tryEnd',
-    key: 'flowControl.tryEnd',
     displayName: 'TRY-CATCH 结束',
     icon: 'icon-warning',
     sort: 22,
