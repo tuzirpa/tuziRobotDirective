@@ -1,13 +1,11 @@
 // import { Page } from 'puppeteer-core';
-import puppeteer, { Browser } from 'puppeteer-core';
-import { DirectiveTree } from 'tuzirobot/types';
-import { getTuziAppInfo, getCurApp, sendLog } from 'tuzirobot/commonUtil';
 import child_process, { exec, spawn } from 'child_process';
-import path, { join } from 'path';
 import fs from 'fs';
+import path, { join } from 'path';
+import puppeteer, { Browser } from 'puppeteer-core';
+import { getCurApp, getTuziAppInfo } from 'tuzirobot/commonUtil';
+import { Block, DirectiveTree } from 'tuzirobot/types';
 import { getAvailablePort } from './utils/portUtils';
-import { Block } from 'tuzirobot/types';
-import { tmpdir } from 'os';
 
 // import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
@@ -19,7 +17,7 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '启动${webType}并打开${url},保存至：${browser}',
+    comment: '启动${webType}并打开${url},保存至：${browser},复用：${useOtherApp}',
     inputs: {
         webType: {
             name: 'webType',
@@ -85,7 +83,7 @@ export const config: DirectiveTree = {
                         .filter((item) => item.id !== appInfo.id)
                         .map((item) => {
                             return {
-                                label: item.name,
+                                label: item.name + (item.type === 'into' ? '（导入）' : ''),
                                 value: item.id
                             };
                         });
