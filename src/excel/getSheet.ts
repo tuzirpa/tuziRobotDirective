@@ -1,4 +1,4 @@
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import XLSX, { WorkBook } from 'xlsx';
 
 export const config: DirectiveTree = {

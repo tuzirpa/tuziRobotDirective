@@ -1,6 +1,5 @@
 import { Browser } from 'puppeteer-core';
-import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.getPages',
     icon: 'icon-web-create',

@@ -1,5 +1,5 @@
 const fs = require("fs");
-import { DirectiveTree } from "../types";
+import { DirectiveTree } from "tuzirobot/types";
 
 export const config: DirectiveTree = {
   name: "dataProcessing.jsonLogPrint",

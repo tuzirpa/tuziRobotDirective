@@ -1,6 +1,6 @@
 import { Page } from 'puppeteer-core';
 import os from 'os';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'web.pageScreenshotClipboard',

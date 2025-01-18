@@ -1,5 +1,5 @@
 import { Frame, HTTPResponse, Page, RemoteAddress } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'web.http.listenRequest',

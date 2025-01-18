@@ -1,5 +1,5 @@
 // import { Page } from 'puppeteer-core';
-import child_process, { exec, spawn } from 'child_process';
+import child_process, { exec, fork } from 'child_process';
 import fs from 'fs';
 import path, { join } from 'path';
 import puppeteer, { Browser } from 'puppeteer-core';
@@ -407,10 +407,10 @@ export const impl = async function (
         `;
         fs.writeFileSync(tempFilePath, childCode);
 
-        // 创建一个子进程
-        const child = spawn('node', [tempFilePath], {
+        // 创建一个子进程来监听浏览器关闭
+        const child = fork(tempFilePath, [], {
             detached: true,
-            stdio: ['ignore', 'ignore', 'ignore']
+            stdio: 'ignore'
         });
 
         // 让子进程独立运行

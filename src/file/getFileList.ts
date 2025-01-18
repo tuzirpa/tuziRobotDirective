@@ -1,5 +1,5 @@
 import path from 'path';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import fs from 'fs';
 
 export const config: DirectiveTree = {

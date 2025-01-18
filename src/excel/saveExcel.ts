@@ -1,5 +1,5 @@
 import { join } from "path";
-import { DirectiveTree } from "../types";
+import { DirectiveTree } from "tuzirobot/types";
 import XLSX, { WorkBook } from "xlsx";
 import fs from "fs";
 

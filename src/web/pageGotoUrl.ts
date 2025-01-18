@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import { error } from 'console';
 
 export const config: DirectiveTree = {
