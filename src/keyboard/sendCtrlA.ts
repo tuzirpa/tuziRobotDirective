@@ -1,5 +1,4 @@
 import hmc from 'hmc-win32';
-import { ElementHandle, KeyInput, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 const config: DirectiveTree = {

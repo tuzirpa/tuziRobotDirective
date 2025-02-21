@@ -4,7 +4,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.cssGetElement',
     sort: 2,
-    displayName: 'CSS或XPath获取元素',
+    displayName: 'CSS或XPath获取元素，等待元素',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,

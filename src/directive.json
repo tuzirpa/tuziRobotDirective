@@ -4,6 +4,7 @@
         "icon": "icon-shujucaozuo",
         "children": [
             {
+                "remark": "日志打印",
                 "localFile": "./dataProcessing/log.js",
                 "url": ""
             },
@@ -13,10 +14,12 @@
                 "url": ""
             },
             {
+                "remark": "设置变量",
                 "localFile": "./dataProcessing/setVariable.js",
                 "url": ""
             },
             {
+                "remark": "修改变量",
                 "localFile": "./dataProcessing/modificationVariable.js",
                 "url": ""
             },
@@ -64,28 +67,38 @@
                 "name": "数组操作",
                 "children": [
                     {
+                        "remark": "创建数组",
                         "localFile": "./dataProcessing/array/createArray.js",
                         "url": ""
                     },
                     {
+                        "remark": "添加数组元素",
                         "localFile": "./dataProcessing/array/addElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "添加数组元素(批量)",
+                        "localFile": "./dataProcessing/array/addElements.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "插入数组元素",
                         "localFile": "./dataProcessing/array/insertElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "删除数组元素",
                         "localFile": "./dataProcessing/array/removeElement.js",
                         "url": ""
                     },
                     {
+                        "remark": "数组是否包含元素",
                         "localFile": "./dataProcessing/array/includes.js",
                         "url": ""
                     },
                     {
                         "remark": "取数组项",
-                        "localFile": "./dataProcessing/getArrayItem.js",
+                        "localFile": "./dataProcessing/array/getArrayItem.js",
                         "url": ""
                     },
                     {
@@ -97,6 +110,11 @@
                         "remark": "数组长度",
                         "localFile": "./dataProcessing/array/getArrayLength.js",
                         "url": ""
+                    },
+                    {
+                        "remark": "修改数组元素",
+                        "localFile": "./dataProcessing/array/setElement.js",
+                        "url": ""
                     }
                 ]
             }
@@ -106,43 +124,68 @@
         "name": "流程控制",
         "children": [
             {
+                "remark": "if条件判断",
                 "localFile": "./flowControl/if.js",
                 "url": ""
             },
             {
+                "remark": "else条件判断",
                 "localFile": "./flowControl/else.js",
                 "url": ""
             },
             {
+                "remark": "if结束",
                 "localFile": "./flowControl/ifEnd.js",
                 "url": ""
             },
             {
+                "remark": "for循环",
                 "localFile": "./flowControl/for.js",
                 "url": ""
             },
             {
+                "remark": "循环结束",
                 "localFile": "./flowControl/forEnd.js",
                 "url": ""
             },
             {
+                "remark": "while循环",
                 "localFile": "./flowControl/while.js",
                 "url": ""
             },
             {
+                "remark": "break跳出循环",
                 "localFile": "./flowControl/break.js",
                 "url": ""
             },
             {
+                "remark": "continue跳过本次循环",
                 "localFile": "./flowControl/continue.js",
                 "url": ""
             },
             {
+                "remark": "退出流程",
                 "localFile": "./flowControl/exit.js",
                 "url": ""
             },
             {
+                "remark": "延迟等待",
                 "localFile": "./flowControl/delayed.js",
+                "url": ""
+            },
+            {
+                "remark": "异常捕获",
+                "localFile": "./flowControl/try.js",
+                "url": ""
+            },
+            {
+                "remark": "异常处理",
+                "localFile": "./flowControl/catch.js",
+                "url": ""
+            },
+            {
+                "remark": "异常处理结束",
+                "localFile": "./flowControl/tryEnd.js",
                 "url": ""
             }
         ]
@@ -164,6 +207,16 @@
             {
                 "remark": "子流程添加返回值",
                 "localFile": "./flowApp/addSubFlowReturnVal.js",
+                "url": ""
+            },
+            {
+                "remark": "子流程添加返回值并返回（退出子流程）",
+                "localFile": "./flowApp/addSubFlowReturnValExit.js",
+                "url": ""
+            },
+            {
+                "remark": "断点动态运行指令",
+                "localFile": "./flowApp/flowDebuger.js",
                 "url": ""
             }
         ]
@@ -241,6 +294,12 @@
                 "localFile": "./web/updateFile.js",
                 "url": ""
             },
+            
+            {
+                "remark": "上传多个文件",
+                "localFile": "./web/uploadFiles.js",
+                "url": ""
+            },
             {
                 "remark": "滚动页面到底部",
                 "localFile": "./web/pageScroll.js",
@@ -259,6 +318,16 @@
             {
                 "name": "元素操作",
                 "children": [
+                    {
+                        "remark": "给元素边框闪烁",
+                        "localFile": "./web/elementOperate/flashBorder.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "在元素上创建覆盖蒙版",
+                        "localFile": "./web/elementOperate/overlayElement.js",
+                        "url": ""
+                    },
                     {
                         "remark": "获取元素",
                         "localFile": "./web/cssGetElement.js",
@@ -292,6 +361,11 @@
                     {
                         "remark": "填写输入框",
                         "localFile": "./web/elementInput.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "css或xpath填写输入框",
+                        "localFile": "./web/cssElementInput.js",
                         "url": ""
                     },
                     {
@@ -329,6 +403,7 @@
                         "localFile": "./web/mouseSelectElement.js",
                         "url": ""
                     },
+                    
                     {
                         "remark": "获取元素的坐标",
                         "localFile": "./web/getElement_xy.js",
@@ -342,6 +417,36 @@
                     {
                         "remark": "无需等待获取元素列表",
                         "localFile": "./web/cssNoNeedGetElementList.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "删除页面元素",
+                        "localFile": "./web/elementOperate/removeElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "CSS/XPath获取元素(带过滤)",
+                        "localFile": "./web/elementOperate/cssXpathGetElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "真实文本选中",
+                        "localFile": "./web/elementOperate/realTextSelection.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "通过选择器获取iframe",
+                        "localFile": "./web/getIframeBySelector.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "选中元素中的文本",
+                        "localFile": "./web/elementOperate/selectTextInElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "批量移除元素",
+                        "localFile": "./web/elementOperate/removeElements.js",
                         "url": ""
                     }
                 ]
@@ -365,18 +470,18 @@
                 "name": "键盘操作",
                 "children": [
                     {
-                        "remark": "发送字符",
-                        "localFile": "./web/keyboard/sendCharacter.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "发送Ctrl+V",
-                        "localFile": "./web/keyboard/sendCtrlV.js",
+                        "remark": "发送Ctrl+C",
+                        "localFile": "./web/keyboard/sendCtrlC.js",
                         "url": ""
                     },
                     {
                         "remark": "发送Ctrl+A",
                         "localFile": "./web/keyboard/sendCtrlA.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+V",
+                        "localFile": "./web/keyboard/sendCtrlV.js",
                         "url": ""
                     },
                     {
@@ -392,6 +497,11 @@
                     {
                         "remark": "发送松开按键",
                         "localFile": "./web/keyboard/sendKeyCodeUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送字符",
+                        "localFile": "./web/keyboard/sendCharacter.js",
                         "url": ""
                     }
                 ]
@@ -426,42 +536,108 @@
                     }
                 ]
             },
+            
+            {
+                "name": "录屏",
+                "children": [
+                    {
+                        "remark": "开始录屏",
+                        "localFile": "./web/recorderScreencast/pageScreenRecord.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "停止录屏",
+                        "localFile": "./web/recorderScreencast/recorderStop.js",
+                        "url": ""
+                    }
+                ]
+            },
             {
                 "name": "鼠标操作",
                 "children": [
                     {
-                        "remark": "",
-                        "localFile": "./web/mouse/mouseClick.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "",
-                        "localFile": "./web/mouse/mouseDown.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "",
-                        "localFile": "./web/mouse/mouseUp.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "",
-                        "localFile": "./web/mouse/mouseDragAndDrop.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "",
+                        "remark": "移动鼠标",
                         "localFile": "./web/mouse/mouseMove.js",
                         "url": ""
                     },
                     {
-                        "remark": "",
+                        "remark": "鼠标点击",
+                        "localFile": "./web/mouse/mouseClick.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "按下鼠标",
+                        "localFile": "./web/mouse/mouseDown.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标拖放",
+                        "localFile": "./web/mouse/mouseDragAndDrop.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标悬停(选择器)",
+                        "localFile": "./web/mouse/mouseHoverSelector.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "移动鼠标到元素",
+                        "localFile": "./web/mouse/mouseMoveToElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "重置鼠标",
                         "localFile": "./web/mouse/mouseReset.js",
                         "url": ""
                     },
                     {
-                        "remark": "滚轮滚动",
+                        "remark": "释放鼠标",
+                        "localFile": "./web/mouse/mouseUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标滚轮",
                         "localFile": "./web/mouse/mouseWheel.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "标签页操作",
+                "children": [
+                    {
+                        "remark": "激活标签页",
+                        "localFile": "./web/pages/activatePage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取已打开标签",
+                        "localFile": "./web/getPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取打开的标签页列表",
+                        "localFile": "./web/getPages.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "前进一页",
+                        "localFile": "./web/getPageGoForward.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "后退一页",
+                        "localFile": "./web/getPageGoBack.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "页面中执行javascript脚本",
+                        "localFile": "./web/pageExecuteScript.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "滚动页面到底部",
+                        "localFile": "./web/pageScroll.js",
                         "url": ""
                     }
                 ]
@@ -505,12 +681,21 @@
                 "remark": "保存Excel到文件",
                 "localFile": "./excel/saveExcel.js",
                 "url": ""
+            },
+            {
+                "remark": "工作表数据转JSON",
+                "localFile": "./excel/sheetToJson.js",
+                "url": ""
+            },
+            {
+                "remark": "JSON数据保存到工作表中",
+                "localFile": "./excel/jsonToSheet.js",
+                "url": ""
             }
         ]
     },
     {
         "name": "键盘与剪贴板",
-
         "children": [
             {
                 "remark": "获取剪贴板文本",
@@ -520,6 +705,11 @@
             {
                 "remark": "写入文本到剪贴板",
                 "localFile": "./clipboard/setClipboardText.js",
+                "url": ""
+            },
+            {
+                "remark": "发送Ctrl+C",
+                "localFile": "./keyboard/sendCtrlC.js",
                 "url": ""
             },
             {
@@ -540,6 +730,56 @@
             {
                 "remark": "发送一次完整按键（按下+松开）",
                 "localFile": "./keyboard/sendKeyCode1.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "鼠标操作",
+        "children": [
+            {
+                "remark": "移动鼠标",
+                "localFile": "./web/mouse/mouseMove.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标点击",
+                "localFile": "./web/mouse/mouseClick.js",
+                "url": ""
+            },
+            {
+                "remark": "按下鼠标",
+                "localFile": "./web/mouse/mouseDown.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标拖放",
+                "localFile": "./web/mouse/mouseDragAndDrop.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标悬停(选择器)",
+                "localFile": "./web/mouse/mouseHoverSelector.js",
+                "url": ""
+            },
+            {
+                "remark": "移动鼠标到元素",
+                "localFile": "./web/mouse/mouseMoveToElement.js",
+                "url": ""
+            },
+            {
+                "remark": "重置鼠标",
+                "localFile": "./web/mouse/mouseReset.js",
+                "url": ""
+            },
+            {
+                "remark": "释放鼠标",
+                "localFile": "./web/mouse/mouseUp.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标滚轮",
+                "localFile": "./web/mouse/mouseWheel.js",
                 "url": ""
             }
         ]
@@ -575,6 +815,11 @@
             {
                 "remark": "http请求",
                 "localFile": "./network/httpRequest.js",
+                "url": ""
+            },
+            {
+                "remark": "HTTP上传文件",
+                "localFile": "./network/uploadFile.js",
                 "url": ""
             },
             {
@@ -641,6 +886,11 @@
                 "remark": "文本替换",
                 "localFile": "./text/replaceText.js",
                 "url": ""
+            },
+            {
+                "remark": "分割文本",
+                "localFile": "./text/splitText.js",
+                "url": ""
             }
         ]
     },
@@ -667,9 +917,41 @@
                 "localFile": "./file/deleteFolder.js",
                 "url": ""
             },
+
+            {
+                "remark": "重命名文件或文件夹",
+                "localFile": "./file/rename.js",
+                "url": ""
+            },
+            {
+                "remark": "移动文件或文件夹",
+                "localFile": "./file/move.js",
+                "url": ""
+            },
             {
                 "remark": "获取文件列表",
                 "localFile": "./file/getFileList.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "时间操作",
+        "icon": "icon-time",
+        "children": [
+            {
+                "remark": "获取当前时间",
+                "localFile": "./time/getCurrentTime.js",
+                "url": ""
+            },
+            {
+                "remark": "时间计算",
+                "localFile": "./time/calculateTime.js",
+                "url": ""
+            },
+            {
+                "remark": "时间格式化",
+                "localFile": "./time/formatTime.js",
                 "url": ""
             }
         ]

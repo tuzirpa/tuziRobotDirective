@@ -10,7 +10,7 @@ export const config: DirectiveTree = {
         varType: {
             name: '变量类型',
             value: '',
-            display: '',
+            display: '文本',
             type: 'string',
             addConfig: {
                 label: '变量类型',
@@ -28,12 +28,8 @@ export const config: DirectiveTree = {
                         value: 'number'
                     },
                     {
-                        label: 'json对象',
-                        value: 'jsonObj'
-                    },
-                    {
                         label: '任意对象',
-                        value: 'any'
+                        value: 'object'
                     }
                 ]
             }
@@ -44,7 +40,7 @@ export const config: DirectiveTree = {
             type: 'object',
             addConfig: {
                 label: '变量值',
-                type: 'object',
+                type: 'textarea',
                 defaultValue: ''
             }
         }

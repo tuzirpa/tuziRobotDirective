@@ -1,7 +1,7 @@
 import { MouseButton, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseDown',
+    name: 'web.mouse.mouseDown',
     icon: 'icon-web-create',
     displayName: '按下鼠标',
     comment: '在页面${page}中, 按下鼠标${button}键',

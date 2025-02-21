@@ -1,5 +1,4 @@
-import { rm } from "fs";
-import { DirectiveTree } from "../../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.removeElement",
   displayName: "移除数组元素",

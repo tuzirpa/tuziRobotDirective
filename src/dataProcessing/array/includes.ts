@@ -1,5 +1,5 @@
 import { rm } from "fs";
-import { DirectiveTree } from "../../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.includes",
   displayName: "数组是否包含指定值",

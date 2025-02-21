@@ -1,4 +1,4 @@
-import { DirectiveTree } from "../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "web.setOneTimerTaskEnd",
   icon: "icon-web-create",
@@ -13,5 +13,5 @@ export const config: DirectiveTree = {
     return `});`;
   },
 };
-
 export const impl = async function () {};
+

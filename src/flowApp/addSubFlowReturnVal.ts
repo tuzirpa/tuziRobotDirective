@@ -1,4 +1,4 @@
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'flowApp.addSubFlowReturnVal',
@@ -14,9 +14,10 @@ export const config: DirectiveTree = {
             type: 'array',
             addConfig: {
                 label: '添加要返回的变量列表',
+                placeholder: '请输入变量名,多个变量用英文逗号分隔, 可空',
                 type: 'variable',
                 multiple: true,
-                required: true,
+                // required: true,
                 tip: '添加要返回的内容'
             }
         }

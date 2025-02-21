@@ -57,10 +57,28 @@ export const config: DirectiveTree = {
                     {
                         label: 'src属性',
                         value: 'src'
+                    },
+                    {
+                        label: '自定义属性',
+                        value: 'custom'
                     }
                 ],
                 defaultValue: 'innerText',
                 tip: '获取的属性的值'
+            }
+        },
+        customProperty: {
+            name: 'customProperty',
+            value: '',
+            display: '自定义属性名',
+            type: 'string',
+            addConfig: {
+                required: false,
+                filters: 'this.inputs.property.value === "custom"',
+                label: '自定义属性名',
+                type: 'textarea',
+                placeholder: '请输入自定义属性名',
+                tip: '获取的自定义属性的值'
             }
         },
         timeout: {
@@ -94,25 +112,32 @@ export const impl = async function ({
     browserPage,
     selector,
     property,
+    customProperty,
     timeout
 }: {
     browserPage: Page;
     selector: string;
     property: string;
+    customProperty: string;
     timeout: number;
 }) {
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    
     try {
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');
+        }
+        if (selector.startsWith('//')) {
+            selector = `::-p-xpath(${selector})`;
         }
         const webElement = await browserPage.waitForSelector(selector, {
             timeout: timeout * 1000
         });
 
         if (webElement) {
+            if (property === 'custom') {
+                property = customProperty;
+            }
+            
             const propertyValue = await webElement.getProperty(property);
             return {
                 propertyValue: await propertyValue.jsonValue()
@@ -121,7 +146,6 @@ export const impl = async function ({
 
         return { propertyValue: '' };
     } catch (error) {
-        console.log(error);
-        return { propertyValue: '' };
+        throw error;
     }
 };

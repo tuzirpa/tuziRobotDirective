@@ -1,4 +1,4 @@
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import fs from 'fs';
 import path from 'path';
 

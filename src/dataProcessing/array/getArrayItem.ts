@@ -1,5 +1,5 @@
-import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'dataProcessing.getArrayItem',
     displayName: '取数组项',
@@ -50,9 +50,9 @@ export const impl = async function ({ arrayObj, index }: { arrayObj: Array<any>;
     if (!Array.isArray(arrayObj)) {
         throw new Error('选择的对象不是数组');
     }
-    if (index < 1 || index > arrayObj.length) {
-        throw new Error('数组索引超出范围');
+    if (index < 0 || index >= arrayObj.length) {
+        throw new Error('数组索引超出范围 长度:' + arrayObj.length + ' 下标:' + index);
     }
-    const item = arrayObj[index - 1];
+    const item = arrayObj[index];
     return { item };
 };

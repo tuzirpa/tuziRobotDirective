@@ -1,5 +1,5 @@
 import { CookieParam, Device, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const devices: { [key in string]: Device } = {
     PC: {

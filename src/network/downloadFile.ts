@@ -1,4 +1,4 @@
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
@@ -145,19 +145,24 @@ const impl = async function ({
             response.data.pipe(writer);
 
             response.data.on('end', () => {
-                resolve(downloadPath);
                 console.log('文件下载成功!', downloadPath);
+                resolve(downloadPath);
             });
 
             response.data.on('error', (err: any) => {
+                console.error('文件下载失败:' + url, err);
                 reject(err);
-                console.error('文件下载失败:', err);
             });
         });
     };
+    try{
+        const filePath = await downloadFile();
+        return { filePath };
+    }catch(e){
+        console.error('文件下载失败:' + url);
+        throw e;
+    }
 
-    const filePath = await downloadFile();
-    return { filePath };
 };
 
 export { config, impl };

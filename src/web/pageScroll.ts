@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'web.pageScroll',
@@ -70,7 +70,6 @@ export const impl = async function ({
         await page.evaluate((scrollDistance) => {
             window.scrollBy({ left: 0, top: scrollDistance, behavior: 'smooth' });
         }, scrollDistance);
-
         currentPosition += scrollDistance;
         pageHeight = await page.evaluate(() => document.body.scrollHeight);
 

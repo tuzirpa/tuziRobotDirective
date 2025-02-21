@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseMove',
+    name: 'web.mouse.mouseMove',
     icon: 'icon-web-create',
     displayName: '移动鼠标',
     comment: '在页面${page}中，移动鼠标到坐标${x},${y}',

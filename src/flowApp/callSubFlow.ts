@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 import { flowModuleImport, getCurApp } from 'tuzirobot/commonUtil';
 import fs from 'fs';
 
@@ -17,8 +17,16 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 label: '子流程名称',
-                type: 'string',
+                type: 'select',
                 required: true,
+                getOptions: async (_directive, curUserApp) => {
+                    return curUserApp.flows.map((flow) => {
+                        return {
+                            label: flow.aliasName || flow.name,
+                            value: flow.name
+                        };
+                    });
+                },
                 defaultValue: '',
                 tip: '子流程名称'
             }

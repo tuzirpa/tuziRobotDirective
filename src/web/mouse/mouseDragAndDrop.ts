@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseDragAndDrop',
+    name: 'web.mouse.mouseDragAndDrop',
     icon: 'icon-web-create',
     displayName: '鼠标拖动并释放',
     comment:

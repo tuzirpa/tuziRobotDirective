@@ -62,7 +62,7 @@ const impl = async function ({
     if (selector.startsWith('//')) {
         selector = `::-p-xpath(${selector})`;
     }
-    page.locator(selector)
+    await page.locator(selector)
         .setTimeout(timeout * 1000)
         .click();
 };

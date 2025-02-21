@@ -1,5 +1,5 @@
-import { ElementHandle, Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { ElementHandle, JSHandle, Page } from 'puppeteer-core';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.updateFile',
     icon: 'icon-web-create',
@@ -25,11 +25,24 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 label: 'css选择器',
-                placeholder: '请填写选择上传元素的css选择器',
-                type: 'string',
+                placeholder: '请填写选择上传元素的css选择器,支持xpath //开头的xpath表达式',
+                elementLibrarySupport: true,
+                type: 'textarea',
                 defaultValue: '',
-                required: true,
                 tip: '上传元素的css选择器'
+            }
+        },
+        clickElement: {
+            name: 'clickElement',
+            value: '',
+            display: '',
+            type: 'variable',
+            addConfig: {
+                label: '点击元素',
+                placeholder: '请填写触发点击上传的元素，此参数与 css选择器 必须选择一个，如果选择了css选择器，不需要填写此参数',
+                type: 'textarea',
+                defaultValue: '',
+                tip: '此参数与 css选择器 必须选择一个，如果选择了css选择器，不需要填写此参数'
             }
         },
         timeout: {
@@ -67,16 +80,26 @@ export const impl = async function ({
     browserPage,
     selector,
     filePath,
-    timeout
+    clickElement
 }: {
     browserPage: Page;
     selector: string;
     filePath: string;
     timeout: number;
+    clickElement: ElementHandle;
 }) {
+    
     // 触发文件上传操作，这里假设是点击一个按钮来触发
     setTimeout(() => {
+        if(clickElement) {
+            clickElement.click();
+            return;
+        }
+        if (selector.startsWith('//')) {
+            selector = `::-p-xpath(${selector})`;
+        }
         browserPage.click(selector); // 替换为实际触发上传的按钮选择器
+    
     }, 0);
 
     // 等待文件选择对话框出现

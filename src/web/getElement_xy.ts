@@ -50,6 +50,16 @@ export const config: DirectiveTree = {
                     key: 'height',
                     type: 'number',
                     display: '高度'
+                },
+                {
+                    key: 'screenX',
+                    type: 'number',
+                    display: '屏幕X坐标'
+                },
+                {
+                    key: 'screenY',
+                    type: 'number',
+                    display: '屏幕Y坐标'
                 }
             ],
             addConfig: {
@@ -64,11 +74,26 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({ element }: { element: ElementHandle }) {
     const coordinate = await element.boundingBox();
+    const frame = element.frame;
     const coordinateOut = {
         x: coordinate?.x,
         y: coordinate?.y,
         width: coordinate?.width,
         height: coordinate?.height
     };
-    return { coordinate: coordinateOut };
+    const screenXY = await frame.evaluate((element) => {
+        const rect = element.getBoundingClientRect(); // 获取元素相对于视口的位置
+
+        // 获取浏览器窗口的边框和标题栏的尺寸
+        const windowBorderLeft = (window.outerWidth - window.innerWidth) / 2;
+        const windowBorderTop = (window.outerHeight - window.innerHeight) - windowBorderLeft;
+
+        // 计算元素相对于屏幕的位置
+        const screenX = rect.left + screenLeft + windowBorderLeft;
+        const screenY = rect.top + screenTop + windowBorderTop;
+
+        return {screenX,screenY}
+    },element);
+    console.log(screenXY.screenX,screenXY.screenY)
+    return { coordinate: {...coordinateOut,...screenXY} };
 };

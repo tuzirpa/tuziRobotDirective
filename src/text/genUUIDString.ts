@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'text.genUUIDString',

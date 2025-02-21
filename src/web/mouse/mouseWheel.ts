@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseWheel',
+    name: 'web.mouse.mouseWheel',
     icon: 'icon-web-create',
     displayName: '鼠标滚轮',
     comment: '在页面${page}中，水平滚动${deltaX}像素，垂直滚动${deltaY}像素。',

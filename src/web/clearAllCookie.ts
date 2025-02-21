@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.clearAllCookie',
     icon: 'icon-web-create',

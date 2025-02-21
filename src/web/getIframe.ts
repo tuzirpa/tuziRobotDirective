@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.getIframe',
     icon: 'icon-web-create',
@@ -53,6 +53,7 @@ export const impl = async function ({
     browserPage: Page;
     iframeSelector: string;
 }) {
-    const webIframe = browserPage.frames().find((frame) => frame.url().includes(iframeSelector));
+    const frames = browserPage.frames();
+    const webIframe = frames.find((frame) => frame.url().includes(iframeSelector));
     return { webIframe };
 };

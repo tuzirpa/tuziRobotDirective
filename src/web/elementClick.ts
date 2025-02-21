@@ -1,5 +1,5 @@
 import { ElementHandle } from 'puppeteer-core';
-import { DirectiveTree } from '../types';
+import { DirectiveTree } from 'tuzirobot/types';
 
 const config: DirectiveTree = {
     name: 'web.elementClick',

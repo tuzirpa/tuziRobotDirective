@@ -1,4 +1,4 @@
-import { DirectiveTree } from "../../types";
+import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.createArray",
   displayName: "创建数组",
