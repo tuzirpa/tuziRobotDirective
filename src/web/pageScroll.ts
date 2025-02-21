@@ -70,7 +70,6 @@ export const impl = async function ({
         await page.evaluate((scrollDistance) => {
             window.scrollBy({ left: 0, top: scrollDistance, behavior: 'smooth' });
         }, scrollDistance);
-
         currentPosition += scrollDistance;
         pageHeight = await page.evaluate(() => document.body.scrollHeight);
 

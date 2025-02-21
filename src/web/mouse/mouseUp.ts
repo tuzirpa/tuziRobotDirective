@@ -1,7 +1,7 @@
 import { MouseButton, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseUp',
+    name: 'web.mouse.mouseUp',
     icon: 'icon-web-create',
     displayName: '释放鼠标',
     comment: '在页面${page}中, 按下鼠标${button}键后释放鼠标',

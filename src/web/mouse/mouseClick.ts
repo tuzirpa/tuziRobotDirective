@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
-    name: 'web.mouseClick',
+    name: 'web.mouse.mouseClick',
     icon: 'icon-web-create',
     displayName: '鼠标点击',
     comment: '在页面${page}中，坐标(${x}, ${y})处 单击${count}次',

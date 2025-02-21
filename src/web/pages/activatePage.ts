@@ -1,10 +1,14 @@
 import { Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+
 export const config: DirectiveTree = {
-    name: 'web.mouse.mouseReset',
+    name: 'web.pages.activatePage',
+    sort: 1,
+    displayName: '激活标签页',
     icon: 'icon-web-create',
-    displayName: '重置鼠标为默状态',
-    comment: '在页面${page}中，重置鼠标为默认状态，位置（0，0）',
+    isControl: false,
+    isControlEnd: false,
+    comment: '激活浏览器标签页${page}',
     inputs: {
         page: {
             name: 'page',
@@ -12,17 +16,27 @@ export const config: DirectiveTree = {
             display: '',
             type: 'variable',
             addConfig: {
+                required: true,
                 label: '标签页对象',
                 type: 'variable',
                 filtersType: 'web.page',
-                autoComplete: true
+                autoComplete: true,
+                tip: '要激活的标签页对象'
             }
         }
     },
-
     outputs: {}
 };
 
 export const impl = async function ({ page }: { page: Page }) {
-    await page.mouse.reset();
-};
+    try {
+        if (!page) {
+            throw new Error('标签页对象不能为空');
+        }
+
+        await page.bringToFront();
+    } catch (error) {
+        console.error('激活标签页失败:', error);
+        throw error;
+    }
+}; 

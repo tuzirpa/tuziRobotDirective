@@ -319,6 +319,16 @@
                 "name": "元素操作",
                 "children": [
                     {
+                        "remark": "给元素边框闪烁",
+                        "localFile": "./web/elementOperate/flashBorder.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "在元素上创建覆盖蒙版",
+                        "localFile": "./web/elementOperate/overlayElement.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "获取元素",
                         "localFile": "./web/cssGetElement.js",
                         "url": ""
@@ -393,6 +403,7 @@
                         "localFile": "./web/mouseSelectElement.js",
                         "url": ""
                     },
+                    
                     {
                         "remark": "获取元素的坐标",
                         "localFile": "./web/getElement_xy.js",
@@ -417,6 +428,26 @@
                         "remark": "CSS/XPath获取元素(带过滤)",
                         "localFile": "./web/elementOperate/cssXpathGetElement.js",
                         "url": ""
+                    },
+                    {
+                        "remark": "真实文本选中",
+                        "localFile": "./web/elementOperate/realTextSelection.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "通过选择器获取iframe",
+                        "localFile": "./web/getIframeBySelector.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "选中元素中的文本",
+                        "localFile": "./web/elementOperate/selectTextInElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "批量移除元素",
+                        "localFile": "./web/elementOperate/removeElements.js",
+                        "url": ""
                     }
                 ]
             },
@@ -439,18 +470,18 @@
                 "name": "键盘操作",
                 "children": [
                     {
-                        "remark": "发送字符",
-                        "localFile": "./web/keyboard/sendCharacter.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "发送Ctrl+V",
-                        "localFile": "./web/keyboard/sendCtrlV.js",
+                        "remark": "发送Ctrl+C",
+                        "localFile": "./web/keyboard/sendCtrlC.js",
                         "url": ""
                     },
                     {
                         "remark": "发送Ctrl+A",
                         "localFile": "./web/keyboard/sendCtrlA.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+V",
+                        "localFile": "./web/keyboard/sendCtrlV.js",
                         "url": ""
                     },
                     {
@@ -466,6 +497,11 @@
                     {
                         "remark": "发送松开按键",
                         "localFile": "./web/keyboard/sendKeyCodeUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送字符",
+                        "localFile": "./web/keyboard/sendCharacter.js",
                         "url": ""
                     }
                 ]
@@ -500,42 +536,43 @@
                     }
                 ]
             },
+            
+            {
+                "name": "录屏",
+                "children": [
+                    {
+                        "remark": "开始录屏",
+                        "localFile": "./web/recorderScreencast/pageScreenRecord.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "停止录屏",
+                        "localFile": "./web/recorderScreencast/recorderStop.js",
+                        "url": ""
+                    }
+                ]
+            },
             {
                 "name": "鼠标操作",
                 "children": [
+                    {
+                        "remark": "移动鼠标",
+                        "localFile": "./web/mouse/mouseMove.js",
+                        "url": ""
+                    },
                     {
                         "remark": "鼠标点击",
                         "localFile": "./web/mouse/mouseClick.js",
                         "url": ""
                     },
                     {
-                        "remark": "鼠标按下",
+                        "remark": "按下鼠标",
                         "localFile": "./web/mouse/mouseDown.js",
                         "url": ""
                     },
                     {
-                        "remark": "鼠标松开",
-                        "localFile": "./web/mouse/mouseUp.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "鼠标拖拽",
+                        "remark": "鼠标拖放",
                         "localFile": "./web/mouse/mouseDragAndDrop.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "鼠标移动",
-                        "localFile": "./web/mouse/mouseMove.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "鼠标重置",
-                        "localFile": "./web/mouse/mouseReset.js",
-                        "url": ""
-                    },
-                    {
-                        "remark": "滚轮滚动",
-                        "localFile": "./web/mouse/mouseWheel.js",
                         "url": ""
                     },
                     {
@@ -546,6 +583,61 @@
                     {
                         "remark": "移动鼠标到元素",
                         "localFile": "./web/mouse/mouseMoveToElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "重置鼠标",
+                        "localFile": "./web/mouse/mouseReset.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "释放鼠标",
+                        "localFile": "./web/mouse/mouseUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标滚轮",
+                        "localFile": "./web/mouse/mouseWheel.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "标签页操作",
+                "children": [
+                    {
+                        "remark": "激活标签页",
+                        "localFile": "./web/pages/activatePage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取已打开标签",
+                        "localFile": "./web/getPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取打开的标签页列表",
+                        "localFile": "./web/getPages.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "前进一页",
+                        "localFile": "./web/getPageGoForward.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "后退一页",
+                        "localFile": "./web/getPageGoBack.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "页面中执行javascript脚本",
+                        "localFile": "./web/pageExecuteScript.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "滚动页面到底部",
+                        "localFile": "./web/pageScroll.js",
                         "url": ""
                     }
                 ]
@@ -604,7 +696,6 @@
     },
     {
         "name": "键盘与剪贴板",
-
         "children": [
             {
                 "remark": "获取剪贴板文本",
@@ -614,6 +705,11 @@
             {
                 "remark": "写入文本到剪贴板",
                 "localFile": "./clipboard/setClipboardText.js",
+                "url": ""
+            },
+            {
+                "remark": "发送Ctrl+C",
+                "localFile": "./keyboard/sendCtrlC.js",
                 "url": ""
             },
             {
@@ -634,6 +730,56 @@
             {
                 "remark": "发送一次完整按键（按下+松开）",
                 "localFile": "./keyboard/sendKeyCode1.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "鼠标操作",
+        "children": [
+            {
+                "remark": "移动鼠标",
+                "localFile": "./web/mouse/mouseMove.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标点击",
+                "localFile": "./web/mouse/mouseClick.js",
+                "url": ""
+            },
+            {
+                "remark": "按下鼠标",
+                "localFile": "./web/mouse/mouseDown.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标拖放",
+                "localFile": "./web/mouse/mouseDragAndDrop.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标悬停(选择器)",
+                "localFile": "./web/mouse/mouseHoverSelector.js",
+                "url": ""
+            },
+            {
+                "remark": "移动鼠标到元素",
+                "localFile": "./web/mouse/mouseMoveToElement.js",
+                "url": ""
+            },
+            {
+                "remark": "重置鼠标",
+                "localFile": "./web/mouse/mouseReset.js",
+                "url": ""
+            },
+            {
+                "remark": "释放鼠标",
+                "localFile": "./web/mouse/mouseUp.js",
+                "url": ""
+            },
+            {
+                "remark": "鼠标滚轮",
+                "localFile": "./web/mouse/mouseWheel.js",
                 "url": ""
             }
         ]

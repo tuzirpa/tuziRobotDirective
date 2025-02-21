@@ -121,12 +121,13 @@ export const impl = async function ({
     customProperty: string;
     timeout: number;
 }) {
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    
     try {
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');
+        }
+        if (selector.startsWith('//')) {
+            selector = `::-p-xpath(${selector})`;
         }
         const webElement = await browserPage.waitForSelector(selector, {
             timeout: timeout * 1000
@@ -136,6 +137,7 @@ export const impl = async function ({
             if (property === 'custom') {
                 property = customProperty;
             }
+            
             const propertyValue = await webElement.getProperty(property);
             return {
                 propertyValue: await propertyValue.jsonValue()
@@ -144,7 +146,6 @@ export const impl = async function ({
 
         return { propertyValue: '' };
     } catch (error) {
-        console.log(error);
-        return { propertyValue: '' };
+        throw error;
     }
 };

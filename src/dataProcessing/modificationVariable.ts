@@ -26,7 +26,7 @@ export const config: DirectiveTree = {
             enableExpression: true,
             addConfig: {
                 label: '变量值',
-                type: 'object',
+                type: 'textarea',
                 defaultValue: ''
             }
         }

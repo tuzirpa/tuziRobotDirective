@@ -45,7 +45,7 @@ const config: DirectiveTree = {
             addConfig: {
                 placeholder: '请输入要输入的内容',
                 label: '输入的内容',
-                type: 'string',
+                type: 'textarea',
                 defaultValue: ''
             }
         },
