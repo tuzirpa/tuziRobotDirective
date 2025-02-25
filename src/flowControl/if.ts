@@ -89,7 +89,7 @@ export const impl = async function (operand1: string, operator: string, operand2
 		{ value: 'noNull', label: '不是空值' }
 	 */
     if (operator === 'isNull') {
-        console.log('isNull', operand1);
+        console.debug('isNull', operand1);
         return !operand1;
     } else if (operator === 'noNull') {
         return !!operand1;

@@ -10,7 +10,7 @@ const config: DirectiveTree = {
     isControl: false,
     isControlEnd: false,
     comment:
-        '在页面${page}上，元素${selector}上输入${content}, 是否聚焦${isFocus}, 是否追加${isAppend}, 延迟${delay}秒',
+        '在${browserPage}上，使用${selector}定位元素，输入${content}。是否聚焦${isFocus}？是否追加${isAppend}？是否延迟${delay}秒？',
     inputs: {
         browserPage: {
             name: 'browserPage',

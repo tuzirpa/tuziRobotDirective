@@ -47,7 +47,11 @@ export const config: DirectiveTree = {
                 type: 'select',
                 options: [
                     {
-                        label: '文本内容',
+                        label: '文本内容-不保留换行',
+                        value: 'textContent'
+                    },
+                    {
+                        label: '文本内容-保留换行',
                         value: 'innerText'
                     },
                     {
@@ -59,11 +63,43 @@ export const config: DirectiveTree = {
                         value: 'src'
                     },
                     {
+                        label: 'href属性',
+                        value: 'href'
+                    },
+                    {
+                        label: 'value属性',
+                        value: 'value'
+                    },
+                    {
+                        label: 'class属性',
+                        value: 'className'
+                    },
+                    {
+                        label: 'id属性',
+                        value: 'id'
+                    },
+                    {
+                        label: 'name属性',
+                        value: 'name'
+                    },
+                    {
+                        label: 'title属性',
+                        value: 'title'
+                    },
+                    {
+                        label: 'alt属性',
+                        value: 'alt'
+                    },
+                    {
+                        label: 'type属性',
+                        value: 'type'
+                    },
+                    {
                         label: '自定义属性',
                         value: 'custom'
                     }
                 ],
-                defaultValue: 'innerText',
+                defaultValue: 'textContent',
                 tip: '获取的属性的值'
             }
         },

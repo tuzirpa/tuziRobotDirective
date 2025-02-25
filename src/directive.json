@@ -329,6 +329,11 @@
                         "url": ""
                     },
                     {
+                        "remark": "滚动元素(元素要有滚动条)",
+                        "localFile": "./web/elementOperate/scrollElement.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "获取元素",
                         "localFile": "./web/cssGetElement.js",
                         "url": ""
@@ -447,6 +452,11 @@
                     {
                         "remark": "批量移除元素",
                         "localFile": "./web/elementOperate/removeElements.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取滚动条位置",
+                        "localFile": "./web/elementOperate/getScrollPosition.js",
                         "url": ""
                     }
                 ]
@@ -638,6 +648,16 @@
                     {
                         "remark": "滚动页面到底部",
                         "localFile": "./web/pageScroll.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "刷新页面",
+                        "localFile": "./web/pages/refreshPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待页面加载完成",
+                        "localFile": "./web/pages/waitForLoad.js",
                         "url": ""
                     }
                 ]

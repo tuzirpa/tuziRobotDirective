@@ -4,7 +4,7 @@ export const config: DirectiveTree = {
     name: 'text.interceptText',
     icon: 'icon-web-create',
     displayName: '截取文本内容',
-    comment: '',
+    comment: '在文本${text}中，从${startPos === "0" ? "第一个字符" : startPos === "-1" ? "指定位置" : "指定文本"}开始截取，截取长度为${length}，保存到变量${interceptedText}中。',
     inputs: {
         text: {
             name: 'text',
@@ -93,6 +93,7 @@ export const config: DirectiveTree = {
             addConfig: {
                 label: '截取长度',
                 type: 'variable',
+                filters: "this.inputs.interceptWay.value === 'custom'",
                 defaultValue: '0'
             }
         }
