@@ -27,7 +27,7 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({ browserPage }: { browserPage: Page }) {
     let cookies = await browserPage.cookies();
-    cookies.forEach(async (cookie) => {
+    await Promise.all(cookies.map(async (cookie) => {
         await browserPage.deleteCookie(cookie);
-    });
+    }));
 };

@@ -1,6 +1,7 @@
 import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.forArray",
+  appendDirectiveNames: ['flowControl.for.end'],
   isControl: true,
   isLoop: true,
   isControlEnd: false,

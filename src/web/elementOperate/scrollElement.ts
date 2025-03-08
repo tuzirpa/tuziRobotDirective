@@ -64,6 +64,22 @@ export const config: DirectiveTree = {
                 defaultValue: 'custom'
             }
         },
+        behavior: {
+            name: 'behavior',
+            value: 'smooth',
+            display: '',
+            type: 'string',
+            addConfig: {
+                label: '滚动行为',
+                type: 'select',
+                isAdvanced: true,
+                options: [
+                    { label: '平滑滚动', value: 'smooth' },
+                    { label: '瞬间滚动', value: 'instant' }
+                ],
+                defaultValue: 'smooth'
+            }
+        },
         scrollX: {
             name: 'scrollX',
             value: '0',
@@ -96,6 +112,7 @@ export const impl = async function ({
     browserPage,
     element,
     selector,
+    behavior,
     scrollType,
     scrollX,
     scrollY
@@ -104,6 +121,7 @@ export const impl = async function ({
     element?: ElementHandle;
     selector?: string;
     scrollType: 'custom' | 'top' | 'bottom';
+    behavior: 'smooth' | 'instant';
     scrollX?: number;
     scrollY?: number;
 }) {
@@ -126,31 +144,31 @@ export const impl = async function ({
             }
         }
 
-        await browserPage.evaluate((el, type, x, y) => {
+        await browserPage.evaluate((el, type, x, y,behavior) => {
             if (el) {
                 switch (type) {
                     case 'top':
                         el.scrollTo({
                             top: 0,
-                            behavior: 'smooth'
+                            behavior: behavior
                         });
                         break;
                     case 'bottom':
                         el.scrollTo({
                             top: el.scrollHeight,
-                            behavior: 'smooth'
+                            behavior: behavior
                         });
                         break;
                     case 'custom':
                         el.scrollTo({
                             left: x,
                             top: y,
-                            behavior: 'smooth'
+                            behavior: behavior
                         });
                         break;
                 }
             }
-        }, targetElement, scrollType, scrollX, scrollY);
+        }, targetElement, scrollType, scrollX, scrollY,behavior);
 
     } catch (error) {
         console.error('滚动元素失败:', error);

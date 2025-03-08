@@ -4,6 +4,7 @@ const { typeToCode } = require('tuzirobot/commonUtil');
 exports.config = {
     name: 'flowControl.for',
     key: 'flowControl.rangeIterator',
+    appendDirectiveNames: ['flowControl.for.end'],
     displayName: 'For 循环',
     icon: 'icon-web-create',
     sort: 20,

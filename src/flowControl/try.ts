@@ -3,6 +3,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'flowControl.try',
     displayName: 'TRY 异常捕获',
+    appendDirectiveNames: ['flowControl.catch', 'flowControl.tryEnd'],
     icon: 'icon-warning',
     sort: 20,
     isControl: true,

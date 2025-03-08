@@ -41,10 +41,10 @@ export const config: DirectiveTree = {
             type: 'number',
             addConfig: {
                 label: '等待页面加载超时',
-                placeholder: '不填或0表示不等待页面加载完成',
+                placeholder: '-1不等待页面加载完成,0表示等待页面加载完成，其他表示等待超时时间，单位：秒',
                 type: 'string',
                 defaultValue: '',
-                tip: '等待超时时间，单位：秒 | 不填或者填0表示不等待'
+                tip: '等待超时时间，单位：秒 | -1不等待页面加载完成,0表示等待页面加载完成，其他表示等待超时时间，单位：秒'
             }
         }
     },
@@ -60,10 +60,10 @@ export const impl = async function ({
     url: string;
     loadTimeout: number;
 }) {
-    if (loadTimeout > 0) {
+    if (loadTimeout >= 0) {
         await page.goto(url, { timeout: loadTimeout * 1000 });
     } else {
-        await page.goto(url, { timeout: 0 });
+        page.goto(url);
     }
     return { page };
 };

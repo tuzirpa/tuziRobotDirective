@@ -3,6 +3,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
     name: 'flowControl.if',
+    appendDirectiveNames: ['flowControl.if.end'],
     key: 'flowControl.test',
     displayName: 'IF 条件',
     icon: 'icon-web-create',
