@@ -117,6 +117,252 @@
                         "url": ""
                     }
                 ]
+            },
+            {
+                "name": "数据获取",
+                "children": [
+                    {
+                        "remark": "监听请求发送",
+                        "localFile": "./web/http/listenRequestSend.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取请求发送数据",
+                        "localFile": "./web/http/getRequest.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "监听请求数据",
+                        "localFile": "./web/http/listenRequest.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待获取请求数据",
+                        "localFile": "./web/http/getResponse.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待获取请求数据Body",
+                        "localFile": "./web/http/getResponseBody.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "键盘操作",
+                "children": [
+                    {
+                        "remark": "发送Ctrl+C",
+                        "localFile": "./web/keyboard/sendCtrlC.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+A",
+                        "localFile": "./web/keyboard/sendCtrlA.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送Ctrl+V",
+                        "localFile": "./web/keyboard/sendCtrlV.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送键盘按键（按下+松开）",
+                        "localFile": "./web/keyboard/sendKeyCode.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送按下按键",
+                        "localFile": "./web/keyboard/sendKeyCodeDown.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送松开按键",
+                        "localFile": "./web/keyboard/sendKeyCodeUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "发送字符",
+                        "localFile": "./web/keyboard/sendCharacter.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "数据操作",
+                "children": [
+                    {
+                        "remark": "获取页面内容",
+                        "localFile": "./web/dataOperate/getPageContent.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取页面Cookie",
+                        "localFile": "./web/dataOperate/getPageCookie.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取页面标题",
+                        "localFile": "./web/dataOperate/getPageTitle.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取URL",
+                        "localFile": "./web/dataOperate/getPageUrl.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取URL参数值",
+                        "localFile": "./web/dataOperate/getUrlParam.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取浏览器UA",
+                        "localFile": "./web/dataOperate/getBrowserUA.js",
+                        "url": ""
+                    }
+                ]
+            },
+            
+            {
+                "name": "录屏",
+                "children": [
+                    {
+                        "remark": "开始录屏",
+                        "localFile": "./web/recorderScreencast/pageScreenRecord.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "停止录屏",
+                        "localFile": "./web/recorderScreencast/recorderStop.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "鼠标操作",
+                "children": [
+                    {
+                        "remark": "移动鼠标",
+                        "localFile": "./web/mouse/mouseMove.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标点击",
+                        "localFile": "./web/mouse/mouseClick.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "按下鼠标",
+                        "localFile": "./web/mouse/mouseDown.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标拖放",
+                        "localFile": "./web/mouse/mouseDragAndDrop.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标悬停(选择器)",
+                        "localFile": "./web/mouse/mouseHoverSelector.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "移动鼠标到元素",
+                        "localFile": "./web/mouse/mouseMoveToElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "重置鼠标",
+                        "localFile": "./web/mouse/mouseReset.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "释放鼠标",
+                        "localFile": "./web/mouse/mouseUp.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "鼠标滚轮",
+                        "localFile": "./web/mouse/mouseWheel.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "标签页操作",
+                "children": [
+                    {
+                        "remark": "激活标签页",
+                        "localFile": "./web/pages/activatePage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取已打开标签",
+                        "localFile": "./web/getPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取打开的标签页列表",
+                        "localFile": "./web/getPages.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "前进一页",
+                        "localFile": "./web/getPageGoForward.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "后退一页",
+                        "localFile": "./web/getPageGoBack.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "页面中执行javascript脚本",
+                        "localFile": "./web/pageExecuteScript.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "滚动页面到底部",
+                        "localFile": "./web/pageScroll.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "刷新页面",
+                        "localFile": "./web/pages/refreshPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待页面加载完成",
+                        "localFile": "./web/pages/waitForLoad.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "本地存储",
+                "children": [
+                    {
+                        "remark": "获取本地存储",
+                        "localFile": "./web/localStorage/getLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "清除本地存储",
+                        "localFile": "./web/localStorage/clearLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "设置本地存储",
+                        "localFile": "./web/localStorage/setLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "删除本地存储",
+                        "localFile": "./web/localStorage/removeLocalStorage.js",
+                        "url": ""
+                    }
+                ]
             }
         ]
     },
@@ -193,6 +439,11 @@
     {
         "name": "流程/应用",
         "children": [
+            {
+                "remark": "获取应用信息",
+                "localFile": "./flowApp/getAppInfo.js",
+                "url": ""
+            },
             {
                 "remark": "调用子流程",
                 "localFile": "./flowApp/callSubFlow.js",
@@ -349,6 +600,11 @@
                         "url": ""
                     },
                     {
+                        "remark": "获取元素计算样式",
+                        "localFile": "./web/elementOperate/getComputedStyle.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "获取元素的子元素",
                         "localFile": "./web/getChildElement.js",
                         "url": ""
@@ -391,6 +647,12 @@
                     {
                         "remark": "获取frame",
                         "localFile": "./web/getIframe.js",
+                        "url": ""
+                    },
+                    
+                    {
+                        "remark": "通过选择器获取iframe",
+                        "localFile": "./web/getIframeBySelector.js",
                         "url": ""
                     },
                     {
@@ -445,8 +707,18 @@
                         "url": ""
                     },
                     {
-                        "remark": "通过选择器获取iframe",
-                        "localFile": "./web/getIframeBySelector.js",
+                        "remark": "等待元素出现后消失任务(异步)",
+                        "localFile": "./web/elementOperate/startWaitElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "完成等待元素出现后消失任务(异步)",
+                        "localFile": "./web/elementOperate/completeWaitElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待元素出现/消失",
+                        "localFile": "./web/elementOperate/waitForElement.js",
                         "url": ""
                     },
                     {
@@ -480,6 +752,16 @@
                 "name": "数据获取",
                 "children": [
                     {
+                        "remark": "监听请求发送",
+                        "localFile": "./web/http/listenRequestSend.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取请求发送数据",
+                        "localFile": "./web/http/getRequest.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "监听请求数据",
                         "localFile": "./web/http/listenRequest.js",
                         "url": ""
@@ -487,6 +769,11 @@
                     {
                         "remark": "等待获取请求数据",
                         "localFile": "./web/http/getResponse.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待获取请求数据Body",
+                        "localFile": "./web/http/getResponseBody.js",
                         "url": ""
                     }
                 ]
@@ -540,7 +827,7 @@
                         "url": ""
                     },
                     {
-                        "remark": "获取页面Cookile",
+                        "remark": "获取页面Cookie",
                         "localFile": "./web/dataOperate/getPageCookie.js",
                         "url": ""
                     },
@@ -557,6 +844,11 @@
                     {
                         "remark": "获取URL参数值",
                         "localFile": "./web/dataOperate/getUrlParam.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取浏览器UA",
+                        "localFile": "./web/dataOperate/getBrowserUA.js",
                         "url": ""
                     }
                 ]
@@ -673,6 +965,31 @@
                     {
                         "remark": "等待页面加载完成",
                         "localFile": "./web/pages/waitForLoad.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
+                "name": "本地存储",
+                "children": [
+                    {
+                        "remark": "设置本地存储",
+                        "localFile": "./web/localStorage/setLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取本地存储",
+                        "localFile": "./web/localStorage/getLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "删除本地存储项",
+                        "localFile": "./web/localStorage/removeLocalStorage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "清空本地存储",
+                        "localFile": "./web/localStorage/clearLocalStorage.js",
                         "url": ""
                     }
                 ]
@@ -933,6 +1250,11 @@
         "name": "文件操作",
         "children": [
             {
+                "remark": "文件是否存在",
+                "localFile": "./file/fileExists.js",
+                "url": ""
+            },
+            {
                 "remark": "写入文件",
                 "localFile": "./file/writeFile.js",
                 "url": ""
@@ -967,6 +1289,41 @@
                 "remark": "获取文件列表",
                 "localFile": "./file/getFileList.js",
                 "url": ""
+            }
+        ]
+    },
+    {
+        "name": "key-value存储(Store)",
+        "children": [
+            {
+                "name": "JSON文件存储",
+                "children": [
+                    {
+                        "remark": "初始化JSON存储",
+                        "localFile": "./store/fileJsonStore/initFileJsonStore.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取JSON存储",
+                        "localFile": "./store/fileJsonStore/storeGet.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "设置JSON存储",
+                        "localFile": "./store/fileJsonStore/storeSet.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "删除JSON存储",
+                        "localFile": "./store/fileJsonStore/storeDelete.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "清空JSON存储",
+                        "localFile": "./store/fileJsonStore/storeClear.js",
+                        "url": ""
+                    }
+                ]
             }
         ]
     },

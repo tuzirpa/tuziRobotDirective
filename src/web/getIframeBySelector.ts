@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.getIframeBySelector',
     icon: 'icon-iframe-selector',
@@ -76,9 +76,7 @@ export const impl = async function ({
         // 如果未直接传入元素对象，则通过选择器查找
         if (!targetFrame && selector) {
             // 处理XPath选择器
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
 
             // 先尝试CSS选择器
             targetFrame = await browserPage.$(selector);

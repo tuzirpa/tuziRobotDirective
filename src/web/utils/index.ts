@@ -74,3 +74,25 @@ export async function setBrowserPage(page: Page) {
         Object.defineProperty(navigator, 'language', { get: () => 'zh-CN' });
     });
 }
+
+/**
+ * 判断selector是否为xpath
+ * @param selector 选择器
+ * @returns 
+ */
+export function isXpath(selector: string) {
+    return selector.startsWith('/') || selector.startsWith('(');
+}
+
+/**
+ * 将selector转换为xpath
+ * @param selector 选择器
+ * @returns 
+ */
+export function toSelector(selector: string) {
+    if (isXpath(selector)) {
+        return `::-p-xpath(${selector})`;
+    }
+    return selector;
+}
+

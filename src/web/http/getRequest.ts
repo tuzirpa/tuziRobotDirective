@@ -1,17 +1,15 @@
-import { Frame, HTTPResponse, Page } from 'puppeteer-core';
+import { Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
-    name: 'web.http.getResponse',
+    name: 'web.http.getRequest',
     sort: 2,
-    displayName: '获取监听请求结果列表',
+    displayName: '获取监听请求数据列表',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    description:
-        '监听到数据返回监听到的数据列表',
-    comment:
-        '在网页${browserPage}中获取监听请求结果，超时时间为${timeout}秒，结果数据存入${responseData}变量',
+    description: '监听到请求返回监听到的数据列表',
+    comment: '在网页${browserPage}中获取监听请求数据，结果数据存入${requestData}变量',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -33,22 +31,21 @@ export const config: DirectiveTree = {
             addConfig: {
                 label: '网页请求监听对象',
                 type: 'variable',
-                filtersType: 'web.listenerObj',
+                filtersType: 'web.listenerRequestSend',
                 autoComplete: true
             }
         }
     },
-
     outputs: {
-        responseData: {
+        requestData: {
             name: '',
-            display: '请求结果数据列表',
+            display: '请求数据列表',
             type: 'array',
             addConfig: {
-                label: '请求结果数据列表',
+                label: '请求数据列表',
                 type: 'variable',
-                placeholder: '请求结果数据列表',
-                defaultValue: '请求结果数据列表'
+                placeholder: '请求数据列表',
+                defaultValue: '请求数据列表'
             }
         }
     }
@@ -61,8 +58,8 @@ export const impl = async function ({
     browserPage: Page;
     listenerObj: any;
 }) {
-    browserPage.off('response', listenerObj.responseListener);
+    browserPage.off('request', listenerObj.requestListener);
     listenerObj.resolve();
-    const responseData = await (listenerObj.responsePromise as Promise<{}>);
-    return { responseData };
-};
+    const requestData = await listenerObj.requestPromise;
+    return { requestData };
+}; 

@@ -1,6 +1,6 @@
 import { ElementHandle } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { isXpath, toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.getChildElementList',
     sort: 2,
@@ -61,9 +61,11 @@ export const impl = async function ({
     selector: string;
     timeout: number;
 }) {
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
+    if (isXpath(selector)) {
+        selector = toSelector(`.${selector}`);
+    } else {
+        selector = toSelector(`:scope > ${selector}`);
     }
     const childElementList = await element.$$(selector);
-    return { childElementList: childElementList ? childElementList : '' };
+    return { childElementList: childElementList ? childElementList : [] };
 };

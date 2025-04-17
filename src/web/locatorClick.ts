@@ -1,6 +1,6 @@
 import { ElementHandle, KeyInput, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from './utils';
 const config: DirectiveTree = {
     name: 'web.locatorClick',
     sort: 2,
@@ -59,9 +59,7 @@ const impl = async function ({
     selector: string;
     timeout: number;
 }) {
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    selector = toSelector(selector);
     await page.locator(selector)
         .setTimeout(timeout * 1000)
         .click();

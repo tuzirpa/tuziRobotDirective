@@ -1,10 +1,11 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from './utils';
 
 const config: DirectiveTree = {
     name: 'web.cssElementClick',
     sort: 2,
-    displayName: 'CSS点击元素',
+    displayName: 'CSS或XPATH点击元素',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
@@ -60,9 +61,7 @@ const impl = async function ({
     timeout: number;
 }) {
     let webElement: ElementHandle<Element> | null;
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    selector = toSelector(selector);
     try {
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');

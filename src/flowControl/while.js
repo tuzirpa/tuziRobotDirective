@@ -54,7 +54,6 @@ exports.config = {
             value: '',
             type: 'string',
             addConfig: {
-                required: true,
                 type: 'string',
                 label: '对象2',
                 filters: `!(this.inputs.operator.value === 'isTrue' || this.inputs.operator.value === 'noTrue' || this.inputs.operator.value === 'isNull' || this.inputs.operator.value === 'noNull')`
@@ -80,19 +79,34 @@ exports.impl = async function (operand1, operator, operand2) {
 		{ value: 'isNull', label: '是空值' },
 		{ value: 'noNull', label: '不是空值' }
 	 */
-    if (operator === 'isNull') {
-        return operand1 === null;
-    } else if (operator === 'noNull') {
-        return operand1 !== null;
-    } else if (operator === 'isTrue') {
-        return operand1 === true;
-    } else if (operator === 'noTrue') {
-        return operand1 !== true;
-    } else if (operator === 'in') {
-        return operand1.includes(operand2);
-    } else if (operator === 'notin') {
-        return !operand1.includes(operand2);
-    }
-    const result = eval(`${operand1}${operator}${operand2}`);
+        if (operator === 'isNull') {
+            return !operand1;
+        } else if (operator === 'noNull') {
+            return !!operand1;
+        } else if (operator === 'isTrue') {
+            return operand1 === 'true';
+        } else if (operator === 'noTrue') {
+            return operand1 !== 'true';
+        } else if (operator === 'in') {
+            return operand1.includes(operand2);
+        } else if (operator === 'notin') {
+            return !operand1.includes(operand2);
+        } else if (operator === 'startsWith') {
+            return operand1.startsWith(operand2);
+        } else if (operator === 'endsWith') {
+            return operand1.endsWith(operand2);
+        } else if (operator === '==') {
+            return operand1 == operand2;
+        } else if (operator === '!=') {
+            return operand1 != operand2;
+        } else if (operator === '>') {
+            return Number(operand1) > Number(operand2);
+        } else if (operator === '<') {
+            return Number(operand1) < Number(operand2);
+        } else if (operator === '>=') {
+            return Number(operand1) >= Number(operand2);
+        } else if (operator === '<=') {
+            return Number(operand1) <= Number(operand2);
+        }
     return !!result;
 };

@@ -3,7 +3,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 import fs from 'fs/promises';
 import path from 'path';
 import { getCurApp } from 'tuzirobot/commonUtil';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.saveImageElement',
     sort: 16,
@@ -121,9 +121,7 @@ export const impl = async function ({
         // 获取目标元素
         let targetElement = element;
         if (!targetElement && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             targetElement = await browserPage.$(selector) || undefined;
             if (!targetElement) {
                 throw new Error('未找到匹配选择器的图片元素');

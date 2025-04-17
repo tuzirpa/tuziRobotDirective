@@ -1,6 +1,6 @@
 import { Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.cssGetElementProperty',
     sort: 2,
@@ -162,9 +162,7 @@ export const impl = async function ({
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');
         }
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
-        }
+        selector = toSelector(selector);
         const webElement = await browserPage.waitForSelector(selector, {
             timeout: timeout * 1000
         });

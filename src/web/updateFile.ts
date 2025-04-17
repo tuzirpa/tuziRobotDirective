@@ -1,5 +1,6 @@
 import { ElementHandle, JSHandle, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.updateFile',
     icon: 'icon-web-create',
@@ -95,9 +96,7 @@ export const impl = async function ({
             clickElement.click();
             return;
         }
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
-        }
+        selector = toSelector(selector);
         browserPage.click(selector); // 替换为实际触发上传的按钮选择器
     
     }, 0);

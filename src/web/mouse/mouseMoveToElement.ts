@@ -1,5 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from '../utils';
 
 export const config: DirectiveTree = {
     name: 'web.mouse.mouseMoveToElement',
@@ -73,9 +74,7 @@ export const impl = async function ({
         
         // 如果没有传入元素对象，则使用选择器查找
         if (!targetElement && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             const foundElement = await browserPage.$(selector);
             if (foundElement) {
                 targetElement = foundElement;

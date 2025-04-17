@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.removeElement',
     sort: 3,
@@ -85,9 +85,7 @@ export const impl = async function ({
 
         // 如果没有提供element但提供了selector，则先查找元素
         if (!targetElement && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             targetElement = (await browserPage.waitForSelector(selector, {
                 timeout: timeout * 1000
             })) || undefined;

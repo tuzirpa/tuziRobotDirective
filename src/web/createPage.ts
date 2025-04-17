@@ -1,6 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-import { setBrowserPage } from './utils';
+// import { setBrowserPage } from './utils';
 
 export const config: DirectiveTree = {
     name: 'web.createPage',
@@ -38,6 +38,6 @@ export const config: DirectiveTree = {
 };
 export const impl = async function ({ browserPage }: { browserPage: Browser }) {
     const page = await browserPage.newPage();
-    await setBrowserPage(page);
+    // await setBrowserPage(page);
     return { page };
 };
