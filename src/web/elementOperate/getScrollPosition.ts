@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.getScrollPosition',
     sort: 13,
@@ -104,9 +104,7 @@ export const impl = async function ({
 
         let targetElement = element;
         if (!targetElement && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             targetElement = await browserPage.$(selector) || undefined;
             if (!targetElement) {
                 throw new Error('未找到匹配选择器的元素');

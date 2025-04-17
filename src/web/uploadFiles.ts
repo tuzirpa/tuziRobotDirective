@@ -1,7 +1,7 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 import fs from 'fs/promises';
-
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.uploadFiles',
     icon: 'icon-web-upload',
@@ -119,9 +119,7 @@ export const impl = function ({
                     if (clickElement) {
                         await clickElement.click();
                     } else if (selector) {
-                        if (selector.startsWith('//')) {
-                            selector = `::-p-xpath(${selector})`;
-                        }
+                        selector = toSelector(selector);
                         await browserPage.click(selector);
                     }
                 } catch (error: any) {

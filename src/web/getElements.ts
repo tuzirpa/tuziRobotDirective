@@ -1,5 +1,6 @@
 import { ElementHandle, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.getElements',
     icon: 'icon-web-create',
@@ -65,9 +66,7 @@ export const impl = async function ({
     browserPage: Page;
     selector: string;
 }) {
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    selector = toSelector(selector);
     const elements = await browserPage.$$(selector);
 
     return { elements, elementCount: elements.length };

@@ -143,6 +143,30 @@ export const config: DirectiveTree = {
                 tip: '支持 ip:port 或 username:password@ip:port 格式',
                 isAdvanced: true
             }
+        },
+        windowSize: {
+            name: 'windowSize',
+            value: '',
+            type: 'string',
+            addConfig: {
+                label: '窗口大小',
+                type: 'string',
+                placeholder: '例如: 1920x1080  中间 "x" 为英文x',
+                tip: '设置浏览器窗口大小，格式为"宽x高"，不填则最大化',
+                isAdvanced: true
+            }
+        },
+        customArgs: {
+            name: 'customArgs',
+            value: '',
+            type: 'string',
+            addConfig: {
+                label: '自定义启动参数',
+                type: 'textarea',
+                placeholder: '自定义浏览器启动参数，多个参数用空格分隔',
+                tip: '添加额外的浏览器启动命令行参数，如 --disable-web-security --disable-features=IsolateOrigins',
+                isAdvanced: true
+            }
         }
     },
     outputs: {
@@ -238,7 +262,9 @@ export const impl = async function (
         executablePath,
         userDataDir,
         useOtherApp,
-        proxyServer
+        proxyServer,
+        windowSize,
+        customArgs
     }: {
         webType: string;
         url: string;
@@ -247,9 +273,12 @@ export const impl = async function (
         userDataDir: string;
         useOtherApp: string;
         proxyServer: string;
+        windowSize: string;
+        customArgs: string;
     },
     _block: Block
 ) {
+    return new Promise(async (resolve, reject) => {
     let executablePathA = '';
     console.log(webType, 'webType');
     let wsUrl: string = '';
@@ -270,9 +299,13 @@ export const impl = async function (
         console.log(
             `当前应用之前启动过一个浏览器，wsUrl:${curAppBrowser.wsUrl}，直接复用之前的浏览器`
         );
+        setTimeout(()=>{
+            reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
+        },30000)
         browser = await puppeteer.connect({
             browserWSEndpoint: curAppBrowser.wsUrl,
-            defaultViewport: null
+            defaultViewport: null,
+            protocolTimeout: 600000
         });
     } else if (webType === 'useOtherApp') {
         console.log('复用其他应用创建的浏览器', useOtherApp);
@@ -282,9 +315,13 @@ export const impl = async function (
             throw new Error(`未找到应用${useOtherApp} 的浏览器信息`);
         }
         console.log(`复用其他应用[${browserJson.appName}]创建的浏览器,${browserJson.wsUrl}`);
+        setTimeout(()=>{
+            reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
+        },30000)
         browser = await puppeteer.connect({
             browserWSEndpoint: browserJson.wsUrl,
-            defaultViewport: null
+            defaultViewport: null,
+            protocolTimeout: 600000
         });
     } else {
         const curApp = getCurApp();
@@ -326,13 +363,42 @@ export const impl = async function (
         ops.userDataDir = userDataDir || path.join(curApp.APP_DIR, 'userData');
 
         console.debug('用户目录', userDataDir);
-        const port = await getAvailablePort(11922);
-        console.debug('端口', port);
-
-        const args = ['--start-maximized'];
         
-        // 处理代理设置
-        if (proxyServer) {
+
+        const args = [];
+        
+        // 处理自定义启动参数
+        let customArgsArray: string[] = [];
+        if (customArgs && customArgs.trim()) {
+            customArgsArray = customArgs.trim().split(' ').filter(Boolean);
+            console.debug('检测到自定义启动参数:', customArgsArray);
+        }
+        
+        // 检查用户是否已经设置了特定参数
+        const hasWindowSize = customArgsArray.some(arg => arg.startsWith('--window-size='));
+        const hasMaximized = customArgsArray.some(arg => arg === '--start-maximized');
+        const hasProxyServer = customArgsArray.some(arg => arg.startsWith('--proxy-server='));
+        const hasDebugPort = customArgsArray.some(arg => arg.startsWith('--remote-debugging-port='));
+        if(!hasDebugPort){
+            const port = await getAvailablePort(11922);
+            console.debug('端口', port);
+            customArgsArray.push(`--remote-debugging-port=${port}`);
+        }
+        // 处理窗口大小（如果用户未在自定义参数中指定）
+        if (!hasWindowSize && !hasMaximized) {
+            if (windowSize) {
+                const [width, height] = windowSize.toLowerCase().split('x').map(Number);
+                if (isNaN(width) || isNaN(height)) {
+                    throw new Error('窗口大小格式错误，应为"宽x高"，例如: 1920x1080');
+                }
+                args.push(`--window-size=${width},${height}`);
+            } else {
+                args.push('--start-maximized');
+            }
+        }
+        
+        // 处理代理设置（如果用户未在自定义参数中指定）
+        if (!hasProxyServer && proxyServer) {
             if (proxyServer.includes('@')) {
                 const [auth, host] = proxyServer.split('@');
                 const [username, password] = auth.split(':');
@@ -344,46 +410,25 @@ export const impl = async function (
                 console.debug('添加代理服务器:', proxyServer);
             }
         }
-
+        
+        // 添加所有自定义参数
+        args.push(...customArgsArray);
+        
+    
+        
         let startCmd = `"${
             ops.executablePath
-        }" --no-first-run --remote-debugging-port=${port} --disk-cache-dir="${
+        }" --no-first-run --disk-cache-dir="${
             ops.userDataDir
         }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')}`;
-
+        
         console.debug('启动命令', startCmd);
 
         const startRes = await new Promise<string>((resolve, reject) => {
             const child = exec(startCmd);
-            // 子进程代码
-            /* const closeBack = (data: any) => {
-                if (data.action === 'close') {
-                    sendLog('info', `接收停止消息：${JSON.stringify(data)}`, _block);
-                    child.kill();
-                }
-            };
-            process.on('message', closeBack);
-            process.on('exit', () => {
-                console.log('应用进程退出,关闭浏览器');
-                browser && browser.close();
-                const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
-                let browserJsonObj: any[] = JSON.parse(browserJson);
-                browserJsonObj = browserJsonObj.filter((item) => item.wsUrl !== wsUrl);
-                fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
-                process.off('message', closeBack);
-            }); */
             child.on('error', (err) => {
                 reject(err);
             });
-            // child.on('exit', (code, signal) => {
-            //     sendLog('info', `浏览器进程已退出，退出码：${code}，信号：${signal}`, _block);
-            //     browser && browser.close();
-            //     const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
-            //     let browserJsonObj: any[] = JSON.parse(browserJson);
-            //     browserJsonObj = browserJsonObj.filter((item) => item.wsUrl !== wsUrl);
-            //     fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
-            //     process.off('message', closeBack);
-            // });
             child.stderr?.on('data', (data) => {
                 const err = data.toString();
                 const matchData = data.match(
@@ -406,7 +451,8 @@ export const impl = async function (
         fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
         browser = await puppeteer.connect({
             browserWSEndpoint: wsUrl,
-            defaultViewport: ops.defaultViewport
+            defaultViewport: ops.defaultViewport,
+            protocolTimeout: 600000
         });
 
         // 创建一个临时文件
@@ -461,6 +507,10 @@ export const impl = async function (
             console.error('代理认证设置失败', err);
         })
         console.debug('等待代理认证设置');
+        //打开一个页面，等待代理认证设置
+        page.goto("http://www.baidu.com").catch((err)=>{
+            console.error('默认打开百度触发代理认证窗口', err);
+        })
     }
 
     // await setBrowserPage(page);
@@ -469,5 +519,6 @@ export const impl = async function (
         url.startsWith('http') || (url = 'http://' + url);
         await page.goto(url, { timeout: loadTimeout * 1000 });
     }
-    return { browser, page };
+    resolve({ browser, page });
+});
 };

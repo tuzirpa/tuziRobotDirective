@@ -3,7 +3,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 import fs from 'fs/promises';
 import path from 'path';
 import { getCurApp } from 'tuzirobot/commonUtil';
-
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.pageScreenshotSaveFile',
     icon: 'icon-web-create',
@@ -145,9 +145,7 @@ export const impl = async function ({
                 path: fullPath
             });
         } else if (selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             const targetElement = await browserPage.$(selector);
             if (!targetElement) {
                 throw new Error('未找到匹配选择器的元素');

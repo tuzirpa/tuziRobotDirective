@@ -22,7 +22,8 @@ export const config: DirectiveTree = {
             name: 'script',
             value: '',
             display: '脚本内容',
-            type: 'string',
+            type: 'object',
+            objectMode: 'stringRaw',
             addConfig: {
                 label: '脚本内容',
                 type: 'textarea',

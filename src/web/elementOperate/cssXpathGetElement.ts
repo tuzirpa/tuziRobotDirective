@@ -1,5 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from '../utils';
 
 export const config: DirectiveTree = {
     name: 'web.elementOperate.cssXpathGetElement',
@@ -112,9 +113,7 @@ export const impl = async function ({
         }
 
         // 转换XPath选择器
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
-        }
+        selector = toSelector(selector);
 
         // 获取所有匹配的元素
         const elements = await browserPage.$$(selector);

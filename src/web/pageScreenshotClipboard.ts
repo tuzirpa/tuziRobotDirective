@@ -2,7 +2,7 @@ import { Page, ElementHandle } from 'puppeteer-core';
 import os from 'os';
 import { DirectiveTree } from 'tuzirobot/types';
 import hmc from 'hmc-win32';
-
+import { toSelector } from './utils';
 export const config: DirectiveTree = {
     name: 'web.pageScreenshotClipboard',
     icon: 'icon-web-create',
@@ -74,9 +74,7 @@ export const impl = async function ({
                 path: tmpFile
             });
         } else if (selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             const targetElement = await browserPage.$(selector);
             if (!targetElement) {
                 throw new Error('未找到匹配选择器的元素');

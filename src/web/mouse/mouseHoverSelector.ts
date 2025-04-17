@@ -1,5 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
+import { toSelector } from '../utils';
 
 export const config: DirectiveTree = {
     name: 'web.mouse.mouseHoverSelector',
@@ -60,9 +61,8 @@ export const impl = async function ({
     timeout: number;
 }) {
     let element: ElementHandle<Element> | null = null;
-    if (selector.startsWith('//')) {
-        selector = `::-p-xpath(${selector})`;
-    }
+    
+    selector = toSelector(selector);
     
     try {
         if (!browserPage) {

@@ -74,7 +74,7 @@ export const impl = async function ({ varType, varValue }: { varType: string; va
         try {
             varName = JSON.parse(varValue);
         } catch (error) {
-            throw new Error('json对象格式错误');
+            throw new Error('json对象格式错误: ' + varValue);
         }
     }
     return { varName };

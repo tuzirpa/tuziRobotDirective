@@ -124,8 +124,10 @@ const impl = async function ({
                 }
             }
         });
-        downloadPath = downloadPath || getCurApp().APP_DIR;
-        downloadPath = path.join(downloadPath, 'download');
+        if(!downloadPath){
+            downloadPath = getCurApp().APP_DIR;
+            downloadPath = path.join(downloadPath, 'download');
+        }
         if (!fs.existsSync(downloadPath)) {
             fs.mkdirSync(downloadPath, { recursive: true });
         }

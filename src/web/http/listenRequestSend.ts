@@ -1,10 +1,10 @@
-import { Frame, HTTPResponse, Page, RemoteAddress } from 'puppeteer-core';
+import { Frame, HTTPRequest, HTTPResponse, Page, RemoteAddress } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
-    name: 'web.http.listenRequest',
+    name: 'web.http.listenRequestSend',
     sort: 2,
-    displayName: '开始监听网页请求响应',
+    displayName: '监听网页请求发送',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
@@ -96,31 +96,33 @@ export const config: DirectiveTree = {
     outputs: {
         listenerObj: {
             name: '',
-            display: '网页请求监听对象',
-            type: 'web.listenerObj',
+            display: '网页请求发送监听对象',
+            type: 'web.listenerRequestSend',
             addConfig: {
                 label: '监听对象',
                 type: 'variable',
-                defaultValue: '网页请求监听对象'
+                defaultValue: '网页请求发送监听对象'
             }
         }
     }
 };
 
-export class ResponseData {
-    status: number;
+export class RequestData {
     url: string;
     headers: Record<string, string>;
-    remoteAddress: RemoteAddress;
-    constructor(public response: HTTPResponse) {
-        this.response = response;
-        this.status = response.status();
-        this.url = response.url();
-        this.headers = response.headers();
-        this.remoteAddress = response.remoteAddress();
+    body: string;
+    method: string;
+    resourceType: string;
+    
+    constructor(public request: HTTPRequest) {
+        this.request = request;
+        this.headers = request.headers();
+        this.url = request.url();
+        this.body = request.postData() || '';
+        this.method = request.method();
+        this.resourceType = request.resourceType();
     }
 
-    // buffer
 }
 
 export const impl = async function ({
@@ -134,34 +136,34 @@ export const impl = async function ({
     method: string;
     filterType: string;
 }) {
-    let resolve: (arg0: ResponseData[]) => void, reject;
-    let responses: ResponseData[] = [];
-    const responsePromise = new Promise<ResponseData[]>((resolve1, reject1) => {
+    let resolve: (arg0: RequestData[]) => void, reject;
+    let requests: RequestData[] = [];
+    const requestPromise = new Promise<RequestData[]>((resolve1, reject1) => {
         resolve = resolve1;
         reject = reject1;
     });
-    const responseListener = async (response: HTTPResponse) => {
+    const requestListener = async (request: HTTPRequest) => {
         const filterTypes = filterType.split(',');
         if (
             (filterType === '1' ||
-                filterTypes.includes(response.request().resourceType().toLocaleLowerCase())) &&
-            response.url().includes(url) &&
+                filterTypes.includes(request.resourceType().toLocaleLowerCase())) &&
+            request.url().includes(url) &&
             (method === 'ALL' ||
-                response.request().method().toLocaleLowerCase() === method.toLocaleLowerCase())
+                request.method().toLocaleLowerCase() === method.toLocaleLowerCase())
         ) {
             // resolve(response);
-            console.log('监听到请求', response.url());
-            responses.push(new ResponseData(response));
+            console.debug('监听到发送请求', request.url());
+            requests.push(new RequestData(request));
         }
     };
 
-    browserPage.on('response', responseListener);
+    browserPage.on('request', requestListener);
     return {
         listenerObj: {
-            responseListener,
-            responsePromise,
+            requestListener,
+            requestPromise,
             resolve: () => {
-                resolve(responses);
+                resolve(requests);
             }
         }
     };

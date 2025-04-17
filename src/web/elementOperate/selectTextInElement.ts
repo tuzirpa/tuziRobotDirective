@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.selectTextInElement',
     sort: 10,
@@ -93,9 +93,7 @@ export const impl = async function ({
 
         // 如果没有传入元素对象，尝试通过选择器查找
         if (!el && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             const foundElement = await browserPage.$(selector);
             if (!foundElement) {
                 throw new Error('未找到指定元素');

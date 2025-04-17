@@ -15,13 +15,13 @@ exports.config = {
     inputs: {
         startIndex: {
             name: '开始数值',
-            value: '1',
+            value: '',
             type: 'string',
             addConfig: {
                 required: true,
                 type: 'string',
                 label: '开始数值',
-                defaultValue: 0
+                defaultValue: '0'
             }
         },
         endIndex: {
@@ -42,7 +42,7 @@ exports.config = {
                 required: true,
                 type: 'string',
                 label: '增长值（步长）',
-                defaultValue: 1
+                defaultValue: '1'
             }
         }
     },

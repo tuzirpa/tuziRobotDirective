@@ -1,10 +1,10 @@
 import { Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.startWaitElement',
     sort: 18,
-    displayName: '创建等待元素出现后消失任务(异步)',
+    displayName: '等待元素出现后消失任务(异步)',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
@@ -36,16 +36,29 @@ export const config: DirectiveTree = {
                 elementLibrarySupport: true,
                 tip: '支持CSS或XPath选择器'
             }
+        },
+        timeout: {
+            name: 'timeout',
+            value: '30',
+            type: 'number',
+            addConfig: {
+                isAdvanced: true,
+                label: '等待出现的超时时间(秒)',
+                type: 'string',
+                defaultValue: '30',
+                tip: '等待超时时间'
+            }
         }
     },
     outputs: {
-        waitPromise: {
-            name: 'waitPromise',
+        waitForElement: {
+            name: 'waitForElement',
             type: 'web.elementOperate.waitForElement',
-            display: '等待Promise',
+            display: '等待元素出现后消失的对象',
             addConfig: {
                 label: '等待Promise',
-                type: 'variable'
+                type: 'variable',
+                tip: '等待元素出现后消失的对象'
             }
         }
     }
@@ -66,19 +79,15 @@ export const impl = async function ({
         if (!selector) {
             throw new Error('元素选择器不能为空');
         }
-
-        // 转换XPath选择器
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
-        }
+        selector = toSelector(selector);
         console.debug('开始等待元素', selector);
         // 创建等待Promise
         const waitPromise = browserPage.waitForSelector(selector, {
-            visible: true
+            visible: true,
+            timeout: 30000
         });
 
-        console.log('开始等待元素出现...');
-        return { waitPromise };
+        return { waitForElement: {waitPromise ,selector}};
 
     } catch (error) {
         console.error('创建等待Promise失败:', error);

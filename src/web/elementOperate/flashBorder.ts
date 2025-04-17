@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.flashBorder',
     sort: 7,
@@ -109,9 +109,7 @@ export const impl = async function ({
         // 如果没有传入元素对象，则尝试使用选择器查找元素
         if (!el && selector) {
             // 转换XPath选择器
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
 
             // 尝试使用 CSS 选择器查找元素
             el = await browserPage.$(selector); // 使用 Puppeteer 的 $ 方法

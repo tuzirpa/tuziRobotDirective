@@ -1,6 +1,6 @@
 import { Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.waitForElement',
     sort: 17,
@@ -8,7 +8,7 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '在页面${browserPage}中等待${selector}元素${existence === "notExists" ? "消失" : "出现"}',
+    comment: '在页面${browserPage}中等待${selector}元素${existence == "出现" ? "出现" : "消失"},超时${timeout}秒',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -40,7 +40,7 @@ export const config: DirectiveTree = {
         existence: {
             name: 'existence',
             value: 'exists',
-            display: '',
+            display: '出现',
             type: 'string',
             addConfig: {
                 label: '等待条件',
@@ -61,6 +61,7 @@ export const config: DirectiveTree = {
                 isAdvanced: true,
                 label: '超时时间(秒)',
                 type: 'string',
+                placeholder: '请输入时长 单次最大600秒，如需更久请重新添加一条指令',
                 defaultValue: '30',
                 tip: '等待超时时间'
             }
@@ -73,13 +74,11 @@ export const impl = async function ({
     browserPage,
     selector,
     existence = 'exists',
-    inViewport = false,
     timeout = 30
 }: {
     browserPage: Page | Frame;
     selector: string;
     existence: 'exists' | 'notExists';
-    inViewport?: boolean;
     timeout?: number;
 }) {
     try {
@@ -92,9 +91,7 @@ export const impl = async function ({
         }
 
         // 转换XPath选择器
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
-        }
+        selector = toSelector(selector);
 
         if (existence === 'exists') {
             // 等待元素出现

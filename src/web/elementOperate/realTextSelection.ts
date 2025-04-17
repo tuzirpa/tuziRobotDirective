@@ -1,6 +1,6 @@
 import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
-
+import { toSelector } from '../utils';
 export const config: DirectiveTree = {
     name: 'web.elementOperate.realTextSelection',
     sort: 9,
@@ -120,9 +120,7 @@ export const impl = async function ({
 
         // 元素查找逻辑
         if (!el && selector) {
-            if (selector.startsWith('//')) {
-                selector = `::-p-xpath(${selector})`;
-            }
+            selector = toSelector(selector);
             el = await browserPage.$(selector);
         }
 
