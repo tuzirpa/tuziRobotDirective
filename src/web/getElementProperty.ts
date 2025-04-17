@@ -8,7 +8,7 @@ export const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '获取元素${selector}的属性${propertyName}的值, 并将其赋值给变量${propertyValue}',
+    comment: '获取元素${element}的属性${propertyName}的值, 并将其赋值给变量${propertyValue}',
     inputs: {
         element: {
             name: 'element',

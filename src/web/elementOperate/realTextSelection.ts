@@ -8,7 +8,7 @@ export const config: DirectiveTree = {
     icon: 'icon-text-select-real',
     isControl: false,
     isControlEnd: false,
-    comment: '在元素${element}上创建真实的文本选中状态',
+    comment: '在页面${browserPage}中，在元素${elementHandle}或${selector},选中${selectionType === "all" ? "全部" : "起始偏移量为 " + startOffset + " ,结束偏移量为 " + endOffset } 范围的文本内容，保存到变量${selectedText}中。',
     inputs: {
         browserPage: {
             name: 'browserPage',

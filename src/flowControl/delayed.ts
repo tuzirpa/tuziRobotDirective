@@ -25,7 +25,7 @@ export const config: DirectiveTree = {
 };
 
 export const impl = async function ({ loadTimeout }: { loadTimeout: number }) {
-	console.log(`延时等待${loadTimeout}秒`);
+	console.debug(`延时等待${loadTimeout}秒`);
 	await new Promise((resolve) => {
 		setTimeout(() => {
 			resolve(null);

@@ -1,15 +1,14 @@
-import { Frame, Page } from 'puppeteer-core';
+import { ElementHandle, Frame, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
-    name: 'web.cssGetElementProperty',
-    sort: 2,
-    displayName: 'CSS获取元素属性值',
+    name: 'web.elementOperate.setElementProperty',
+    sort: 15,
+    displayName: '设置元素属性',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment:
-        '在${browserPage}页面中，通过CSS选择器${selector},超时时间${timeout}秒, 获取元素属性${property},并保存到变量${propertyValue}',
+    comment: '设置${element ? "元素" : "匹配选择器" + selector + "的元素"}的${property}属性为${value}',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -17,10 +16,24 @@ export const config: DirectiveTree = {
             display: '',
             type: 'variable',
             addConfig: {
+                required: true,
                 label: '网页对象',
                 type: 'variable',
                 filtersType: 'web.page',
                 autoComplete: true
+            }
+        },
+        element: {
+            name: 'element',
+            value: '',
+            display: '',
+            type: 'variable',
+            addConfig: {
+                label: '元素对象',
+                type: 'variable',
+                filtersType: 'web.Element',
+                autoComplete: true,
+                tip: '要设置属性的元素对象'
             }
         },
         selector: {
@@ -29,11 +42,11 @@ export const config: DirectiveTree = {
             display: '',
             type: 'string',
             addConfig: {
-                required: true,
                 label: '元素选择器',
-                placeholder: '支持 CSS 例:#id .class 或 xpath 例://div[text()="hello"]',
+                placeholder: '请输入CSS或XPath选择器',
+                type: 'string',
                 elementLibrarySupport: true,
-                type: 'textarea'
+                tip: '支持CSS或XPath选择器'
             }
         },
         property: {
@@ -43,28 +56,16 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 required: true,
-                label: '选择获取的属性',
+                label: '选择设置的属性',
                 type: 'select',
                 options: [
                     {
-                        label: '文本内容-不保留换行',
+                        label: '文本内容',
                         value: 'textContent'
                     },
                     {
-                        label: '文本内容-保留换行',
-                        value: 'innerText'
-                    },
-                    {
-                        label: 'html内容',
+                        label: 'HTML内容',
                         value: 'innerHTML'
-                    },
-                    {
-                        label: 'src属性',
-                        value: 'src'
-                    },
-                    {
-                        label: 'href属性',
-                        value: 'href'
                     },
                     {
                         label: 'value属性',
@@ -87,20 +88,19 @@ export const config: DirectiveTree = {
                         value: 'title'
                     },
                     {
-                        label: 'alt属性',
-                        value: 'alt'
+                        label: 'src属性',
+                        value: 'src'
                     },
                     {
-                        label: 'type属性',
-                        value: 'type'
+                        label: 'href属性',
+                        value: 'href'
                     },
                     {
                         label: '自定义属性',
                         value: 'custom'
                     }
                 ],
-                defaultValue: 'textContent',
-                tip: '获取的属性的值'
+                defaultValue: 'textContent'
             }
         },
         customProperty: {
@@ -112,76 +112,73 @@ export const config: DirectiveTree = {
                 required: false,
                 filters: 'this.inputs.property.value === "custom"',
                 label: '自定义属性名',
-                type: 'textarea',
-                placeholder: '请输入自定义属性名',
-                tip: '获取的自定义属性的值'
+                type: 'string',
+                placeholder: '请输入自定义属性名'
             }
         },
-        timeout: {
-            name: 'timeout',
+        value: {
+            name: 'value',
             value: '',
-            type: 'number',
+            type: 'string',
             addConfig: {
-                isAdvanced: true,
-                label: '超时时间',
-                type: 'string',
-                defaultValue: 30
+                required: true,
+                label: '属性值',
+                type: 'textarea',
+                placeholder: '请输入要设置的属性值'
             }
         }
     },
-
-    outputs: {
-        propertyValue: {
-            name: 'propertyValue',
-            display: '元素属性值',
-            type: 'string',
-            addConfig: {
-                label: '元素属性值',
-                type: 'variable',
-                defaultValue: ''
-            }
-        }
-    }
+    outputs: {}
 };
 
-export const impl = async function ({
+export const impl = async function ({ 
     browserPage,
+    element,
     selector,
     property,
     customProperty,
-    timeout
-}: {
-    browserPage: Page;
-    selector: string;
+    value
+}: { 
+    browserPage: Page | Frame;
+    element?: ElementHandle;
+    selector?: string;
     property: string;
-    customProperty: string;
-    timeout: number;
+    customProperty?: string;
+    value: string;
 }) {
-    
     try {
         if (!browserPage) {
             throw new Error('浏览器页面对象不能为空');
         }
-        if (selector.startsWith('//')) {
-            selector = `::-p-xpath(${selector})`;
+        if (!element && !selector) {
+            throw new Error('元素对象和选择器至少需要提供一个');
         }
-        const webElement = await browserPage.waitForSelector(selector, {
-            timeout: timeout * 1000
-        });
 
-        if (webElement) {
-            if (property === 'custom') {
-                property = customProperty;
+        let targetElement = element;
+        if (!targetElement && selector) {
+            if (selector.startsWith('//')) {
+                selector = `::-p-xpath(${selector})`;
             }
-            
-            const propertyValue = await webElement.getProperty(property);
-            return {
-                propertyValue: await propertyValue.jsonValue()
-            };
+            targetElement = await browserPage.$(selector) || undefined;
+            if (!targetElement) {
+                throw new Error('未找到匹配选择器的元素');
+            }
         }
 
-        return { propertyValue: '' };
+        const actualProperty = property === 'custom' ? (customProperty || property) : property;
+
+        await browserPage.evaluate((el, prop, val) => {
+            if (el) {
+                if (prop === 'textContent' || prop === 'innerHTML' || prop === 'value') {
+                    (el as any)[prop] = val;
+                } else {
+                    el.setAttribute(prop, val);
+                }
+            }
+        }, targetElement, actualProperty, value);
+
     } catch (error) {
+        console.error('设置元素属性失败:', error);
         throw error;
     }
-};
+}; 

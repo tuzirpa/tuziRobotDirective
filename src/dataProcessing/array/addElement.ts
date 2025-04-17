@@ -3,12 +3,12 @@ import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.addElement",
   displayName: "添加数组元素",
-  comment: "数组对象${array}中，在数组末尾添加元素${value}",
+  comment: "在数组对象${array}末尾添加元素${value}",
   inputs: {
     array: {
       name: "array",
       value: "",
-      display: "数组对象",
+      display: "",
       type: "variable",
       addConfig: {
         label: "数组对象",
@@ -22,7 +22,7 @@ export const config: DirectiveTree = {
     value: {
       name: "value",
       value: "",
-      display: "数组元素值",
+      display: "",
       type: "object",
       addConfig: {
         label: "数组元素值",

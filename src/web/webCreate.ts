@@ -131,6 +131,18 @@ export const config: DirectiveTree = {
                 openDirectory: true,
                 tip: '默认在使用当前应用的目录下创建userData目录，可自定义'
             }
+        },
+        proxyServer: {
+            name: 'proxyServer',
+            value: '',
+            type: 'string',
+            addConfig: {
+                label: '代理服务器',
+                type: 'string',
+                placeholder: '例如: 127.0.0.1:8080 或 user:pass@127.0.0.1:8080',
+                tip: '支持 ip:port 或 username:password@ip:port 格式',
+                isAdvanced: true
+            }
         }
     },
     outputs: {
@@ -225,7 +237,8 @@ export const impl = async function (
         loadTimeout,
         executablePath,
         userDataDir,
-        useOtherApp
+        useOtherApp,
+        proxyServer
     }: {
         webType: string;
         url: string;
@@ -233,6 +246,7 @@ export const impl = async function (
         loadTimeout: number;
         userDataDir: string;
         useOtherApp: string;
+        proxyServer: string;
     },
     _block: Block
 ) {
@@ -241,6 +255,7 @@ export const impl = async function (
     let wsUrl: string = '';
     const tuziAppInfo = getTuziAppInfo();
     let browser: Browser;
+    let proxyAuth: { username: string; password: string } | undefined;
 
     const browserJsonPath = path.join(tuziAppInfo.USER_DIR, 'browser.json');
     if (!fs.existsSync(browserJsonPath)) {
@@ -315,7 +330,22 @@ export const impl = async function (
         console.debug('端口', port);
 
         const args = ['--start-maximized'];
-        const startCmd = `"${
+        
+        // 处理代理设置
+        if (proxyServer) {
+            if (proxyServer.includes('@')) {
+                const [auth, host] = proxyServer.split('@');
+                const [username, password] = auth.split(':');
+                proxyAuth = { username, password };
+                args.push(`--proxy-server=${host}`);
+                console.debug('添加代理服务器:', host);
+            } else {
+                args.push(`--proxy-server=${proxyServer}`);
+                console.debug('添加代理服务器:', proxyServer);
+            }
+        }
+
+        let startCmd = `"${
             ops.executablePath
         }" --no-first-run --remote-debugging-port=${port} --disk-cache-dir="${
             ops.userDataDir
@@ -422,6 +452,17 @@ export const impl = async function (
     const pages = await browser.pages();
     console.log('标签页数量', pages.length);
     const page = pages[pages.length - 1];
+    
+    // 如果有代理认证信息，设置认证
+    if (proxyAuth) {
+        page.authenticate(proxyAuth).then(()=>{
+            console.debug('代理认证设置成功');
+        }).catch((err)=>{
+            console.error('代理认证设置失败', err);
+        })
+        console.debug('等待代理认证设置');
+    }
+
     // await setBrowserPage(page);
     if (url) {
         console.log('打开地址', url);

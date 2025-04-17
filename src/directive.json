@@ -290,6 +290,11 @@
                 "url": ""
             },
             {
+                "remark": "页面中元素截图至剪贴板",
+                "localFile": "./web/pageScreenshotClipboard.js",
+                "url": ""
+            },
+            {
                 "remark": "上传文件",
                 "localFile": "./web/updateFile.js",
                 "url": ""
@@ -326,6 +331,11 @@
                     {
                         "remark": "在元素上创建覆盖蒙版",
                         "localFile": "./web/elementOperate/overlayElement.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "滚动元素(元素要有滚动条)",
+                        "localFile": "./web/elementOperate/scrollElement.js",
                         "url": ""
                     },
                     {
@@ -447,6 +457,21 @@
                     {
                         "remark": "批量移除元素",
                         "localFile": "./web/elementOperate/removeElements.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取滚动条位置",
+                        "localFile": "./web/elementOperate/getScrollPosition.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "设置元素属性",
+                        "localFile": "./web/elementOperate/setElementProperty.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "保存图片节点到本地",
+                        "localFile": "./web/elementOperate/saveImageElement.js",
                         "url": ""
                     }
                 ]
@@ -638,6 +663,16 @@
                     {
                         "remark": "滚动页面到底部",
                         "localFile": "./web/pageScroll.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "刷新页面",
+                        "localFile": "./web/pages/refreshPage.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "等待页面加载完成",
+                        "localFile": "./web/pages/waitForLoad.js",
                         "url": ""
                     }
                 ]
@@ -952,6 +987,22 @@
             {
                 "remark": "时间格式化",
                 "localFile": "./time/formatTime.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "通知提醒",
+        "icon": "icon-notification",
+        "children": [
+            {
+                "remark": "发送企业微信机器人消息",
+                "localFile": "./notification/sendWeChatBotMessage.js",
+                "url": ""
+            },
+            {
+                "remark": "发送钉钉机器人消息", 
+                "localFile": "./notification/sendDingTalkBotMessage.js",
                 "url": ""
             }
         ]

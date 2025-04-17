@@ -5,7 +5,7 @@ export const config: DirectiveTree = {
     name: 'web.getPage',
     icon: 'icon-web-create',
     displayName: '获取已打开标签页',
-    comment: '在页面${browserPage}中获取匹配（根据${matchType}）的标签页，保存到变量${page}中',
+    comment: '在页面${browserPage}中获取匹配的标签页，匹配条件为：${matchType}地址为${url},索引为${index},标题为${title}，保存到变量${page}中。',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -55,7 +55,7 @@ export const config: DirectiveTree = {
             addConfig: {
                 label: '标题',
                 type: 'textarea',
-                defaultValue: '页面标题',
+                defaultValue: '',
                 filters: "this.inputs.matchType.value === 'title'",
                 tip: '页面标题'
             }
@@ -68,7 +68,7 @@ export const config: DirectiveTree = {
             addConfig: {
                 label: '索引',
                 type: 'string',
-                defaultValue: 0,
+                defaultValue: '0',
                 filters: "this.inputs.matchType.value === 'index'",
                 tip: '标签页索引'
             }

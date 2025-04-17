@@ -3,6 +3,7 @@ const { typeToCode } = require('tuzirobot/commonUtil');
 
 exports.config = {
     name: 'flowControl.while',
+    appendDirectiveNames: ['flowControl.for.end'],
     key: 'flowControl.whileTest',
     displayName: 'while 循环',
     icon: 'icon-web-create',

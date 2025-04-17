@@ -2,6 +2,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
+import { getCurApp } from 'tuzirobot/commonUtil';
 
 const config: DirectiveTree = {
     name: 'network.downloadFile',
@@ -10,7 +11,7 @@ const config: DirectiveTree = {
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,
-    comment: '文件${url} 下载到 ${downloadPath}/${fileName}',
+    comment: '文件${url} 下载到 ${downloadPath? downloadPath : "应用目录/download"}/${fileName ? fileName : "按URL文件名"}',
     inputs: {
         url: {
             name: 'url',
@@ -51,9 +52,9 @@ const config: DirectiveTree = {
                 label: '下载目录',
                 type: 'filePath',
                 defaultValue: '',
+                placeholder: '请选择下载目录, 留空则使用当前工作目录',
                 openDirectory: true,
-                tip: '下载保存路径',
-                required: true
+                tip: '下载保存路径'
             }
         },
 
@@ -123,7 +124,8 @@ const impl = async function ({
                 }
             }
         });
-
+        downloadPath = downloadPath || getCurApp().APP_DIR;
+        downloadPath = path.join(downloadPath, 'download');
         if (!fs.existsSync(downloadPath)) {
             fs.mkdirSync(downloadPath, { recursive: true });
         }
