@@ -14,7 +14,7 @@ export const config: DirectiveTree = {
             type: 'string',
             addConfig: {
                 label: 'Json文本',
-                type: 'string',
+                type: 'textarea',
                 placeholder: '请输入json文本 例如：{"name": "tuzi", "age": 18}',
                 defaultValue: '',
                 tip: ''

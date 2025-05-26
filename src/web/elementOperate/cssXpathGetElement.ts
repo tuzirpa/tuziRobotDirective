@@ -49,6 +49,7 @@ export const config: DirectiveTree = {
                     { label: '宽度 过滤值：(数字)', value: 'width' },
                     { label: '高度 过滤值：(数字)', value: 'height' },
                     { label: '可见性 过滤值：(可见/不可见)', value: 'visibility' },
+                    { label: '在屏幕中（完全在屏幕中）并可见 过滤值：(是/否)', value: 'isOnScreen' },
                     { label: '透明度 过滤值：(0-1)', value: 'opacity' },
                     { label: '背景颜色 过滤值：(颜色值)', value: 'backgroundColor' },
                     { label: '文本颜色 过滤值：(颜色值)', value: 'color' },
@@ -148,6 +149,30 @@ export const impl = async function ({
                     matchCondition = style === filterValue;
                     break;
                 }
+                case 'isOnScreen': {
+                    const boundingBox = await element.boundingBox();
+                    
+                    if (boundingBox) {
+                        const viewport = await browserPage.evaluate(() => {
+                            return {
+                                width: window.innerWidth,
+                                height: window.innerHeight
+                            };
+                        });
+                        console.log('viewport',viewport);
+                        let isOnScreen = boundingBox.width > 0 && boundingBox.height > 0;
+                        isOnScreen = isOnScreen && boundingBox.y >= 0 && boundingBox.y + boundingBox.height <= viewport.height 
+                        && boundingBox.x >= 0 && boundingBox.x + boundingBox.width <= viewport.width;
+                        console.log('isOnScreen',isOnScreen);
+                        const isVisible = await element.isVisible();
+                        console.log('isVisible',isVisible);
+                        console.log('filterValue',filterValue);
+                        matchCondition = (filterValue === '是' && isOnScreen && isVisible) || 
+                                        (filterValue === '否' && (!isOnScreen || !isVisible));
+                        console.log('matchCondition',matchCondition);
+                    }
+                    break;
+                }
                 case 'cssProperty': {
                     if (!cssPropertyName) {
                         throw new Error('使用CSS属性值过滤时，必须提供CSS属性名称');
@@ -161,6 +186,7 @@ export const impl = async function ({
             }
 
             if (matchCondition) {
+                console.log('找到符合条件的元素:', element);
                 return { element };
             }
         }

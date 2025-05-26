@@ -146,8 +146,11 @@ export const impl = async function ({
             statusCode: response.status
         };
     } catch (error) {
+        //需要获取到错误信息
         if (axios.isAxiosError(error)) {
-            throw new Error(`HTTP请求失败: ${error.message}${error.response ? `, 状态码: ${error.response.status}` : ''}`);
+            const responseData = error.response?.data;
+            
+            throw new Error(`HTTP请求失败: ${error.message}${error.response ? `, 状态码: ${error.response.status}` : ''}, 错误信息: ${JSON.stringify(responseData)}`);
         }
         throw error;
     }

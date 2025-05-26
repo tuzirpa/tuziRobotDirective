@@ -130,6 +130,6 @@ export const impl = async function ({
 }) {
     let start = startPos === '-1' ? startIndex : startPos === '-2' ? text.indexOf(startText) : 0;
     let end = interceptWay === 'end' ? text.length - 1 : start + interceptLength;
-    let subText = text.substring(start, end + 1);
+    let subText = text.substring(start, end);
     return { subText };
 };
