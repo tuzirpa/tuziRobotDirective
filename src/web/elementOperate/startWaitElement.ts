@@ -66,10 +66,12 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({
     browserPage,
-    selector
+    selector,
+    timeout
 }: {
     browserPage: Page | Frame;
     selector: string;
+    timeout: number;
 }) {
     try {
         if (!browserPage) {
@@ -84,7 +86,7 @@ export const impl = async function ({
         // 创建等待Promise
         const waitPromise = browserPage.waitForSelector(selector, {
             visible: true,
-            timeout: 30000
+            timeout: timeout * 1000
         });
 
         return { waitForElement: {waitPromise ,selector}};
