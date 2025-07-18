@@ -22,7 +22,7 @@ export const config: DirectiveTree = {
             name: 'splitter',
             value: '',
             display: '',
-            type: 'string',
+            type: 'object',
             addConfig: {
                 label: '分割符',
                 placeholder: '分割符,如: , ; 也可为空，如果为空 则使用空字符串分割',

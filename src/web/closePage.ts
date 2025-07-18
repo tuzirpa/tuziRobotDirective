@@ -39,6 +39,16 @@ export const config: DirectiveTree = {
 };
 
 export const impl = async function ({ browserPage }: { browserPage: Page }) {
-    await browserPage.close();
-    console.log('Browser Page closed');
+    try {
+        const isClose = browserPage.isClosed();
+        if(isClose){
+            console.debug('页面已关闭');
+            return;   
+        }
+        await browserPage.close();
+        console.debug('Browser Page closed');
+    } catch (error) {
+        console.error('关闭标签失败');
+        throw error;
+    }
 };

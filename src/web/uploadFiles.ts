@@ -6,7 +6,7 @@ export const config: DirectiveTree = {
     name: 'web.uploadFiles',
     icon: 'icon-web-upload',
     displayName: '上传多个文件',
-    comment: '在页面${browserPage}中${clickElement ? "点击元素触发" : "点击选择器" + selector + "触发"}上传${filePaths.length}个文件',
+    comment: '在页面${browserPage}中${clickElement ? "点击元素触发" : "点击选择器" + selector + "触发"}上传多文件',
     inputs: {
         browserPage: {
             name: 'browserPage',

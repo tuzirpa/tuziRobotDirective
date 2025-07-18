@@ -5,6 +5,7 @@ export const config: DirectiveTree = {
     name: 'web.setOneTimerTask',
     icon: 'icon-web-create',
     isControl: true,
+    appendDirectiveNames: ['web.setOneTimerTaskEnd'],
     displayName: '定时任务',
     comment: '设置定时任务，在${time}秒后执行,并将任务保存到变量${timerTask}中',
     inputs: {

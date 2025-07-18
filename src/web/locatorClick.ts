@@ -60,9 +60,14 @@ const impl = async function ({
     timeout: number;
 }) {
     selector = toSelector(selector);
-    await page.locator(selector)
-        .setTimeout(timeout * 1000)
-        .click();
+    try {
+        await page.locator(selector)
+            .setTimeout(timeout * 1000)
+            .click();
+    } catch (error) {
+        console.error('定位器点击失败, selector:', selector);
+        throw error;
+    }
 };
 
 export { config, impl };
