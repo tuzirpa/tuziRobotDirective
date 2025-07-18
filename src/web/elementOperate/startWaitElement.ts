@@ -88,6 +88,10 @@ export const impl = async function ({
             visible: true,
             timeout: timeout * 1000
         });
+        waitPromise.catch((error) => {
+            console.error('等待元素出现失败:', error);
+            return Promise.reject(error);
+        });
 
         return { waitForElement: {waitPromise ,selector}};
 

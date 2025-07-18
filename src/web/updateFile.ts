@@ -5,7 +5,7 @@ export const config: DirectiveTree = {
     name: 'web.updateFile',
     icon: 'icon-web-create',
     displayName: '上传文件',
-    comment: '将页面${browserPage} 中选择元素${selector}，并上传文件${filePath}。',
+    comment: '将页面${browserPage} 中选择元素${selector}，并上传文件${filePath}。当前指令或切换激活到${browserPage}标签页',
     inputs: {
         browserPage: {
             name: 'browserPage',
@@ -77,40 +77,57 @@ export const config: DirectiveTree = {
     outputs: {}
 };
 
-export const impl = async function ({
+export const impl = function ({
     browserPage,
     selector,
     filePath,
+    timeout,
     clickElement
 }: {
     browserPage: Page;
     selector: string;
     filePath: string;
     timeout: number;
-    clickElement: ElementHandle;
+    clickElement?: ElementHandle;
 }) {
-    
-    // 触发文件上传操作，这里假设是点击一个按钮来触发
-    setTimeout(() => {
-        if(clickElement) {
-            clickElement.click();
-            return;
+
+    return new Promise<void>(async (resolve, reject)=>{
+        // 触发文件上传操作，这里假设是点击一个按钮来触发
+        try{
+            timeout = timeout * 1000;
+            if(!clickElement) {
+                selector = toSelector(selector);
+                clickElement = await browserPage.$(selector) || undefined;
+                if(!clickElement){
+                    reject("上传文件点击元素不存在，selector：" + selector);
+                    return;
+                }
+            }
+            setTimeout(async ()=>{
+                try{
+                    await browserPage.bringToFront();
+                    await clickElement!.click();
+                    console.log("上传文件点击元素");
+                }catch(e: any){
+                    reject(e);
+                }
+            },0);
+            // 等待文件选择对话框出现
+            const fileChooser = await browserPage.waitForFileChooser({timeout});
+            await fileChooser.accept([filePath]); // 替换为实际文件的路径
+            resolve();
+        }catch(e: any){
+            reject(e);
+        }finally{
+            //@ts-ignore
+            browserPage._client().send('Page.setInterceptFileChooserDialog', {
+                enabled: false
+            });
+            console.log("上传文件finally：")
         }
-        selector = toSelector(selector);
-        browserPage.click(selector); // 替换为实际触发上传的按钮选择器
+
+    })
     
-    }, 0);
-
-    // 等待文件选择对话框出现
-    const fileChooser = await browserPage.waitForFileChooser();
-
-    // 选择本地文件，这里假设文件名为 example.txt，位于当前工作目录下
-    await fileChooser.accept([filePath]); // 替换为实际文件的路径
-
-    //@ts-ignore
-    browserPage._client().send('Page.setInterceptFileChooserDialog', {
-        enabled: false
-    });
     /* const fileElement = (await browserPage.waitForSelector(selector, {
 		timeout: timeout * 1000,
 	})) as ElementHandle<HTMLInputElement>;

@@ -60,34 +60,14 @@ const impl = async function ({
     selector: string;
     timeout: number;
 }) {
-    let webElement: ElementHandle<Element> | null;
     selector = toSelector(selector);
     try {
-        if (!browserPage) {
-            throw new Error('浏览器页面对象不能为空');
-        }
-        webElement = await browserPage.waitForSelector(selector, {
-            timeout: timeout * 1000
-        });
+        await browserPage.locator(selector)
+            .setTimeout(timeout * 1000)
+            .click();
     } catch (error) {
-        console.log(error);
-        throw new Error(`超时${timeout}秒，未找到元素：${selector}`);
-    }
-    if (webElement) {
-        async function tap(c = 5) {
-            try {
-                await webElement?.tap();
-            } catch (error) {
-                if (c > 0) {
-                    await tap(c - 1);
-                    return;
-                }
-                await new Promise((resolve) => setTimeout(resolve, 0.3));
-            }
-        }
-        await tap();
-    } else {
-        throw new Error(`未找到元素：${selector}`);
+        console.error('CSS或XPATH点击元素失败, selector:', selector);
+        throw error;
     }
 };
 

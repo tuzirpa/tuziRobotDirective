@@ -102,6 +102,11 @@
                         "url": ""
                     },
                     {
+                        "remark": "取数组项位置",
+                        "localFile": "./dataProcessing/array/getArrayIndex.js",
+                        "url": ""
+                    },
+                    {
                         "remark": "循环数组",
                         "localFile": "./dataProcessing/array/forArray.js",
                         "url": ""
@@ -211,6 +216,11 @@
             {
                 "remark": "异常处理",
                 "localFile": "./flowControl/catch.js",
+                "url": ""
+            },
+            {
+                "remark": "抛出异常",
+                "localFile": "./flowControl/throw.js",
                 "url": ""
             },
             {
@@ -996,6 +1006,37 @@
             {
                 "remark": "清理定时任务",
                 "localFile": "./timer/clearTimerTask.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "任务调度组",
+        "icon": "icon-scheduler",
+        "children": [
+            {
+                "remark": "创建任务",
+                "localFile": "./scheduler/createTask.js",
+                "url": ""
+            },
+            {
+                "remark": "创建任务结束标记",
+                "localFile": "./scheduler/createTaskEnd.js",
+                "url": ""
+            },
+            {
+                "remark": "调度任务",
+                "localFile": "./scheduler/schedule.js",
+                "url": ""
+            },
+            {
+                "remark": "获取任务状态",
+                "localFile": "./scheduler/getTaskStatus.js",
+                "url": ""
+            },
+            {
+                "remark": "停止任务",
+                "localFile": "./scheduler/stopTask.js",
                 "url": ""
             }
         ]

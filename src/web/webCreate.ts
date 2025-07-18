@@ -6,6 +6,7 @@ import puppeteer, { Browser } from 'puppeteer-core';
 import { getCurApp, getTuziAppInfo } from 'tuzirobot/commonUtil';
 import { Block, DirectiveTree } from 'tuzirobot/types';
 import { getAvailablePort } from './utils/portUtils';
+import { md5 } from '../utils/md5';
 
 // import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
@@ -294,10 +295,26 @@ export const impl = async function (
     const browserJsonObj: any[] = JSON.parse(browserJson);
 
     const curApp = getCurApp();
-    const curAppBrowser = browserJsonObj.find((item) => item.appId === curApp.APP_ID);
+
+     //设备信息整合
+     const ops: any = {
+        headless: false,
+        defaultViewport: null,
+        ignoreDefaultArgs: ['--enable-automation'],
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    };
+
+
+    ops.userDataDir = userDataDir || path.join(curApp.APP_DIR, 'userData');
+    if(ops.userDataDir.includes('\\')){
+        ops.userDataDir = ops.userDataDir.replace(/\\/g, '/');
+    }
+    console.debug('用户目录', ops.userDataDir);
+
+    const curAppBrowser = browserJsonObj.find((item) => item.appId === curApp.APP_ID && item.userDataDir === ops.userDataDir);
     if (curAppBrowser) {
         console.log(
-            `当前应用之前启动过一个浏览器，wsUrl:${curAppBrowser.wsUrl}，直接复用之前的浏览器`
+            `当前应用之前启动过一个浏览器 用户目录 ${curAppBrowser.userDataDir}，wsUrl:${curAppBrowser.wsUrl}，直接复用之前的浏览器`
         );
         setTimeout(()=>{
             reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
@@ -350,21 +367,10 @@ export const impl = async function (
             }
         }
 
-        //设备信息整合
-        const ops: any = {
-            headless: false,
-            defaultViewport: null,
-            ignoreDefaultArgs: ['--enable-automation'],
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        };
         executablePathA && (ops.executablePath = executablePathA);
         console.debug('浏览器路径', ops.executablePath);
-
-        ops.userDataDir = userDataDir || path.join(curApp.APP_DIR, 'userData');
-
-        console.debug('用户目录', userDataDir);
         
-
+    
         const args = [];
         
         // 处理自定义启动参数
@@ -420,7 +426,7 @@ export const impl = async function (
             ops.executablePath
         }" --no-first-run --disk-cache-dir="${
             ops.userDataDir
-        }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')}`;
+        }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')} --allow-insecure-localhost`;
         
         console.debug('启动命令', startCmd);
 
@@ -446,6 +452,7 @@ export const impl = async function (
             wsUrl: startRes,
             appName: curApp.APP_NAME,
             appId: curApp.APP_ID,
+            userDataDir: ops.userDataDir,
             time: new Date().toLocaleString()
         });
         fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
@@ -454,9 +461,9 @@ export const impl = async function (
             defaultViewport: ops.defaultViewport,
             protocolTimeout: 600000
         });
-
+        
         // 创建一个临时文件
-        const tempFilePath = join(curApp.APP_DIR, 'browserCloseScript.js');
+        const tempFilePath = join(curApp.APP_DIR, `browserCloseScript${md5(wsUrl)}.js`);
         //这边创建一个子进程，监听浏览器进程的关闭消息，接收到关闭消息后清理记录浏览器的文件
         const childCode = `
             //关闭浏览器监听脚本
