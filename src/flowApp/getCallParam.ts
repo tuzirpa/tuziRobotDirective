@@ -13,6 +13,7 @@ export const config: DirectiveTree = {
             addConfig: {
                 required: true,
                 label: '项下标（索引）',
+                placeholder: '请输入项下标（从第一项开始）',
                 type: 'string'
             }
         }
@@ -43,8 +44,7 @@ export const impl = async function ({ arrayObj, index }: { arrayObj: Array<any>;
         throw new Error('选择的对象不是数组');
     }
     if (index < 1 || index > arrayObj.length) {
-        console.warn('获取调用参数失败，数组索引超出范围 返回undefined');
-        return { item: undefined };
+        throw new Error('数组索引超出范围：' + index);
     }
     const item = arrayObj[index - 1];
     return { item };

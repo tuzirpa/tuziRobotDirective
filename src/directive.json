@@ -695,7 +695,7 @@
                         "remark": "按下鼠标",
                         "localFile": "./web/mouse/mouseDown.js",
                         "url": ""
-                    },
+                    }, 
                     {
                         "remark": "鼠标拖放",
                         "localFile": "./web/mouse/mouseDragAndDrop.js",
@@ -774,6 +774,11 @@
                     {
                         "remark": "等待页面加载完成",
                         "localFile": "./web/pages/waitForLoad.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "自动确认弹窗",
+                        "localFile": "./web/autoHandleDialog.js",
                         "url": ""
                     }
                 ]
