@@ -1,0 +1,28 @@
+{
+  "name": "tuzi-image-module",
+  "version": "1.0.0",
+  "description": "图片操作模块 - 支持读取、裁切、缩放、格式转换等功能",
+  "main": "index.ts",
+  "scripts": {
+    "test": "ts-node test.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "image",
+    "processing",
+    "crop",
+    "resize",
+    "convert",
+    "canvas"
+  ],
+  "author": "Tuzi RPA",
+  "license": "ISC"
+}

@@ -34,6 +34,11 @@
                 "url": ""
             },
             {
+                "remark": "MD5加密",
+                "localFile": "./dataProcessing/md5.js",
+                "url": ""
+            },
+            {
                 "name": "Map操作",
                 "children": [
                     {
@@ -1133,6 +1138,36 @@
             {
                 "remark": "获取文件列表",
                 "localFile": "./file/getFileList.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "图片操作",
+        "children": [
+            {
+                "remark": "读取图片信息",
+                "localFile": "./image/readImageInfo.js",
+                "url": ""
+            },
+            {
+                "remark": "裁切图片",
+                "localFile": "./image/cropImage.js",
+                "url": ""
+            },
+            {
+                "remark": "缩放图片",
+                "localFile": "./image/resizeImage.js",
+                "url": ""
+            },
+            {
+                "remark": "转换图片格式",
+                "localFile": "./image/convertImageFormat.js",
+                "url": ""
+            },
+            {
+                "remark": "保存图片",
+                "localFile": "./image/saveImage.js",
                 "url": ""
             }
         ]

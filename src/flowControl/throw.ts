@@ -7,13 +7,12 @@ export const config: DirectiveTree = {
     sort: 22,
     isControl: false,
     isControlEnd: false,
-    comment: '抛出一个异常，通常与TRY/CATCH配合使用',
+    comment: '抛出一个异常，通常与TRY/CATCH配合使用 异常内容为${errorMessage}',
     inputs: {
         errorMessage: {
             name: '异常消息',
             value: '抛出异常',
             type: 'string',
-            display: '异常消息',
             addConfig: {
                 label: '异常消息',
                 type: 'textarea',

@@ -3,12 +3,12 @@ import { DirectiveTree } from "tuzirobot/types";
 export const config: DirectiveTree = {
   name: "dataProcessing.array.includes",
   displayName: "数组是否包含指定值",
-  comment: "数组对象${array}中，是否包含${value}",
+  comment: "数组对象${array}中，是否包含${value},返回值为${isInclude}",
   inputs: {
     array: {
       name: "array",
       value: "",
-      display: "数组对象",
+      display: "",
       type: "variable",
       addConfig: {
         label: "数组对象",
@@ -19,12 +19,12 @@ export const config: DirectiveTree = {
     value: {
       name: "value",
       value: "",
-      display: "数组元素值",
-      type: "string",
+      display: "",
+      type: "object",
       addConfig: {
         label: "数组元素值",
         placeholder: "请输入要添加的元素值",
-        type: "variable",
+        type: "textarea",
         defaultValue: "",
         required: true,
       },
