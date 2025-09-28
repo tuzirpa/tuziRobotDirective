@@ -70,6 +70,20 @@ const config: DirectiveTree = {
                 tip: '保存的文件名',
                 required: false
             }
+        },
+
+        timeout: {
+            name: 'timeout',
+            value: '',
+            type: 'number',
+            addConfig: {
+                label: '超时时间(秒)',
+                placeholder: '请输入超时时间，默认300秒(5分钟)',
+                type: 'string',
+                defaultValue: '300',
+                tip: '下载超时时间，单位秒',
+                required: false
+            }
         }
     },
     outputs: {
@@ -90,12 +104,14 @@ const impl = async function ({
     url,
     downloadPath,
     fileName,
-    protocolHeader
+    protocolHeader,
+    timeout
 }: {
     url: string;
     downloadPath: string;
     fileName: string;
     protocolHeader: string;
+    timeout: number;
 }) {
     const downloadFile = async () => {
         let headers;
@@ -113,6 +129,8 @@ const impl = async function ({
             method: 'GET',
             url: url,
             responseType: 'stream', // 指定响应数据的流类型
+            timeout: (timeout || 300) * 1000, // 使用传入的超时时间(秒)，默认5分钟，转换为毫秒
+            maxRedirects: 5, // 限制重定向次数
             onDownloadProgress: (progressEvent) => {
                 if (progressEvent.total) {
                     const percentCompleted = Math.round(
@@ -143,28 +161,74 @@ const impl = async function ({
         return new Promise((resolve, reject) => {
             // 使用管道流将响应数据直接写入文件
             const writer = fs.createWriteStream(downloadPath);
-            writer.on('error', (err) => {
-                reject(err);
-            });
-            response.data.pipe(writer);
+            let isCompleted = false;
+            
+            // 设置写入流超时
+            const writeTimeout = setTimeout(() => {
+                if (!isCompleted) {
+                    writer.destroy();
+                    reject(new Error('写入文件超时'));
+                }
+            }, (timeout || 300) * 1000); // 使用传入的超时时间(秒)，默认5分钟，转换为毫秒
 
-            response.data.on('end', () => {
-                console.log('文件下载成功!', downloadPath);
-                resolve(downloadPath);
+            writer.on('error', (err) => {
+                clearTimeout(writeTimeout);
+                if (!isCompleted) {
+                    isCompleted = true;
+                    console.error('写入文件失败:', err);
+                    reject(err);
+                }
+            });
+
+            writer.on('finish', () => {
+                clearTimeout(writeTimeout);
+                if (!isCompleted) {
+                    isCompleted = true;
+                    console.log('文件下载成功!', downloadPath);
+                    resolve(downloadPath);
+                }
             });
 
             response.data.on('error', (err: any) => {
-                console.error('文件下载失败:' + url, err);
-                reject(err);
+                clearTimeout(writeTimeout);
+                if (!isCompleted) {
+                    isCompleted = true;
+                    writer.destroy();
+                    console.error('下载流错误:', url, err.message);
+                    reject(err);
+                }
             });
+
+            response.data.on('end', () => {
+                // 流结束，等待writer完成
+                console.debug('下载流结束，等待写入完成...');
+            });
+
+            // 开始管道传输
+            response.data.pipe(writer);
         });
     };
     try{
+        console.log(`开始下载文件: ${url}`);
         const filePath = await downloadFile();
+        console.log(`文件下载完成: ${filePath}`);
         return { filePath };
-    }catch(e){
-        console.error('文件下载失败:' + url);
-        throw e;
+    }catch(e: any){
+        console.error('文件下载失败:', url);
+        console.error('错误详情:', e.message);
+        
+        // 提供更详细的错误信息
+        if (e.code === 'ECONNABORTED') {
+            throw new Error(`下载超时: ${url}`);
+        } else if (e.code === 'ENOTFOUND') {
+            throw new Error(`无法连接到服务器: ${url}`);
+        } else if (e.code === 'ECONNREFUSED') {
+            throw new Error(`连接被拒绝: ${url}`);
+        } else if (e.response?.status) {
+            throw new Error(`HTTP错误 ${e.response.status}: ${url}`);
+        } else {
+            throw new Error(`下载失败: ${e.message}`);
+        }
     }
 
 };
