@@ -330,6 +330,11 @@
                 "url": ""
             },
             {
+                "remark": "新建标签并关闭其他标签",
+                "localFile": "./web/tabOperate/createNewTabAndCloseOthers.js",
+                "url": ""
+            },
+            {
                 "remark": "页面中执行javascript脚本",
                 "localFile": "./web/pageExecuteScript.js",
                 "url": ""
@@ -559,6 +564,11 @@
                         "remark": "保存图片节点到本地",
                         "localFile": "./web/elementOperate/saveImageElement.js",
                         "url": ""
+                    },
+                    {
+                        "remark": "在页面和iframe中获取元素",
+                        "localFile": "./web/elementOperate/getElementInFrames.js",
+                        "url": ""
                     }
                 ]
             },
@@ -588,6 +598,11 @@
                     {
                         "remark": "等待获取请求数据Body",
                         "localFile": "./web/http/getResponseBody.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "获取请求发送数据-响应阶段",
+                        "localFile": "./web/http/getResponseRequsetData.js",
                         "url": ""
                     }
                 ]
@@ -1065,6 +1080,11 @@
                 "url": ""
             },
             {
+                "remark": "获取随机数",
+                "localFile": "./text/genRandomNumber.js",
+                "url": ""
+            },
+            {
                 "remark": "文本提取内容",
                 "localFile": "./text/extractContent.js",
                 "url": ""
@@ -1214,6 +1234,16 @@
             {
                 "remark": "获取当前时间",
                 "localFile": "./time/getCurrentTime.js",
+                "url": ""
+            },
+            {
+                "remark": "字符串转时间",
+                "localFile": "./time/stringToTime.js",
+                "url": ""
+            },
+            {
+                "remark": "计算时间差值",
+                "localFile": "./time/calculateTimeDifference.js",
                 "url": ""
             },
             {

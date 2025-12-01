@@ -167,16 +167,13 @@ export const impl = async function ({
             } else {
                 elements = Array.from(document.querySelectorAll(selector));
             }
-            console.log('获取顶层 elements', elements,checkVisibility,checkOnTop);
             // 过滤元素
             const filteredElements = elements.filter(element => {
                 return (!checkVisibility || isVisible(element)) && (!checkOnTop || isOnTop(element));
             });
 
-            console.log('获取顶层 filteredElements', filteredElements);
             // 返回指定索引的元素
             const result = filteredElements.length > 0 ? filteredElements[index] : null;
-            console.log('获取顶层 result', result);
             return result;
         }, {
             selector,
@@ -185,7 +182,6 @@ export const impl = async function ({
             checkOnTop,
             index
         });
-        console.log('获取顶层 result', filteredElement);
         if (!filteredElement.asElement()) {
             console.log(`未找到匹配选择器 ${selector} 的可见顶层元素`);
             return { element: null };

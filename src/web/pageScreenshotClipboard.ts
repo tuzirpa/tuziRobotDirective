@@ -71,7 +71,7 @@ export const impl = async function ({
         if (element) {
             await element.screenshot({
                 type: 'png',
-                path: tmpFile
+                path: tmpFile as `${string}.png`
             });
         } else if (selector) {
             selector = toSelector(selector);
@@ -81,13 +81,13 @@ export const impl = async function ({
             }
             await targetElement.screenshot({
                 type: 'png',
-                path: tmpFile
+                path: tmpFile as `${string}.png`
             });
         } else {
             await browserPage.screenshot({
                 fullPage: true,
                 type: 'png',
-                path: tmpFile
+                path: tmpFile as `${string}.png`
             });
         }
 

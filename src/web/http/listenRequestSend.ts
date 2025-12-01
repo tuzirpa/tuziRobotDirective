@@ -4,7 +4,7 @@ import { DirectiveTree } from 'tuzirobot/types';
 export const config: DirectiveTree = {
     name: 'web.http.listenRequestSend',
     sort: 2,
-    displayName: '监听网页请求发送',
+    displayName: '监听网页请求-发送阶段',
     icon: 'icon-web-create',
     isControl: false,
     isControlEnd: false,

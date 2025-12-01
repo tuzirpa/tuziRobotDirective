@@ -15,11 +15,11 @@ export const config: DirectiveTree = {
             name: 'content',
             value: '',
             display: '',
-            type: 'variable',
+            type: 'string',
             addConfig: {
                 required: true,
                 label: '写入内容',
-                type: 'variable'
+                type: 'textarea'
             }
         },
         fileName: {
@@ -57,6 +57,17 @@ export const config: DirectiveTree = {
                 defaultValue: false,
                 tip: '存在时文件是否覆盖'
             }
+        },
+        appendMode: {
+            name: 'appendMode',
+            value: '',
+            type: 'boolean',
+            addConfig: {
+                label: '追加写入模式',
+                type: 'boolean',
+                defaultValue: false,
+                tip: '是否以追加模式写入文件，如果为true则内容会追加到文件末尾'
+            }
         }
     },
 
@@ -67,24 +78,32 @@ export const impl = async function ({
     content,
     fileName,
     dir,
-    isCovered
+    isCovered,
+    appendMode
 }: {
     content: any;
     fileName: string;
     dir: string;
     isCovered: boolean;
+    appendMode: boolean;
 }) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
 
     let filePath = path.join(dir, fileName);
-    if (!isCovered && fs.existsSync(filePath)) {
+    
+    // 如果是追加模式，不需要处理文件重命名
+    if (!appendMode && !isCovered && fs.existsSync(filePath)) {
         const parsedPath = path.parse(filePath);
         const newName = parsedPath.name + '_' + new Date().getTime() + parsedPath.ext;
         filePath = path.join(parsedPath.dir, newName);
     }
 
-    fs.writeFileSync(filePath, content, 'utf8');
-    console.log(`文件${filePath}写入成功`);
+    // 根据模式选择写入方式
+    if (appendMode) {
+        fs.appendFileSync(filePath, content, 'utf8');
+    } else {
+        fs.writeFileSync(filePath, content, 'utf8');
+    }
 };

@@ -142,7 +142,8 @@ export const impl = async function ({
 
         if (element) {
             await element.screenshot({
-                path: fullPath
+                type: 'png',
+                path: fullPath as `${string}.png`,
             });
         } else if (selector) {
             selector = toSelector(selector);
@@ -151,11 +152,11 @@ export const impl = async function ({
                 throw new Error('未找到匹配选择器的元素');
             }
             await targetElement.screenshot({
-                path: fullPath
+                path: fullPath as `${string}.png`,
             });
         } else {
             await browserPage.screenshot({
-                path: fullPath,
+                path: fullPath as `${string}.png`,
                 fullPage: true
             });
         }

@@ -122,8 +122,8 @@ export const impl = async function ({
     isCaseSensitive: number;
 }) {
     if (text) {
-        if (text.startsWith('/') && text.endsWith('/')) {
-            text = text.slice(1, -1);
+        if (regexpValue.startsWith('/') && regexpValue.endsWith('/')) {
+            regexpValue = regexpValue.slice(1, -1);
         }
 
         let globalFlag = '';
@@ -135,6 +135,7 @@ export const impl = async function ({
         }
         if (extractionWay === 'custom') {
             extractionWay = regexpValue;
+            
         }
         const regex = new RegExp(extractionWay, globalFlag);
         const match = text.match(regex);

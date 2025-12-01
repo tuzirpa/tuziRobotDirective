@@ -79,7 +79,7 @@ export const config: DirectiveTree = {
     }
 };
 
-export const impl = async function (operand1: string, operator: string, operand2: string) {
+export const impl = async function (operand1: any, operator: string, operand2: any) {
     /**
 	 *
 		{ value: 'in', label: '包含' },
@@ -89,15 +89,17 @@ export const impl = async function (operand1: string, operator: string, operand2
 		{ value: 'isNull', label: '是空值' },
 		{ value: 'noNull', label: '不是空值' }
 	 */
+    console.debug('impl', operand1, operator, operand2);
     if (operator === 'isNull') {
-        console.debug('isNull', operand1);
+
         return !operand1;
     } else if (operator === 'noNull') {
         return !!operand1;
     } else if (operator === 'isTrue') {
-        return operand1 === 'true';
+
+        return operand1 === 'true' || operand1 === true;
     } else if (operator === 'noTrue') {
-        return operand1 !== 'true';
+        return operand1 !== 'true' && operand1 !== true;
     } else if (operator === 'in') {
         return operand1.includes(operand2);
     } else if (operator === 'notin') {
