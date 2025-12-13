@@ -28,5 +28,5 @@ export const config: DirectiveTree = {
 
 export const impl = async function ({ browser }: { browser: Browser }) {
     await browser.close();
-    console.log('Browser closed');
+    console.debug('关闭浏览器');
 };

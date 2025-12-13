@@ -130,7 +130,9 @@ export const config: DirectiveTree = {
                 type: 'filePath',
                 defaultValue: '',
                 openDirectory: true,
-                tip: '默认在使用当前应用的目录下创建userData目录，可自定义'
+                tip: `默认在使用当前应用的目录下创建runtime/browsers/default目录，
+                如果非绝对路径则会在当前应用的目录下runtime/browsers/\$\{传入的路径\} 目录下创建目录`
+
             }
         },
         proxyServer: {
@@ -280,192 +282,208 @@ export const impl = async function (
     _block: Block
 ) {
     return new Promise(async (resolve, reject) => {
-    let executablePathA = '';
-    console.log(webType, 'webType');
-    let wsUrl: string = '';
-    const tuziAppInfo = getTuziAppInfo();
-    let browser: Browser;
-    let proxyAuth: { username: string; password: string } | undefined;
+        let executablePathA = '';
+        console.log(webType, 'webType');
+        let wsUrl: string = '';
+        const tuziAppInfo = getTuziAppInfo();
+        let browser: Browser | undefined;
+        let proxyAuth: { username: string; password: string } | undefined;
 
-    const browserJsonPath = path.join(tuziAppInfo.USER_DIR, 'browser.json');
-    if (!fs.existsSync(browserJsonPath)) {
-        fs.writeFileSync(browserJsonPath, JSON.stringify([]));
-    }
-    const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
-    const browserJsonObj: any[] = JSON.parse(browserJson);
-
-    const curApp = getCurApp();
-
-     //设备信息整合
-     const ops: any = {
-        headless: false,
-        defaultViewport: null,
-        ignoreDefaultArgs: ['--enable-automation'],
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
-
-
-    ops.userDataDir = userDataDir || path.join(curApp.APP_DIR, 'userData');
-    if(ops.userDataDir.includes('\\')){
-        ops.userDataDir = ops.userDataDir.replace(/\\/g, '/');
-    }
-    console.debug('用户目录', ops.userDataDir);
-
-    const curAppBrowser = browserJsonObj.find((item) => item.appId === curApp.APP_ID && item.userDataDir === ops.userDataDir);
-    if (curAppBrowser) {
-        console.log(
-            `当前应用之前启动过一个浏览器 用户目录 ${curAppBrowser.userDataDir}，wsUrl:${curAppBrowser.wsUrl}，直接复用之前的浏览器`
-        );
-        setTimeout(()=>{
-            reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
-        },30000)
-        browser = await puppeteer.connect({
-            browserWSEndpoint: curAppBrowser.wsUrl,
-            defaultViewport: null,
-            protocolTimeout: 600000
-        });
-    } else if (webType === 'useOtherApp') {
-        console.log('复用其他应用创建的浏览器', useOtherApp);
-
-        const browserJson = browserJsonObj.find((item) => item.appId === useOtherApp);
-        if (!browserJson) {
-            throw new Error(`未找到应用${useOtherApp} 的浏览器信息`);
+        const browserJsonPath = path.join(tuziAppInfo.USER_DIR, 'browser.json');
+        if (!fs.existsSync(browserJsonPath)) {
+            fs.writeFileSync(browserJsonPath, JSON.stringify([]));
         }
-        console.log(`复用其他应用[${browserJson.appName}]创建的浏览器,${browserJson.wsUrl}`);
-        setTimeout(()=>{
-            reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
-        },30000)
-        browser = await puppeteer.connect({
-            browserWSEndpoint: browserJson.wsUrl,
-            defaultViewport: null,
-            protocolTimeout: 600000
-        });
-    } else {
+        const browserJson = fs.readFileSync(browserJsonPath, 'utf-8');
+        let browserJsonObj: any[] = JSON.parse(browserJson);
+
         const curApp = getCurApp();
 
-        if (webType === 'custom') {
-            executablePathA = executablePath;
+        //设备信息整合
+        const ops: any = {
+            headless: false,
+            defaultViewport: null,
+            ignoreDefaultArgs: ['--enable-automation'],
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        };
+
+
+        // 处理用户数据目录
+        if (!userDataDir) {
+            // 如果未填写，使用默认路径
+            ops.userDataDir = path.join(curApp.APP_DIR, 'runtime', 'browsers', 'default');
+        } else if (path.isAbsolute(userDataDir)) {
+            // 如果是绝对路径，直接使用
+            ops.userDataDir = userDataDir;
         } else {
-            if (webType !== 'tuziChrome') {
-                executablePathA = await getExeCutablePath(webType);
-                if (!executablePathA) {
-                    const webBrowser = config.inputs.webType.addConfig.options?.find(
-                        (item) => item.value === webType
+            // 如果是相对路径，放在 runtime/browsers 目录下
+            ops.userDataDir = path.join(curApp.APP_DIR, 'runtime', 'browsers', userDataDir);
+        }
+
+        // 统一将反斜杠替换为正斜杠
+        if (ops.userDataDir.includes('\\')) {
+            ops.userDataDir = ops.userDataDir.replace(/\\/g, '/');
+        }
+        console.debug('用户目录', ops.userDataDir);
+        const curAppBrowser = browserJsonObj.find((item) => item.appId === curApp.APP_ID && item.userDataDir === ops.userDataDir);
+        try { 
+            if (curAppBrowser) {
+                console.log(
+                    `当前应用之前启动过一个浏览器 用户目录 ${curAppBrowser.userDataDir}，wsUrl:${curAppBrowser.wsUrl}，直接复用之前的浏览器`
+                );
+                setTimeout(() => {
+                    reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
+                }, 30000)
+                browser = await puppeteer.connect({
+                    browserWSEndpoint: curAppBrowser.wsUrl,
+                    defaultViewport: null,
+                    protocolTimeout: 600000
+                });
+            } else if (webType === 'useOtherApp') {
+                console.log('复用其他应用创建的浏览器', useOtherApp);
+
+                const browserJson = browserJsonObj.find((item) => item.appId === useOtherApp);
+                if (!browserJson) {
+                    throw new Error(`未找到应用${useOtherApp} 的浏览器信息`);
+                }
+                console.log(`复用其他应用[${browserJson.appName}]创建的浏览器,${browserJson.wsUrl}`);
+                setTimeout(() => {
+                    reject(new Error(`连接之前创建的浏览器失败：${curAppBrowser.wsUrl}，超时：30秒`))
+                }, 30000)
+                browser = await puppeteer.connect({
+                    browserWSEndpoint: browserJson.wsUrl,
+                    defaultViewport: null,
+                    protocolTimeout: 600000
+                });
+            }
+        } catch (error) {
+            //移除异常的浏览器记录
+            browserJsonObj = browserJsonObj.filter((item) => item.appId !== curApp.APP_ID && item.userDataDir !== ops.userDataDir);
+            fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
+        }
+        if (!browser) {
+            const curApp = getCurApp();
+
+            if (webType === 'custom') {
+                executablePathA = executablePath;
+            } else {
+                if (webType !== 'tuziChrome') {
+                    executablePathA = await getExeCutablePath(webType);
+                    if (!executablePathA) {
+                        const webBrowser = config.inputs.webType.addConfig.options?.find(
+                            (item) => item.value === webType
+                        );
+                        throw new Error(`本地未安装 ${webBrowser?.label}，请设置先安装`);
+                    }
+                } else {
+                    executablePathA = path.join(
+                        tuziAppInfo.USER_DIR,
+                        'tuziChrome',
+                        'chrome-win64',
+                        'chrome.exe'
                     );
-                    throw new Error(`本地未安装 ${webBrowser?.label}，请设置先安装`);
-                }
-            } else {
-                executablePathA = path.join(
-                    tuziAppInfo.USER_DIR,
-                    'tuziChrome',
-                    'chrome-win64',
-                    'chrome.exe'
-                );
-                if (!fs.existsSync(executablePathA)) {
-                    throw new Error(`内置浏览器还未安装完成，请等待安装完成后使用`);
+                    if (!fs.existsSync(executablePathA)) {
+                        throw new Error(`内置浏览器还未安装完成，请等待安装完成后使用`);
+                    }
                 }
             }
-        }
 
-        executablePathA && (ops.executablePath = executablePathA);
-        console.debug('浏览器路径', ops.executablePath);
-        
-    
-        const args = [];
-        
-        // 处理自定义启动参数
-        let customArgsArray: string[] = [];
-        if (customArgs && customArgs.trim()) {
-            customArgsArray = customArgs.trim().split(' ').filter(Boolean);
-            console.debug('检测到自定义启动参数:', customArgsArray);
-        }
-        
-        // 检查用户是否已经设置了特定参数
-        const hasWindowSize = customArgsArray.some(arg => arg.startsWith('--window-size='));
-        const hasMaximized = customArgsArray.some(arg => arg === '--start-maximized');
-        const hasProxyServer = customArgsArray.some(arg => arg.startsWith('--proxy-server='));
-        const hasDebugPort = customArgsArray.some(arg => arg.startsWith('--remote-debugging-port='));
-        if(!hasDebugPort){
-            const port = await getAvailablePort(11922);
-            console.debug('端口', port);
-            customArgsArray.push(`--remote-debugging-port=${port}`);
-        }
-        // 处理窗口大小（如果用户未在自定义参数中指定）
-        if (!hasWindowSize && !hasMaximized) {
-            if (windowSize) {
-                const [width, height] = windowSize.toLowerCase().split('x').map(Number);
-                if (isNaN(width) || isNaN(height)) {
-                    throw new Error('窗口大小格式错误，应为"宽x高"，例如: 1920x1080');
-                }
-                args.push(`--window-size=${width},${height}`);
-            } else {
-                args.push('--start-maximized');
-            }
-        }
-        
-        // 处理代理设置（如果用户未在自定义参数中指定）
-        if (!hasProxyServer && proxyServer) {
-            if (proxyServer.includes('@')) {
-                const [auth, host] = proxyServer.split('@');
-                const [username, password] = auth.split(':');
-                proxyAuth = { username, password };
-                args.push(`--proxy-server=${host}`);
-                console.debug('添加代理服务器:', host);
-            } else {
-                args.push(`--proxy-server=${proxyServer}`);
-                console.debug('添加代理服务器:', proxyServer);
-            }
-        }
-        
-        // 添加所有自定义参数
-        args.push(...customArgsArray);
-        
-    
-        
-        let startCmd = `"${
-            ops.executablePath
-        }" --no-first-run --disk-cache-dir="${
-            ops.userDataDir
-        }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')} --allow-insecure-localhost`;
-        
-        console.debug('启动命令', startCmd);
+            executablePathA && (ops.executablePath = executablePathA);
+            console.debug('浏览器路径', ops.executablePath);
 
-        const startRes = await new Promise<string>((resolve, reject) => {
-            const child = exec(startCmd);
-            child.on('error', (err) => {
-                reject(err);
-            });
-            child.stderr?.on('data', (data) => {
-                const err = data.toString();
-                const matchData = data.match(
-                    /ws:\/\/127.0.0.1:\d+\/devtools\/browser\/[0-9A-Za-z-]+/
-                );
-                if (err.includes('listening on ws://127.0.0.1:') && matchData) {
-                    wsUrl = matchData[0];
-                    resolve(wsUrl);
+
+            const args = [];
+
+            // 处理自定义启动参数
+            let customArgsArray: string[] = [];
+            if (customArgs && customArgs.trim()) {
+                customArgsArray = customArgs.trim().split(' ').filter(Boolean);
+                console.debug('检测到自定义启动参数:', customArgsArray);
+            }
+
+            // 检查用户是否已经设置了特定参数
+            const hasWindowSize = customArgsArray.some(arg => arg.startsWith('--window-size='));
+            const hasMaximized = customArgsArray.some(arg => arg === '--start-maximized');
+            const hasProxyServer = customArgsArray.some(arg => arg.startsWith('--proxy-server='));
+            const hasDebugPort = customArgsArray.some(arg => arg.startsWith('--remote-debugging-port='));
+            if (!hasDebugPort) {
+                const port = await getAvailablePort(11922);
+                console.debug('端口', port);
+                customArgsArray.push(`--remote-debugging-port=${port}`);
+            }
+            // 处理窗口大小（如果用户未在自定义参数中指定）
+            if (!hasWindowSize && !hasMaximized) {
+                if (windowSize) {
+                    const [width, height] = windowSize.toLowerCase().split('x').map(Number);
+                    if (isNaN(width) || isNaN(height)) {
+                        throw new Error('窗口大小格式错误，应为"宽x高"，例如: 1920x1080');
+                    }
+                    args.push(`--window-size=${width},${height}`);
+                } else {
+                    args.push('--start-maximized');
                 }
+            }
+
+            // 处理代理设置（如果用户未在自定义参数中指定）
+            if (!hasProxyServer && proxyServer) {
+                if (proxyServer.includes('@')) {
+                    const [auth, host] = proxyServer.split('@');
+                    const [username, password] = auth.split(':');
+                    proxyAuth = { username, password };
+                    args.push(`--proxy-server=${host}`);
+                    console.debug('添加代理服务器:', host);
+                } else {
+                    args.push(`--proxy-server=${proxyServer}`);
+                    console.debug('添加代理服务器:', proxyServer);
+                }
+            }
+
+            // 添加所有自定义参数
+            args.push(...customArgsArray);
+
+
+
+            let startCmd = `"${ops.executablePath
+                }" --no-first-run --disk-cache-dir="${ops.userDataDir
+                }" --user-data-dir="${ops.userDataDir}" ${args.join(' ')} --allow-insecure-localhost`;
+
+            console.debug('启动命令', startCmd);
+
+            const startRes = await new Promise<string>((resolve, reject) => {
+                const child = exec(startCmd);
+                child.on('error', (err) => {
+                    reject(err);
+                });
+                child.stderr?.on('data', (data) => {
+                    const err = data.toString();
+                    const matchData = data.match(
+                        /ws:\/\/127.0.0.1:\d+\/devtools\/browser\/[0-9A-Za-z-]+/
+                    );
+                    if (err.includes('listening on ws://127.0.0.1:') && matchData) {
+                        wsUrl = matchData[0];
+                        resolve(wsUrl);
+                    }
+                });
             });
-        });
-        console.log('启动成功 wsUrl:', startRes);
-        wsUrl = startRes;
-        browserJsonObj.push({
-            wsUrl: startRes,
-            appName: curApp.APP_NAME,
-            appId: curApp.APP_ID,
-            userDataDir: ops.userDataDir,
-            time: new Date().toLocaleString()
-        });
-        fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
-        browser = await puppeteer.connect({
-            browserWSEndpoint: wsUrl,
-            defaultViewport: ops.defaultViewport,
-            protocolTimeout: 600000
-        });
-        
-        // 创建一个临时文件
-        const tempFilePath = join(curApp.APP_DIR, `browserCloseScript${md5(wsUrl)}.js`);
-        //这边创建一个子进程，监听浏览器进程的关闭消息，接收到关闭消息后清理记录浏览器的文件
-        const childCode = `
+            console.log('启动成功 wsUrl:', startRes);
+            wsUrl = startRes;
+            browserJsonObj.push({
+                wsUrl: startRes,
+                appName: curApp.APP_NAME,
+                appId: curApp.APP_ID,
+                userDataDir: ops.userDataDir,
+                time: new Date().toLocaleString()
+            });
+            fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
+            browser = await puppeteer.connect({
+                browserWSEndpoint: wsUrl,
+                defaultViewport: ops.defaultViewport,
+                protocolTimeout: 600000
+            });
+
+            // 创建一个临时文件
+            const tempFilePath = join(curApp.APP_DIR, `browserCloseScript${md5(wsUrl)}.js`);
+            //这边创建一个子进程，监听浏览器进程的关闭消息，接收到关闭消息后清理记录浏览器的文件
+            const childCode = `
             //关闭浏览器监听脚本
             (async ()=>{
                 const puppeteer = require('puppeteer-core');
@@ -488,44 +506,44 @@ export const impl = async function (
                 });
             })()
         `;
-        fs.writeFileSync(tempFilePath, childCode);
+            fs.writeFileSync(tempFilePath, childCode);
 
-        // 创建一个子进程来监听浏览器关闭
-        const child = fork(tempFilePath, [], {
-            detached: true,
-            stdio: 'ignore'
-        });
+            // 创建一个子进程来监听浏览器关闭
+            const child = fork(tempFilePath, [], {
+                detached: true,
+                stdio: 'ignore'
+            });
 
-        // 让子进程独立运行
-        child.unref();
-    }
+            // 让子进程独立运行
+            child.unref();
+        }
 
-    console.log('浏览器连接成功');
-    // const page = await browser.newPage();
-    const pages = await browser.pages();
-    console.log('标签页数量', pages.length);
-    const page = pages[pages.length - 1];
-    
-    // 如果有代理认证信息，设置认证
-    if (proxyAuth) {
-        page.authenticate(proxyAuth).then(()=>{
-            console.debug('代理认证设置成功');
-        }).catch((err)=>{
-            console.error('代理认证设置失败', err);
-        })
-        console.debug('等待代理认证设置');
-        //打开一个页面，等待代理认证设置
-        page.goto("http://www.baidu.com").catch((err)=>{
-            console.error('默认打开百度触发代理认证窗口', err);
-        })
-    }
+        console.log('浏览器连接成功');
+        // const page = await browser.newPage();
+        const pages = await browser.pages();
+        console.log('标签页数量', pages.length);
+        const page = pages[pages.length - 1];
 
-    // await setBrowserPage(page);
-    if (url) {
-        console.log('打开地址', url);
-        url.startsWith('http') || (url = 'http://' + url);
-        await page.goto(url, { timeout: loadTimeout * 1000 });
-    }
-    resolve({ browser, page });
-});
+        // 如果有代理认证信息，设置认证
+        if (proxyAuth) {
+            page.authenticate(proxyAuth).then(() => {
+                console.debug('代理认证设置成功');
+            }).catch((err) => {
+                console.error('代理认证设置失败', err);
+            })
+            console.debug('等待代理认证设置');
+            //打开一个页面，等待代理认证设置
+            page.goto("http://www.baidu.com").catch((err) => {
+                console.error('默认打开百度触发代理认证窗口', err);
+            })
+        }
+
+        // await setBrowserPage(page);
+        if (url) {
+            console.log('打开地址', url);
+            url.startsWith('http') || (url = 'http://' + url);
+            await page.goto(url, { timeout: loadTimeout * 1000 });
+        }
+        resolve({ browser, page });
+    });
 };
