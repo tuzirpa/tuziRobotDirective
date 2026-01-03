@@ -11,7 +11,7 @@ export const config: DirectiveTree = {
     description:
         '监听到数据返回监听到的数据列表',
     comment:
-        '在网页${browserPage}中获取监听请求结果，超时时间为${timeout}秒，结果数据存入${responseData}变量',
+        '在网页${browserPage}中获取监听请求结果，结果数据存入${responseData}变量',
     inputs: {
         browserPage: {
             name: 'browserPage',

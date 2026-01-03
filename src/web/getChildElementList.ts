@@ -62,9 +62,11 @@ export const impl = async function ({
     timeout: number;
 }) {
     if (isXpath(selector)) {
-        selector = toSelector(`.${selector}`);
+        // XPath: 使用 . 来限制在当前元素下查找
+        selector = `::-p-xpath(.${selector})`;
     } else {
-        selector = toSelector(`:scope > ${selector}`);
+        // CSS: 使用 :scope 来限制在当前元素下查找，不限制为直接子元素
+        selector = `:scope ${selector}`;
     }
     const childElementList = await element.$$(selector);
     return { childElementList: childElementList ? childElementList : [] };

@@ -244,6 +244,11 @@
                 "url": ""
             },
             {
+                "remark": "提取脚本启动参数",
+                "localFile": "./flowApp/getStartupArgs.js",
+                "url": ""
+            },
+            {
                 "remark": "调用子流程",
                 "localFile": "./flowApp/callSubFlow.js",
                 "url": ""
@@ -338,6 +343,21 @@
                 "remark": "页面中执行javascript脚本",
                 "localFile": "./web/pageExecuteScript.js",
                 "url": ""
+            },
+            {
+                "name": "页面UI交互",
+                "children": [
+                    {
+                        "remark": "等待按钮点击",
+                        "localFile": "./web/pageUiInteraction/waitForButtonClick.js",
+                        "url": ""
+                    },
+                    {
+                        "remark": "显示提示消息",
+                        "localFile": "./web/pageUiInteraction/showMessage.js",
+                        "url": ""
+                    }
+                ]
             },
             {
                 "remark": "页面元素截图保存到本地",
@@ -1011,6 +1031,32 @@
             {
                 "remark": "下载文件",
                 "localFile": "./network/downloadFile.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "万邦科技",
+        "children": [
+            {
+                "remark": "获取淘宝商品详情",
+                "localFile": "./wangbang/getTaobaoItem.js",
+                "url": ""
+            }
+        ]
+    },
+    {
+        "name": "Open-AutoGLM",
+        "icon": "icon-web-create",
+        "children": [
+            {
+                "remark": "AI手机操作",
+                "localFile": "./openAutoGLM/phoneAgentRun.js",
+                "url": ""
+            },
+            {
+                "remark": "AI电脑操作",
+                "localFile": "./openAutoGLM/desktopAgentRun.js",
                 "url": ""
             }
         ]

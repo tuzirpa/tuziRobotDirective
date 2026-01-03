@@ -139,6 +139,7 @@ export const impl = async function ({
         }
         const regex = new RegExp(extractionWay, globalFlag);
         const match = text.match(regex);
-        return {matchResult : isMatchFirst && match ? match[0] : ''};
+        const matchResult = isMatchFirst && match ? match[0] : match ? match : [];
+        return {matchResult };
     }
 };
