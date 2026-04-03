@@ -1,4 +1,4 @@
-import puppeteer, { Browser, Page } from 'puppeteer-core';
+import type { Browser, Page } from 'puppeteer-core';
 import { DirectiveTree } from 'tuzirobot/types';
 
 export const config: DirectiveTree = {
@@ -47,73 +47,146 @@ export const config: DirectiveTree = {
     }
 };
 
-export const impl = async function ({ 
-    browser, 
-    forceClose 
-}: { 
-    browser: Browser; 
+/** 单页关闭超时（毫秒）。默认 page.close() 会走 beforeunload，部分页面会无限期挂起，导致 Promise.all 永远等不到 */
+const CLOSE_PAGE_TIMEOUT_MS = 30000;
+/** 获取 pages / 创建页面的超时，避免底层 CDP 调用异常时卡死 */
+const GET_PAGES_TIMEOUT_MS = 15000;
+
+function closeTimeoutPromise(): Promise<never> {
+    return new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('关闭标签页超时')), CLOSE_PAGE_TIMEOUT_MS)
+    );
+}
+
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+    return Promise.race([
+        promise,
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error(message)), ms))
+    ]);
+}
+
+/**
+ * 浏览器内部/扩展页：往往不会以「普通标签」形式出现在标签栏，但 browser.pages() 里仍可能出现，
+ * 例如地址栏联想弹出层 chrome://omnibox-popup...（自动化侧可见，肉眼不一定能当标签点到）。
+ * about:blank 等仍按普通页走 page.close，避免误判。
+ */
+function isBrowserInternalPageUrl(url: string): boolean {
+    const u = (url || '').toLowerCase();
+    return (
+        u.startsWith('chrome://') ||
+        u.startsWith('edge://') ||
+        u.startsWith('devtools://') ||
+        u.startsWith('chrome-extension://') ||
+        u.startsWith('moz-extension://')
+    );
+}
+
+async function closeTargetByCdp(page: Page): Promise<void> {
+    const session = await page.target().createCDPSession();
+    try {
+        const res = (await session.send('Target.getTargetInfo')) as {
+            targetInfo: { targetId: string };
+        };
+        await session.send('Target.closeTarget', { targetId: res.targetInfo.targetId });
+    } finally {
+        try {
+            await session.detach();
+        } catch {
+            /* ignore */
+        }
+    }
+}
+
+async function closeOtherPage(page: Page, forceClose: boolean): Promise<void> {
+    if (page.isClosed()) {
+        return;
+    }
+
+    let url = '';
+    try {
+        url = page.url();
+    } catch {
+        url = '';
+    }
+
+    // 这些页面经常无法通过 page.close 正常关闭（会卡住）
+    if (url && isBrowserInternalPageUrl(url)) {
+        console.debug('检测到内部页面，改用 CDP 关闭/跳过:', url);
+        try {
+            await withTimeout(closeTargetByCdp(page), CLOSE_PAGE_TIMEOUT_MS, 'CDP 关闭内部页面超时');
+        } catch (e) {
+            console.warn('内部页面 CDP 关闭失败，直接跳过:', e);
+        }
+        return;
+    }
+
+    const closeSkipUnload = async (): Promise<void> => {
+        if (page.isClosed()) return;
+        try {
+            await page.close({ runBeforeUnload: false });
+            console.debug('已跳过 beforeunload 关闭标签页');
+        } catch (e) {
+            console.error('跳过 beforeunload 关闭仍失败:', e);
+        }
+    };
+
+    try {
+        if (forceClose) {
+            await Promise.race([page.close({ runBeforeUnload: false }), closeTimeoutPromise()]);
+        } else {
+            await Promise.race([page.close(), closeTimeoutPromise()]);
+        }
+    } catch (err) {
+        console.warn('关闭标签页超时或失败，将尝试强制关闭:', err);
+        await closeSkipUnload();
+    }
+}
+
+export const impl = async function ({
+    browser,
+    forceClose
+}: {
+    browser: Browser;
     forceClose: boolean;
 }) {
-    // 创建新标签页
-    const newPage = await browser.newPage();
+    const newPage = await withTimeout(browser.newPage(), GET_PAGES_TIMEOUT_MS, '新建标签页超时');
     console.debug('新标签页已创建');
 
-    // 获取所有标签页
-    const pages = await browser.pages();
-    
-    // 关闭除新标签页外的所有其他标签页
+    console.debug('开始获取当前所有标签页');
+    const pages = await withTimeout(browser.pages(), GET_PAGES_TIMEOUT_MS, '获取标签页列表超时');
+    console.debug('获取标签页数量', pages.length);
+
     const closePromises: Promise<void>[] = [];
-    
+
     for (const page of pages) {
-        // 跳过新创建的标签页
         if (page === newPage) {
             continue;
         }
-
-        // 检查页面是否已关闭
         if (page.isClosed()) {
             console.debug('页面已关闭，跳过');
             continue;
         }
-
-        // 根据是否强制关闭选择不同的关闭方式
-        if (forceClose) {
-            // 强制关闭：使用 runBeforeUnload: false 跳过 beforeunload 事件
-            closePromises.push(
-                (async () => {
-                    try {
-                        // 使用 runBeforeUnload: false 强制关闭，跳过 beforeunload 事件监听
-                        await page.close({ runBeforeUnload: false });
-                        console.debug('强制关闭标签页成功');
-                    } catch (error) {
-                        console.error('强制关闭标签页失败:', error);
-                        // 如果强制关闭失败，尝试普通关闭
-                        try {
-                            await page.close();
-                            console.debug('普通关闭标签页成功');
-                        } catch (closeError) {
-                            console.error('关闭标签页失败:', closeError);
-                        }
-                    }
-                })()
-            );
-        } else {
-            // 普通关闭
-            closePromises.push(
-                page.close().catch(error => {
-                    console.error('关闭标签页失败:', error);
-                })
-            );
-        }
+        closePromises.push(
+            (async () => {
+                try {
+                    const u = page.url();
+                    console.debug('准备关闭标签页', u);
+                } catch {
+                    console.debug('准备关闭标签页(获取 url 失败)');
+                }
+                await closeOtherPage(page, forceClose);
+                console.debug('关闭标签页结束');
+            })()
+        );
     }
 
-    // 等待所有关闭操作完成
     if (closePromises.length > 0) {
-        await Promise.all(closePromises);
+        console.debug('开始等待关闭其他标签页，总数', closePromises.length);
+        await Promise.allSettled(closePromises);
     }
 
-    console.debug(`已关闭 ${pages.length - 1} 个标签页，保留新创建的标签页`);
-    
+    console.debug(`已处理关闭 ${closePromises.length} 个其他标签页，保留新创建的标签页`);
+
     return { page: newPage };
 };
 

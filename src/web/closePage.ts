@@ -32,20 +32,34 @@ export const config: DirectiveTree = {
                 filtersType: 'web.page',
                 autoComplete: true
             }
+        },
+        runBeforeUnload: {
+            name: 'runBeforeUnload',
+            value: '',
+            type: 'boolean',
+            addConfig: {
+                label: '是否运行beforeunload事件',
+                type: 'boolean',
+                tip: '是否运行beforeunload事件，如果为true则运行beforeunload事件，如果为false则不运行beforeunload事件',
+                isAdvanced: true,
+                defaultValue: false,
+                required: false
+            }
         }
     },
 
     outputs: {}
 };
 
-export const impl = async function ({ browserPage }: { browserPage: Page }) {
+export const impl = async function ({ browserPage, runBeforeUnload }: { browserPage: Page, runBeforeUnload: boolean }) {
     try {
         const isClose = browserPage.isClosed();
         if(isClose){
             console.debug('页面已关闭');
             return;   
         }
-        await browserPage.close();
+        runBeforeUnload = runBeforeUnload || false;
+        await browserPage.close({runBeforeUnload: runBeforeUnload});
         console.debug('Browser Page closed');
     } catch (error) {
         console.error('关闭标签失败');
