@@ -839,6 +839,16 @@
                 ]
             },
             {
+                "name": "验证码",
+                "children": [
+                    {
+                        "remark": "AI验证码识别",
+                        "localFile": "./web/captcha/aiCaptchaSolver.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
                 "name": "本地存储",
                 "children": [
                     {
