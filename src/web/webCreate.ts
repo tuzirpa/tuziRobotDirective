@@ -7,6 +7,7 @@ import { getCurApp, getTuziAppInfo } from 'tuzirobot/commonUtil';
 import { Block, DirectiveTree } from 'tuzirobot/types';
 import { getAvailablePort } from './utils/portUtils';
 import { md5 } from '../utils/md5';
+import { createRandomFingerprint, installFingerprintOnBrowser } from './browserFingerprint';
 
 // import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
@@ -170,6 +171,25 @@ export const config: DirectiveTree = {
                 tip: '添加额外的浏览器启动命令行参数，如 --disable-web-security --disable-features=IsolateOrigins',
                 isAdvanced: true
             }
+        },
+        browserFingerprint: {
+            name: 'browserFingerprint',
+            value: 'off',
+            type: 'string',
+            addConfig: {
+                label: '浏览器指纹',
+                type: 'select',
+                defaultValue: 'off',
+                isAdvanced: true,
+                options: [
+                    { label: '关闭', value: 'off' },
+                    { label: '随机轻度混淆（新启动进程时）', value: 'random' }
+                ],
+                tip:
+                    '仅在本次指令真正启动新浏览器进程时生效；复用已打开的同一用户目录浏览器不会重刷指纹。' +
+                    '可配合「用户目录」区分账号、配合代理换 IP。' +
+                    '无法伪造 WebGL/Canvas/字体级指纹，强风控需指纹浏览器或独立环境。'
+            }
         }
     },
     outputs: {
@@ -267,7 +287,8 @@ export const impl = async function (
         useOtherApp,
         proxyServer,
         windowSize,
-        customArgs
+        customArgs,
+        browserFingerprint
     }: {
         webType: string;
         url: string;
@@ -278,6 +299,7 @@ export const impl = async function (
         proxyServer: string;
         windowSize: string;
         customArgs: string;
+        browserFingerprint?: string;
     },
     _block: Block
 ) {
@@ -287,6 +309,8 @@ export const impl = async function (
     const tuziAppInfo = getTuziAppInfo();
     let browser: Browser | undefined;
     let proxyAuth: { username: string; password: string } | undefined;
+    /** 本次是否为新建浏览器进程（非复用已有 ws 连接） */
+    let launchedNewBrowser = false;
 
     const browserJsonPath = path.join(tuziAppInfo.USER_DIR, 'browser.json');
     if (!fs.existsSync(browserJsonPath)) {
@@ -358,6 +382,7 @@ export const impl = async function (
         fs.writeFileSync(browserJsonPath, JSON.stringify(browserJsonObj));
     }
     if (!browser) {
+        launchedNewBrowser = true;
         const curApp = getCurApp();
 
         if (webType === 'custom') {
@@ -512,6 +537,14 @@ export const impl = async function (
         } catch (e) {
             console.error('创建浏览器关闭监听子进程失败:', e);
         }
+    }
+
+    if (launchedNewBrowser && browser && browserFingerprint === 'random') {
+        const profile = createRandomFingerprint();
+        await installFingerprintOnBrowser(browser, profile);
+        console.log(
+            '已应用随机浏览器指纹（UA、Accept-Language、hardwareConcurrency 等；仅本进程新建标签页继承）'
+        );
     }
 
     console.log('浏览器连接成功');

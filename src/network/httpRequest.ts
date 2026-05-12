@@ -1,5 +1,6 @@
 import { DirectiveTree } from 'tuzirobot/types';
 import axios, { AxiosRequestConfig, Method } from 'axios';
+import https from 'https';
 
 export const config: DirectiveTree = {
     name: 'network.httpRequest',
@@ -130,6 +131,10 @@ export const impl = async function ({
             headers,
             timeout: timeout * 1000
         };
+
+        if (/^https:/i.test(url)) {
+            config.httpsAgent = new https.Agent({ rejectUnauthorized: false });
+        }
 
         if (body && ['POST', 'PUT', 'PATCH'].includes(method)) {
             try {

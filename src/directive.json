@@ -290,6 +290,16 @@
                 "url": ""
             },
             {
+                "name": "指纹浏览器",
+                "children": [
+                    {
+                        "remark": "连接比特浏览器",
+                        "localFile": "./web/fingerprintBrowser/bitBrowserConnect.js",
+                        "url": ""
+                    }
+                ]
+            },
+            {
                 "remark": "创建标签页",
                 "localFile": "./web/createPage.js",
                 "url": ""
